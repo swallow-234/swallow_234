@@ -1,7 +1,7 @@
 AA ='<a href="/公佈欄.html">首頁</a>\
   	<ul >\
 		<p style="text-align: center;">《青丘之燕》</p><hr>\
-        <li><a href="/《聖光教教主》/《聖光教教主》.html">《聖光教教主》</a></li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B.html">《聖光教教主》</a></li>\
 		<li>《燕侍》</li>\
 		<li>《永夜暗夜》</li>\
         <p style="text-align: center;">［收藏］</p><hr>\
