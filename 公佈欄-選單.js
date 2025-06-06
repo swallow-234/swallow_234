@@ -1,11 +1,11 @@
 AA ='<a href="/公佈欄.html">首頁</a>\
   	<ul >\
 		<p style="text-align: center;">《青丘之燕》</p><hr>\
-        <li><a href="/《聖光教教主》/《聖光教教主》.html">《聖光教教主》</a></li>\
-		<li><a href="/《燕侍》/《燕侍》.html">《燕侍》</a></li>\
+        <li><a href="/swallow_234/《聖光教教主》/《聖光教教主》.html">《聖光教教主》</a></li>\
+		<li><a href="/swallow_234/《燕侍》/《燕侍》.html">《燕侍》</a></li>\
 		<li>《永夜暗夜》</li>\
         <p style="text-align: center;">［收藏］</p><hr>\
-        <li><a href="/［收藏］/POE流亡暗道.html">POE流亡暗道</a></li>\
+        <li><a href="/swallow_234/［收藏］/POE流亡暗道.html">POE流亡暗道</a></li>\
 		<li>pinterest-1</li>\
 		<li>pinterest-2</li>\
         <li>這是什麼酷酷的東西</li>\
