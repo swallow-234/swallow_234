@@ -1,11 +1,11 @@
-AA ='<a href="https://github.com/swallow-234/swallow_234">首頁</a>\
+AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>\
   	<ul >\
 		<p style="text-align: center;">《青丘之燕》</p><hr>\
-        <li><a href="https://github.com/swallow-234/《聖光教教主》/《聖光教教主》.html">《聖光教教主》</a></li>\
-		<li><a href="https://github.com/swallow-234/《燕侍》/《燕侍》.html">《燕侍》</a></li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B">《聖光教教主》</a></li>\
+		<li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B">《燕侍》</a></li>\
 		<li>《永夜暗夜》</li>\
         <p style="text-align: center;">［收藏］</p><hr>\
-        <li><a href="https://github.com/swallow-234/［收藏］/POE流亡暗道.html">POE流亡暗道</a></li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>\
 		<li>pinterest-1</li>\
 		<li>pinterest-2</li>\
         <li>這是什麼酷酷的東西</li>\
