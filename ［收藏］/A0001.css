@@ -1,0 +1,55 @@
+html {
+	background-color: #000000;
+}
+:root {color-scheme: dark;}
+p {color: #B7B7B7;}
+dt {color: #B7B7B7;}
+dd {color: #B7B7B7;}
+ul {color: #E69138}
+li {color: #B7B7B7;}
+details {color: #B7B7B7;}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+h1 li {
+	display: inline;
+	color: #E69138;
+	border-style: double;
+}
+h1 li a {
+	color: #E69138;
+}
+
+h1 {
+	color: #E69138;
+}
+
+.container {
+	display: grid;
+}
+/* 欄位設定 */
+.column {
+	float: left;
+	padding: 10px;
+	border: 1px solid #8E7CC3;
+}
+/* 左右邊欄 */
+.column.side {
+	width: 15%;
+}
+/* 中間欄位 */
+.column.middle {
+	width: 81%;
+}
+/*小攔框*/
+.column.HHH{
+    width: 31%;
+}
+
+a:hover {
+    color: #E69138;        /* 滑鼠移上去時文字顏色變橙色 */
+    text-decoration: underline; /* 加上底線 */
+    background-color: #666666;  /* 背景變淡灰色 */
+}

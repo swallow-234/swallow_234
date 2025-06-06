@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>搜尋+分頁+表格 Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f6f8fa; }
+    .search-bar { margin: 2em auto 1em auto; text-align: center; }
+    .search-bar input {
+      width: 280px; padding: 0.6em 1em; font-size: 1em; border-radius: 4px; border: 1px solid #ccc;
+    }
+    table {
+      border-collapse: collapse; margin: 0 auto 1em auto; min-width: 480px; background: #fff;
+      box-shadow: 0 2px 8px #0001; border-radius: 8px; overflow: hidden;
+    }
+    th, td { padding: 0.8em 1.2em; border-bottom: 1px solid #eee; text-align: left; }
+    th { background: #1976d2; color: #fff; }
+    tr:last-child td { border-bottom: none; }
+    .paginator {
+      display: flex; gap: 0.5em; justify-content: center; align-items: center; margin: 1em 0 3em 0;
+    }
+    .paginator button, .paginator span {
+      border: none; background: none; padding: 0.5em 1.2em; font-size: 1em; cursor: pointer; border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .paginator button.active, .paginator span.active {
+      background: #1976d2; color: #fff; font-weight: bold;
+    }
+    .paginator button:disabled {
+      color: #bbb; cursor: not-allowed; background: #f3f3f3;
+    }
+  </style>
+</head>
+<body>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="搜尋姓名或Email..." />
+  </div>
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th>編號</th>
+        <th>姓名</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div class="paginator" id="paginator"></div>
+<script>
+// 假資料
+const data = Array.from({length: 44}, (_, i) => ({
+  id: i+1,
+  name: `名字${i+1}`,
+  email: `user${i+1}@example.com`
+}));
+const pageSize = 8;
+let currentPage = 1;
+let filtered = data;
+
+function renderTable() {
+  const tbody = document.querySelector('#myTable tbody');
+  const start = (currentPage-1)*pageSize;
+  const pageData = filtered.slice(start, start+pageSize);
+  tbody.innerHTML = pageData.length > 0
+    ? pageData.map(row =>
+      `<tr>
+        <td>${row.id}</td>
+        <td>${row.name}</td>
+        <td>${row.email}</td>
+      </tr>`
+    ).join('')
+    : `<tr><td colspan="3" style="text-align:center;color:#888;">沒有符合的資料</td></tr>`;
+}
+
+function renderPaginator() {
+  const pageCount = Math.ceil(filtered.length/pageSize) || 1;
+  const pag = document.getElementById('paginator');
+  pag.innerHTML = '';
+
+  // 上一頁
+  const prevBtn = document.createElement('button');
+  prevBtn.innerText = '上一頁';
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.onclick = () => { currentPage--; renderAll(); };
+  pag.appendChild(prevBtn);
+
+  // 頁碼
+  let min = Math.max(1, currentPage-2), max = Math.min(pageCount, currentPage+2);
+  if (currentPage <= 3) { min=1; max=Math.min(5,pageCount); }
+  if (currentPage >= pageCount-2) { min=Math.max(1,pageCount-4); max=pageCount; }
+  for (let i=min; i<=max; i++) {
+    const btn = document.createElement('button');
+    btn.innerText = i;
+    if (i === currentPage) btn.classList.add('active');
+    btn.onclick = () => { currentPage=i; renderAll(); };
+    pag.appendChild(btn);
+  }
+  // 下一頁
+  const nextBtn = document.createElement('button');
+  nextBtn.innerText = '下一頁';
+  nextBtn.disabled = currentPage === pageCount;
+  nextBtn.onclick = () => { currentPage++; renderAll(); };
+  pag.appendChild(nextBtn);
+}
+
+function renderAll() { renderTable(); renderPaginator(); }
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  const keyword = this.value.trim().toLowerCase();
+  filtered = data.filter(row =>
+    row.name.toLowerCase().includes(keyword) ||
+    row.email.toLowerCase().includes(keyword)
+  );
+  currentPage = 1;
+  renderAll();
+});
+
+renderAll();
+</script>
+</body>
+</html>
