@@ -1,4 +1,4 @@
-AA ='<a href="swallow_234/公佈欄.html">首頁</a>\
+AA ='<a href="/公佈欄.html">首頁</a>\
   	<ul >\
 		<p style="text-align: center;">《青丘之燕》</p><hr>\
         <li><a href="/swallow_234/《聖光教教主》/《聖光教教主》.html">《聖光教教主》</a></li>\
