@@ -47,7 +47,23 @@ h1 {
 .column.HHH{
     width: 30%;
 }
+/* 填滿欄位 */
+.column.ZZZ {
+	width: 98.5%;
+}
 
+/* 表格 */
+td{
+	color: #B7B7B7;	
+}
+table, td{
+	color: #B7B7B7;
+  border: 1px solid #B7B7B7;
+  border-collapse: collapse;	
+  text-align: center;
+}
+
+/*超連結*/
 a:hover {
     color: #E69138;        /* 滑鼠移上去時文字顏色變橙色 */
     text-decoration: underline; /* 加上底線 */
