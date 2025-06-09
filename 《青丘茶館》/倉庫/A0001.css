@@ -1,0 +1,138 @@
+/* 網站模板-首頁 */
+
+
+html {
+	background-color: #000000;
+}
+/*文字顏色*/
+
+p1 {
+	color: #E69138;
+}
+
+p2 {
+	color: #8E7CC3;
+}
+
+p3 {
+	color: #CC0000;
+}
+
+p4 {
+	color: #F1C232;
+}
+
+p5 {
+	color: #6AA84F;
+}
+
+p6 {
+	color: #76A5AF;
+}
+
+p7 {
+	color: #3C78D8;
+}
+p8 {
+  color: #C27BA0;
+}
+
+/*-------------------------*/
+/* 文字樣式 */
+:root {color-scheme: dark;}
+p {color: #B7B7B7;}
+dt {color: #B7B7B7;}
+dd {color: #B7B7B7;}
+ul {color: #E69138}
+li {color: #B7B7B7;}
+details {color: #B7B7B7;}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+h1 li {
+	display: inline;
+	color: #E69138;
+	border-style: double;
+}
+h1 li a {
+	color: #E69138;
+}
+
+h1 {
+	color: #E69138;
+}
+
+.container {
+	display: grid;
+}
+/*-------------------------*/
+/* 欄位設定 */
+.column {
+	float: left;
+	padding: 10px;
+	border: 1px solid #8E7CC3;
+}
+/* 左右邊欄 */
+.column.side {
+	width: 30%;
+}
+/* 中間欄位 */
+.column.middle {
+	width: 98%;
+}
+
+
+.box {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  border: 1px solid #8E7CC3;
+  transition: background 0.3s, transform 0.3s;
+  background: linear-gradient(0deg, #000000, #666666);
+  
+}
+.boxhhh {
+  display: flex;
+  overflow:scroll;
+}
+/*超連結*/
+a:hover {
+  color: #E69138;        /* 滑鼠移上去時文字顏色變橙色 */
+  text-decoration: underline; /* 加上底線 */
+  background-color: #666666;  /* 背景變淡灰色 */
+}
+.box:hover {
+  background: #666666;
+  transform: scale(1.05);
+  
+}
+
+.button {
+  transition: background 0.3s, transform 0.2s;
+}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10PX;
+}
+::-webkit-scrollbar-thumb {
+  background: #666666;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+/*邊攔*/
+.column.sidenav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;}
