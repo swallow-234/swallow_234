@@ -3,10 +3,11 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
 		<p style="text-align: center;">《青丘之燕》</p><hr>\
         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B">《聖光教教主》</a></li>\
 		<li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B">《燕侍》</a></li>\
-		<li>《永夜暗夜》</li>\
+		<li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B.html">《永夜暗夜》</a></li>\
+        <li>《青丘茶館》</li>\
         <p style="text-align: center;">［收藏］</p><hr>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>\
-        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate|Grand Order</a></li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>\
 		<li>pinterest-1</li>\
 		<li>pinterest-2</li>\
         <li>這是什麼酷酷的東西</li>\
@@ -51,6 +52,25 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li>防災手冊</li>\
         <li>防詐騙宣導</li>\
         <li>AI相關</li>\
+        <h3>工具收藏</h3><hr>\
+<li><a href="https://www.blender.org/">blender</a></li>\
+<li><a href="https://krita.org/zh-tw/download_zh-tw/krita-desktop_zh-tw/">Krita</a></li>\
+<li><a href="https://obsidian.md/">Obsidian</a></li>\
+<li><a href="https://zh-tw.libreoffice.org/">LibreOffice</a></li>\
+<li><a href="https://visipics.info/download/">VisiPics</a></li>\
+<li><a href="https://www.sublimetext.com/">Sublime Text</a></li>\
+<li><a href="https://www.python.org/">Python</a></li>\
+<li><a href="https://code.visualstudio.com/">visual studio code</a></li>\
+<li><a href="https://obsproject.com/">OBS Studio</a></li>\
+<li><a href="https://unity.com/">Unity</a></li>\
+<li><a href="https://www.drawio.com/">drawio</a></li>\
+<li><a href="https://www.xmind.net/">xmind</a></li>\
+<li><a href="https://discord.com/channels/@me">Discord</a></li>\
+<li><a href="https://potplayer.daum.net/?lang=zh_TW">PotPlayer</a></li>\
+<li><a href="https://home.gamer.com.tw/profile/index.php?&owner=hbl917070">深海異音</a></li>\
+<li><a href="https://www.geogebra.org/graphing?lang=zh-TW">繪圖計算機 - GeoGebra</a></li>\
+<li><a href="https://efotinis.neocities.org/deskpins/">DeskPins</a></li>\
+<li><a href="https://www.7-zip.org/">7-Zip</a></li>\
 	  </ul>\
 <ul>\
     </nav>';
