@@ -5,17 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>POE流亡暗道</title>
     <link href="A0001.css" rel="stylesheet" />
+    <script src="嵌入網頁.JS"></script>
 </head>
 <body>
 <!-- 導覽列 -->
-<h1 style="text-align: center;">POE流亡暗道</h1>
+<h1 style="text-align: center;"><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">POE流亡暗道</a></h1>
 <p style="text-align: center;">收藏記錄小工具</p>
 <!-- 左側布局 -->
-<div class="column side">
-    <script src="../公佈欄-選單.js"></script>
-    </div>
+<div class="column sidenav">  
+    <h1 style="text-align: center;">《版本收藏》</h1>
+     <ul><li><a onclick="changeIframe('POE範本.html')">當前紀錄</a></li></ul>
+<ul><h3 style="text-align: center;">《POE3.26》</h3><hr>
+<li><a onclick="changeIframe('')">[裝備]幻化守衛/護衛</a></li>
+</div>
     <!--中間布局-->
-    <div class="column middle">
+    <div class="column middleh">
 <div class="column HHH">
     <ul><H3>常用網站</H3></ul>
     <li><a href="https://forum.gamer.com.tw/A.php?bsn=18966">巴哈姆特</a></li>
@@ -43,7 +47,7 @@
     <li><a href=""></a></li>
 </div>
 <div class="column HHH">
-    <ul><h3><a href="https://pathofexile.tw/account/view-profile/swallowrwby-2090">角色分享</a></h3></ul>
+    <ul><h3><a href="https://pathofexile.tw/account/view-profile/swallowrwby-2090">流派收藏</a></h3></ul>
     <li><a href="https://www.youtube.com/watch?v=rWlvUSIZHpM">Pale Angel spectres (PoE 3.24)</a></li>
     <li><a href=""></a></li>
     <li><a href=""></a></li>
@@ -56,10 +60,11 @@
     <li><a href=""></a></li>
     <li><a href=""></a></li>
 </div>
-<div>
-    
+</div>	
+<div class="content">
+<div class="column middle">
+ <iframe id="myFrame" src="POE範本.html"></iframe>
 </div>
-            </div>	
-
+</div>
 </body>
 </html>
