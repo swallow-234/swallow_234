@@ -1,4 +1,4 @@
-AA ='<a href="../公佈欄.html">首頁</a>\
+AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>\
   	<ul >\
 		<p style="text-align: center;">《冥亡伊甸》</p><hr>\
         <li>《虛擬人生》</li>\

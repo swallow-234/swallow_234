@@ -4,8 +4,8 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B">《聖光教教主》</a></li>\
 		<li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B">《燕侍》</a></li>\
 		<li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B.html">《永夜暗夜》</a></li>\
-                <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B.html">《青丘茶館》</a></li>\
-        <p style="text-align: center;">［收藏］</p><hr>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B.html">《青丘茶館》</a></li>\
+       <p style="text-align: center;">［收藏］</p><hr>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>\
 		<li>pinterest-1</li>\
@@ -40,7 +40,7 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li>軍武</li>\
         <li>工匠技藝</li>\
         <li>語言研究院</li>\
-        <li>程式語言</li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80.html">程式語言</a></li>\
         <li>Unity遊戲引擎</li>\
         <li>Google相關</li>\
         <li>Windows</li>\
