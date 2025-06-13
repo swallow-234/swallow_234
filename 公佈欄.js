@@ -1,76 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh-tw">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>～青雲間之飛燕～</title>
-    <link href="A0001.css" rel="stylesheet" />
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-</head>
-<body>
-<!-- 導覽列 -->
-<h1 style="text-align: center;">～青雲間之飛燕～</h1>
-<p style="text-align: center;">本網站均為個人淺見。</p>
-<!-- 左側布局 -->
-
-<div class="column side">
-<script src="公佈欄-選單.js"></script>
-</div>
-<!--中間布局-->
-<div class="column middle" >
-  <div id="app" width="100%" height="900vw">
-    <h2><a href="https://docs.google.com/spreadsheets/d/1Vh4XNBMLcfryPCQppwQoDYXNz_hu3Ix3N-BF-go2UyM/edit?gid=944227299#gid=944227299">公佈欄</a></h2>
-    <google-sheet-tabs></google-sheet-tabs>
-  </div>
-</div>
-<!--腳本-->	
-<script>
   const PAGE_ORDER = [
-    "",
-    "POE流亡暗道",
-    "Fate/Grand Order",
-    "這是什麼酷酷的東西",
-    "休閒牧場",
+    "《冥亡伊甸》",
+    "League of Legends",
     "ACG同好會",
-    "體育運動",
-    "棋類技藝",
-    "Vtuber/Vup收藏",
-    "台灣[Taiwan]",
-    "吹哨者",
-    "生活日常",
-    "裝扮造型風格",
-    "blender",
-    "繪圖",
-    "劇本",
-    "影片/攝影編輯",
-    "人生哲學",
-    "社會學",
-    "開創者",
-    "戀愛研究院",
-    "法律相關",
-    "食譜",
-    "醫學",
-    "健身|養身|武術",
-    "樂理知識",
-    "音樂收藏",
-    "舞蹈",
-    "科學",
-    "科技",
-    "軍武",
-    "工匠技藝",
-    "語言研究院",
-    "程式語言",
-    "Unity遊戲引擎",
-    "Google相關",
-    "Windows",
-    "軟體硬體應用",
-    "建築學",
-    "風水|玄學|靈異",
-    "生物學",
-    "泛普教育",
-    "防災手冊",
-    "防詐騙宣導",
-    "AI相關"
+    "休閒日常",
+    "POE流亡暗道"
   ];
 
   const GoogleSheetTabs = {
@@ -129,7 +62,7 @@
     },
     mounted() {
       // 你的 Google Sheets "發佈到網路" CSV 連結
-      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYaye4pjVsaq7vZhdi-RRD71pH0sWcjGmAPKRXu8BdpJ6xttrGMFr7XxrT1oQdmSTqis40ONep9hwC/pub?output=csv';
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxjLcZZb3Eutbwp6CLgVjQrJ_c_P6oUqmT53anvtt0miJhIXkqwdPP6dJ6NOxoSnjgrsYRGJ0VHlki/pub?output=csv';
       fetch(csvUrl)
         .then(res => res.text())
         .then(csv => {
@@ -170,9 +103,3 @@
   const app = Vue.createApp({});
   app.component('google-sheet-tabs', GoogleSheetTabs);
   app.mount('#app');
-  </script>
-</body>
-
-
-
-</html>
