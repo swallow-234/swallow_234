@@ -112,8 +112,8 @@ iframe {
 
 /*公佈欄*/
     body { font-family: "Microsoft JhengHei", Arial, sans-serif; background: #000000;}
-    .tabs { display: flex; margin: 30px auto 0; width: 100%; }
-    .tab { padding: 12px 32px; background: #333; color: #E69138; border-radius: 8px 8px 0 0; cursor: pointer; margin-right: 4px; }
+    .tabs { flex-wrap: wrap; display: block; overflow-x: auto; white-space: nowrap; margin: 30px auto 0; width: 100%; }
+    .tab { display: inline-block; padding: 12px 32px; background: #333; color: #E69138; border-radius: 8px 8px 0 0; cursor: pointer; margin-right: 4px; margin-bottom: 2px; vertical-align: top; }
     .tab.active { background: #666666; color: #F1C232; }
     .tab-content { background: #333; width: 100%; margin: 0 auto; box-shadow: 0 0 20px #76A5AF; border-radius: 0 0 8px 8px; padding-bottom:30px;}
     .my-custom-table { width: 100%; border-collapse: collapse; margin-top: 0;}
