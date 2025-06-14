@@ -52,6 +52,11 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li>防災手冊</li>\
         <li>防詐騙宣導</li>\
         <li>AI相關</li>\
+        <h3>系列主題</h3><hr>\
+        <li>柯文哲-先行者</li>\
+        <li>黃國昌-通識課</li>\
+        <li>陳之漢-義士</li>\
+        <li>陳椒華-循道者</li>\
         <h3>工具收藏</h3><hr>\
 <li><a href="https://www.blender.org/">blender</a></li>\
 <li><a href="https://krita.org/zh-tw/download_zh-tw/krita-desktop_zh-tw/">Krita</a></li>\

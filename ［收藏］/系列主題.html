@@ -1,33 +1,41 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-tw">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>《燕侍》</title>
+    <title>系列主題</title>
     <link href="A0001.css" rel="stylesheet" />
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
 </head>
 <body>
+    <!-- 導覽列 -->
+<h1 style="text-align: center;">系列主題</h1>
+<p style="text-align: center;">收藏記錄</p>
+<!-- 左側布局 -->
+<div class="column side">
+    <script src="../公佈欄-選單.js"></script>
+    </div>
+    <!--中間布局-->
+    <div class="column middle">
   <div id="app">
-    <h2>《公佈欄》</h2>
+    <h2><a href="https://docs.google.com/spreadsheets/d/1Vh4XNBMLcfryPCQppwQoDYXNz_hu3Ix3N-BF-go2UyM/edit?gid=944227299#gid=944227299">公佈欄</a></h2>
     <google-sheet-multi-keyword-tabs></google-sheet-multi-keyword-tabs>
   </div>
-<!--公佈欄-->
-<script>
-  const SUBPAGE_KEYWORDS = [
+  <script>
+  const PAGE_ORDER = [
     "",
-    "《遺跡先遣隊》",
-    "《青丘之燕》",
-    "《虛擬人生》",
-    "【休閒日常】",
-    "【二次創作】"
+    "柯文哲-先行者",
+    "黃國昌-通識課",
+    "陳之漢-義士",
+    "陳椒華-循道者",
+    
   ];
 
   const GoogleSheetMultiKeywordTabs = {
     template: `
       <div>
-        <div class="tabs" v-if="tabs.length">
+        <div class="tabs">
           <div
             v-for="(tab, i) in tabs"
             :key="tab"
@@ -78,13 +86,12 @@
         const tab = this.tabs[this.activeTab];
         // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
         return this.rows.filter(
-          row => (row[this.filterHeader] || '').includes('《冥亡伊甸》')
-             && (row[this.subpageHeader] || '').includes(tab)
-        );
+          row => (row[this.filterHeader] || '').includes('系列主題')
+             && (row[this.subpageHeader] || '').includes(tab));
       }
     },
     mounted() {
-      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxjLcZZb3Eutbwp6CLgVjQrJ_c_P6oUqmT53anvtt0miJhIXkqwdPP6dJ6NOxoSnjgrsYRGJ0VHlki/pub?output=csv';
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYaye4pjVsaq7vZhdi-RRD71pH0sWcjGmAPKRXu8BdpJ6xttrGMFr7XxrT1oQdmSTqis40ONep9hwC/pub?output=csv';
       fetch(csvUrl)
         .then(res => res.text())
         .then(csv => {
@@ -113,9 +120,9 @@
           });
           this.rows = rows;
           // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
-          this.tabs = SUBPAGE_KEYWORDS.filter(key =>
+          this.tabs = PAGE_ORDER.filter(key =>
             rows.some(row => 
-              (row[this.filterHeader] || '').includes('《冥亡伊甸》') &&
+              (row[this.filterHeader] || '').includes('系列主題') &&
               (row[this.subpageHeader] || '').includes(key)
             )
           );
@@ -130,5 +137,8 @@
   app.component('google-sheet-multi-keyword-tabs', GoogleSheetMultiKeywordTabs);
   app.mount('#app');
   </script>
+
+    </div>
+
 </body>
 </html>
