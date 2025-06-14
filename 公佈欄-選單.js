@@ -52,7 +52,7 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li>防災手冊</li>\
         <li>防詐騙宣導</li>\
         <li>AI相關</li>\
-        <h3>系列主題</h3><hr>\
+        <h3><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E7%B3%BB%E5%88%97%E4%B8%BB%E9%A1%8C.html">系列主題</a></h3><hr>\
         <li>柯文哲-先行者</li>\
         <li>黃國昌-通識課</li>\
         <li>陳之漢-義士</li>\
