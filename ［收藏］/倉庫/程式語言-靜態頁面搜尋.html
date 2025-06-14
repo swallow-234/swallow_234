@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />
+    </head>
+    <body>
+<!--標題-->
+        <h1 style="text-align: center;">《程式語言-靜態頁面搜尋》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>html</h3></p><hr>
+    <p style="color: #F1C232;">以下<>用[]表示:</p>
+<pre><code>
+[input type="text" id="searchInput" placeholder="搜尋..."]
+
+[table style="width:100%" id="搜尋"]
+[tr]
+        [th]圖片[/th]
+        [th]名稱[/th]
+        [th]守衛/護衛[/th]
+        [th]力/敏/智[/th]
+        [th]需求等級[/th]
+    [/tr]
+[/table]
+</code></pre>
+<ul>
+    <li>1.<a href="https://www.w3schools.com/html/html_form_input_types.asp">[input type="text"]</a>文字輸入欄位</li>
+    <li>2.<a href="https://www.w3schools.com/html/html_id.asp">id</a>屬性用於指向樣式表中的特定樣式聲明。</li>
+    <li>3.<a href="https://www.w3schools.com/tags/att_input_placeholder.asp">placeholder</a>屬性指定一個簡短的提示，描述輸入欄位的預期值。</li>
+    </ul>
+   <p><h3>JavaScript</h3></p><hr>
+<pre><cose>
+document.getElementById('searchInput').addEventListener('keyup', function() {
+  var filter = this.value.toLowerCase();
+  var lis = document.querySelectorAll('#搜尋 tr');
+  lis.forEach(function(tr) {
+    tr.style.display = tr.textContent.toLowerCase().includes(filter) ? '' : 'none';
+  });
+});
+</cose></pre>
+<ul>
+    <li>1.<a href="https://www.w3schools.com/js/js_htmldom_html.asp">document.getElementById('')</a>變更 HTML 內容</li>
+    <li>2.<a href="https://www.w3schools.com/js/js_htmldom_eventlistener.asp">addEventListener('')</a>事件監聽器,方法將事件處理程序附加到元素，而不會覆寫現有的事件處理程序。</li>
+    <li>3.<a href="https://www.w3schools.com/JQuery/event_keyup.asp">keyup</a>即時監聽按鍵輸入。</li>
+    <li>4.<a href="https://www.w3schools.com/js/js_functions.asp">function(){}</a>待觸發函數,函數要執行的程式碼放在花括號內：{}</li>
+    <li>5..<a href="https://www.w3schools.com/js/js_variables.asp">var</a>變數，宣告變數定義=，A定義為B。</li>
+    <li>6.<a href="https://www.w3schools.com/js/js_this.asp">this</a>在 JavaScript 中，this關鍵字 指的是一個物件。根據關鍵字的使用方式，它指的this是不同的物件：</li>
+    <li>7.<a href="https://www.w3schools.com/jsref/prop_text_value.asp">value</a>屬性設定或傳回文字欄位的 value 屬性的值。</li>
+    <li>8.<a href="https://www.w3schools.com/jsref/jsref_tolowercase.asp">toLowerCase()</a>轉小寫</li>
+    <li>9.<a href="https://www.w3schools.com/js/js_htmldom_document.asp">document</a>html文檔</li>
+    <li>10.<a href="https://www.w3schools.com/jsref/met_document_queryselectorall.asp">document.querySelectorAll()</a>傳回與 CSS 選擇器相符的所有元素。</li>
+    <li>11.<a href="https://www.w3schools.com/jsref/jsref_foreach.asp">forEach</a>為數組中的每個元素呼叫一個函數。</li>
+    <li>12.<a href="https://www.w3schools.com/jsref/prop_node_textcontent.asp">textContent</a>傳回元素的文字內容。</li>
+    <li>13.<a href="https://www.w3schools.com/jsref/jsref_includes_array.asp">includes()</a>建立一個新數組，其中填充了透過函數提供的測試的元素。方法不會對空元素執行函數。不會改變原始數組。</li>
+</ul><hr>
+<pre><cose>
+    AI分析講解
+1. document.getElementById('searchInput').addEventListener('keyup', function() { ... });
+用途/功能：
+取得網頁上 id 為 searchInput 的輸入框（通常是 [input]）。
+為這個輸入框綁定 keyup 事件監聽器，當使用者每次在輸入框按下按鍵並釋放時，就會觸發後面的匿名函式。
+說明：
+這是即時偵測使用者輸入內容的常見做法，便於實現「邊輸入邊搜尋」的效果。
+2. var filter = this.value.toLowerCase();
+用途/功能：
+取得使用者在輸入框內輸入的文字。
+將輸入文字轉為小寫（toLowerCase()），以實現不區分大小寫的搜尋。
+說明：
+這樣使用者輸入「abc」或「ABC」都能正確比對，提升使用體驗。
+3. var lis = document.querySelectorAll('#搜尋 tr');
+用途/功能：
+取得 id 為 搜尋 的元素（通常是 [table id="搜尋"]）下的所有 <tr>（表格列）。
+說明：
+這裡假設你的表格的 id 是「搜尋」，而你想要根據輸入內容來顯示或隱藏每一列（row）。
+4. lis.forEach(function(tr) { ... });
+用途/功能：
+針對每一個 <tr> 執行一個匿名函式，進行逐列檢查。
+說明：
+這樣可以針對表格中的每一列進行個別操作。
+5. tr.style.display = tr.textContent.toLowerCase().includes(filter) ? '' : 'none';
+用途/功能：
+取得每一列的所有文字內容（textContent），轉為小寫。
+檢查這些內容是否包含使用者輸入的關鍵字（includes(filter)）。
+如果包含，則顯示這一列（display = ''，即預設顯示）。
+如果不包含，則隱藏這一列（display = 'none'）。
+說明：
+這樣當使用者輸入關鍵字時，表格只會顯示符合搜尋條件的資料列，其他的都會被隱藏。
+這行程式碼裡的 「? :」 是 JavaScript 的三元運算子（Ternary Operator），它是一種條件判斷的簡寫語法。
+語法格式如下：條件判斷 ? 條件為真時執行的表達式 : 條件為假時執行的表達式
+等價於：
+if (tr.textContent.toLowerCase().includes(filter)) {
+    tr.style.display = '';
+} else {
+    tr.style.display = 'none';
+}
+總結
+這段程式碼讓你可以在一個有 id="搜尋" 的表格中，使用一個 id="searchInput" 的輸入框即時過濾表格內容。使用者每次輸入時，表格會自動只顯示包含搜尋關鍵字的列，達到快速搜尋的功能。
+
+</cose></pre>
+    </body>
+</html>
