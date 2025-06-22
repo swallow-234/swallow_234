@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+    <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>台灣民眾黨專區</title>
+    <link href="A0001.css" rel="stylesheet" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>        
+    </head>
+    <body>
+            <!-- 導覽列 -->
+<h1 style="text-align: center;">台灣民眾黨專區</h1>
+<p style="text-align: center;">收藏記錄</p>
+<!-- 左側布局 -->
+<div class="column sidenav">  
+     <script src="../公佈欄-選單.js"></script>
+</div>
+    <!--中間布局-->
+    <div class="column middleh">
+<div class="column HHH">
+    <ul><H3>官方網站</H3></ul>
+    <li><a href="https://www.tpp.org.tw/news">[網站]台灣民眾黨</a></li>
+    <li><a href="https://www.facebook.com/TPPfanpage/">FaceBook</a></li>
+    <li><a href="https://www.youtube.com/@TPP_Media">YouTube</a></li>
+    <li><a href="https://www.instagram.com/tpp_taiwan/">Instagram</a></li>
+    <li><a href="https://page.line.me/271pnocl?openQrModal=true">Line</a></li>
+    <li><a href="https://x.com/TPP_Taiwan">x</a></li>
+    <li>[電子信箱]contact@tpp.org.tw</li>
+</div>
+<div class="column HHH">
+    <ul><h3>活動資訊</h3></ul>
+    <li><a href="https://www.tpp.org.tw/calendar">[官方]近期活動</a></li>
+    <li><a href="https://flash.justice-tw.org/events">[小草]民眾之窗</a></li>
+    <li><a href="https://www.youtube.com/@TPP_Media/search?query=%E8%A8%98%E8%80%85%E6%9C%83">記者會</a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+</div>
+<div class="column HHH">
+    <ul><h3>小草後援會</h3></ul>
+    <li><a href="https://discord.com/invite/McBYSsvpNc">TPP_Global Server</a></li>
+    <li><a href="https://discord.com/invite/pvVfJjh4dW">民主軍械庫 - DArmory</a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+</div>
+<div id="app">
+    <google-sheet-multi-keyword-tabs></google-sheet-multi-keyword-tabs>
+</div>
+    <script>
+  const PAGE_ORDER = [
+    "",
+    "官方",
+    "活動",
+    "小草",
+    "二次創作",
+  ];
+
+  const GoogleSheetMultiKeywordTabs = {
+    template: `
+      <div>
+        <div class="tabs">
+          <div
+            v-for="(tab, i) in tabs"
+            :key="tab"
+            class="tab"
+            :class="{active: activeTab === i}"
+            @click="activeTab = i"
+          >{{ tab }}</div>
+        </div>
+        <div class="tab-content">
+          <table v-if="filteredRows.length > 0" class="my-custom-table">
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>連結</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(row, idx) in filteredRows" :key="idx">
+                <td>{{ row[dateHeader] }}</td>
+                <td class="link-cell">
+                  <a v-if="row[urlHeader] && row[textHeader]" :href="row[urlHeader]" target="_blank" rel="noopener">
+                    {{ row[textHeader] }}
+                  </a>
+                  <span v-else>無資料</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div v-else style="padding:40px 0; text-align:center;">資料載入中...</div>
+        </div>
+      </div>
+    `,
+    data() {
+      return {
+        rows: [],
+        tabs: [],
+        activeTab: 0,
+        dateHeader: "",
+        urlHeader: "",
+        textHeader: "",
+        filterHeader: "", // D
+        subpageHeader: "" // E
+      }
+    },
+    computed: {
+      filteredRows() {
+        if (!this.tabs.length) return [];
+        const tab = this.tabs[this.activeTab];
+        // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
+        return this.rows.filter(
+          row => (row[this.filterHeader] || '').includes('台灣民眾黨專區')
+             && (row[this.subpageHeader] || '').includes(tab));
+      }
+    },
+    mounted() {
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYaye4pjVsaq7vZhdi-RRD71pH0sWcjGmAPKRXu8BdpJ6xttrGMFr7XxrT1oQdmSTqis40ONep9hwC/pub?output=csv';
+      fetch(csvUrl)
+        .then(res => res.text())
+        .then(csv => {
+          const lines = csv.trim().split('\n');
+          const headers = lines[0].split(',');
+          // 假設A,B,C,D,E欄依序為「日期,網址,名稱,分類,子分頁」
+          this.dateHeader = headers[0];
+          this.urlHeader = headers[1];
+          this.textHeader = headers[2];
+          this.filterHeader = headers[3]; // D
+          this.subpageHeader = headers[4]; // E
+          const rows = lines.slice(1).map(line => {
+            const values = [];
+            let curr = '', inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+              const char = line[i];
+              if (char === '"' && line[i+1] === '"') { curr += '"'; i++; }
+              else if (char === '"') { inQuotes = !inQuotes; }
+              else if (char === ',' && !inQuotes) { values.push(curr); curr = ''; }
+              else { curr += char; }
+            }
+            values.push(curr);
+            const row = {};
+            headers.forEach((h, i) => row[h] = values[i] || '');
+            return row;
+          });
+          this.rows = rows;
+          // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
+          this.tabs = PAGE_ORDER.filter(key =>
+            rows.some(row => 
+              (row[this.filterHeader] || '').includes('系列主題') &&
+              (row[this.subpageHeader] || '').includes(key)
+            )
+          );
+        })
+        .catch(err => {
+          console.error('Google Sheets 讀取失敗：', err);
+        });
+    }
+  }
+
+  const app = Vue.createApp({});
+  app.component('google-sheet-multi-keyword-tabs', GoogleSheetMultiKeywordTabs);
+  app.mount('#app');
+  </script>
+</div>
+    </body>
+</html>
