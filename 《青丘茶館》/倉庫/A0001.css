@@ -135,3 +135,38 @@ table, tr, td{
   border-collapse: collapse;	
   text-align: center;
 }
+
+/*題庫樣式*/
+.accordion {
+  box-shadow: 0 2px 8px #8E7CC3;
+  padding: 2em;
+}
+
+.question {
+  width: 100%;
+  text-align: left;
+  background: #333;
+  color: #E69138;
+  border: none;
+  padding: 1em;
+  font-size: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 0.5em;
+  transition: background 0.2s;
+}
+.question:hover {
+  background: #111;
+}
+.answer {
+  display: none;
+  padding: 1em;
+  color: #8E7CC3;
+  background: #111;
+  border-radius: 4px;
+  margin-top: 0.3em;
+}
+.qa-item.active .answer {
+  display: block;
+}
