@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《燕侍》</title>
+    <link href="A0001.css" rel="stylesheet" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+</head>
+<body>
+  <div id="app">
+    <h2>《公佈欄》</h2>
+    <google-sheet-multi-keyword-tabs></google-sheet-multi-keyword-tabs>
+  </div>
+<!--公佈欄-->
+<script>
+  const SUBPAGE_KEYWORDS = [
+    "",
+    "《遺跡先遣隊》",
+    "《青丘之燕》",
+    "《虛擬人生》",
+    "【休閒日常】",
+    "【二次創作】"
+  ];
+
+  const GoogleSheetMultiKeywordTabs = {
+    template: `
+      <div>
+        <div class="tabs" v-if="tabs.length">
+          <div
+            v-for="(tab, i) in tabs"
+            :key="tab"
+            class="tab"
+            :class="{active: activeTab === i}"
+            @click="activeTab = i"
+          >{{ tab }}</div>
+        </div>
+        <div class="tab-content">
+          <table v-if="filteredRows.length > 0" class="my-custom-table">
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>連結</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(row, idx) in filteredRows" :key="idx">
+                <td>{{ row[dateHeader] }}</td>
+                <td class="link-cell">
+                  <a v-if="row[urlHeader] && row[textHeader]" :href="row[urlHeader]" target="_blank" rel="noopener">
+                    {{ row[textHeader] }}
+                  </a>
+                  <span v-else>無資料</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div v-else style="padding:40px 0; text-align:center;">資料載入中...</div>
+        </div>
+      </div>
+    `,
+    data() {
+      return {
+        rows: [],
+        tabs: [],
+        activeTab: 0,
+        dateHeader: "",
+        urlHeader: "",
+        textHeader: "",
+        filterHeader: "", // D
+        subpageHeader: "" // E
+      }
+    },
+    computed: {
+      filteredRows() {
+        if (!this.tabs.length) return [];
+        const tab = this.tabs[this.activeTab];
+        // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
+        return this.rows.filter(
+          row => (row[this.filterHeader] || '').includes('《冥亡伊甸》')
+             && (row[this.subpageHeader] || '').includes(tab)
+        );
+      }
+    },
+    mounted() {
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxjLcZZb3Eutbwp6CLgVjQrJ_c_P6oUqmT53anvtt0miJhIXkqwdPP6dJ6NOxoSnjgrsYRGJ0VHlki/pub?output=csv';
+      fetch(csvUrl)
+        .then(res => res.text())
+        .then(csv => {
+          const lines = csv.trim().split('\n');
+          const headers = lines[0].split(',');
+          // 假設A,B,C,D,E欄依序為「日期,網址,名稱,分類,子分頁」
+          this.dateHeader = headers[0];
+          this.urlHeader = headers[1];
+          this.textHeader = headers[2];
+          this.filterHeader = headers[3]; // D
+          this.subpageHeader = headers[4]; // E
+          const rows = lines.slice(1).map(line => {
+            const values = [];
+            let curr = '', inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+              const char = line[i];
+              if (char === '"' && line[i+1] === '"') { curr += '"'; i++; }
+              else if (char === '"') { inQuotes = !inQuotes; }
+              else if (char === ',' && !inQuotes) { values.push(curr); curr = ''; }
+              else { curr += char; }
+            }
+            values.push(curr);
+            const row = {};
+            headers.forEach((h, i) => row[h] = values[i] || '');
+            return row;
+          });
+          this.rows = rows;
+          // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
+          this.tabs = SUBPAGE_KEYWORDS.filter(key =>
+            rows.some(row => 
+              (row[this.filterHeader] || '').includes('《冥亡伊甸》') &&
+              (row[this.subpageHeader] || '').includes(key)
+            )
+          );
+        })
+        .catch(err => {
+          console.error('Google Sheets 讀取失敗：', err);
+        });
+    }
+  }
+
+  const app = Vue.createApp({});
+  app.component('google-sheet-multi-keyword-tabs', GoogleSheetMultiKeywordTabs);
+  app.mount('#app');
+  </script>
+</body>
+</html>

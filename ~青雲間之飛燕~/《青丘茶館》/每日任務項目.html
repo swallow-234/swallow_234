@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="A0001.css" rel="stylesheet" />
+  <title>《每日任務項目》</title>
+  <style>
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 8px 24px;
+      background: #333;
+      margin-bottom: 4px;
+      border: 1px solid #666666;
+      position: relative;
+      transition: 0.2s;
+    }
+    .close {
+      position: absolute;
+      right: 16px;
+      top: 8px;
+      color: #666666;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body>
+  <ul id="todoList" style="max-width: 600px;">
+    <li>刮痧<span class="close">&times;</span></li>
+    <li>健身－拉單槓<span class="close">&times;</span></li>
+    <li>健身－正反<span class="close">&times;</span></li>
+    <li>健身－單槓捲曲扭腰<span class="close">&times;</span></li>
+    <li>拉筋－跪姿大腿拉筋、內外側<span class="close">&times;</span></li>
+    <li>拉筋－跪姿向後拉筋<span class="close">&times;</span></li>
+    <li>拉筋－弓箭步<span class="close">&times;</span></li>
+    <li>拉筋－跪姿兩側拉伸<span class="close">&times;</span></li>
+    <li>拉筋－跪姿坐姿捲曲<span class="close">&times;</span></li>
+    <li>健身－握推<span class="close">&times;</span></li>
+    <li>健身－握力<span class="close">&times;</span></li>
+    <li>健身－空手<span class="close">&times;</span></li>
+    <li>健身－深蹲(空桿)<span class="close">&times;</span></li>
+    <li>健身－伏地挺身<span class="close">&times;</span></li>
+    <li>健身－仰臥起坐<span class="close">&times;</span></li>
+    <li>健身－跳躍<span class="close">&times;</span></li>
+    <li>健身－仰躺大腿內側開合<span class="close">&times;</span></li>
+    <li>健身－平躺向後仰身運動<span class="close">&times;</span></li>
+    <li>健身－凱格爾運動<span class="close">&times;</span></li>
+    <li>健身－兩側蚌式、蚌式<span class="close">&times;</span></li>
+    <li>健身－呼拉圈<span class="close">&times;</span></li>
+    <li>培養－寫字<span class="close">&times;</span></li>
+    <li>培養－字體寫字<span class="close">&times;</span></li>
+    <li>培養－字詞抄寫<span class="close">&times;</span></li>
+    <li>培養－成語抄寫<span class="close">&times;</span></li>
+    <li>培養－詩句抄寫<span class="close">&times;</span></li>
+    <li>培養－中文、英文、日文．．．<span class="close">&times;</span></li>
+    <li>劇本－閱讀分析小說、影劇<span class="close">&times;</span></li>
+    <li>劇本－練習編寫短篇、章回，幾乎沒有設定。<span class="close">&times;</span></li>
+    <li>劇本－練習編寫中篇、輕小說，簡易的設定。<span class="close">&times;</span></li>
+    <li>劇本－練習編寫長篇、具有豐富的背景設定。<span class="close">&times;</span></li>
+    <li>劇本－閱讀、時事、故事．．．<span class="close">&times;</span></li>
+    <li>3D建模－人物建模<span class="close">&times;</span></li>
+    <li>3D建模－物件建模<span class="close">&times;</span></li>
+    <li>3D建模－骨架綁定<span class="close">&times;</span></li>
+    <li>3D建模－拆解ＵＶ<span class="close">&times;</span></li>
+    <li>3D建模－紋理材質<span class="close">&times;</span></li>
+    <li>3D建模－特效模擬<span class="close">&times;</span></li>
+    <li>3D建模－動畫製作<span class="close">&times;</span></li>
+    <li>3D建模－閱讀、實作、分析．．．<span class="close">&times;</span></li>
+    <li>程式語言－閱讀吸收相關知識。<span class="close">&times;</span></li>
+    <li>程式語言－分析拆解程式語言。<span class="close">&times;</span></li>
+    <li>程式語言－嘗試編寫簡易程式。<span class="close">&times;</span></li>
+    <li>程式語言－建構概念之筆記本。<span class="close">&times;</span></li>
+    <li>程式語言－學習、拆解、實戰、建構。<span class="close">&times;</span></li>
+    <li>培養－商業知識<span class="close">&times;</span></li>
+    <li>音樂練習－吸收樂理知識。<span class="close">&times;</span></li>
+    <li>音樂練習－電子琴練習。<span class="close">&times;</span></li>
+    <li>音樂練習－樂譜抄寫。<span class="close">&times;</span></li>
+    <li>繪畫練習－排線<span class="close">&times;</span></li>
+    <li>繪畫練習－線搞<span class="close">&times;</span></li>
+    <li>繪畫練習－色彩<span class="close">&times;</span></li>
+    <li>繪畫練習－立繪、臨摹、練習．．．<span class="close">&times;</span></li>
+    <li>修行－靜坐<span class="close">&times;</span></li>
+    <li>修行－洗冷水澡<span class="close">&times;</span></li>
+    <li>培養－唱歌<span class="close">&times;</span></li>
+    <li>培養－舞蹈<span class="close">&times;</span></li>
+    <li>培養－剪髮知識<span class="close">&times;</span></li>
+    <li>家務－掃地<span class="close">&times;</span></li>
+    <li>家務－拖地<span class="close">&times;</span></li>
+    <li>家務－洗廁所<span class="close">&times;</span></li>
+    <li>娛樂－聽音樂<span class="close">&times;</span></li>
+    <li>娛樂－玩遊戲<span class="close">&times;</span></li>
+    <li>政治－關注<span class="close">&times;</span></li>
+  </ul>
+
+  <script>
+    // 取得所有 .close 按鈕
+    document.querySelectorAll('.close').forEach(function(closeBtn) {
+      closeBtn.onclick = function() {
+        this.parentElement.style.display = 'none';
+      };
+    });
+  </script>
+</body>
+</html>
