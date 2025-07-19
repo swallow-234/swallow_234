@@ -32,6 +32,8 @@ class TranslatorApp:
         self.current_file_path = None
         self.current_block_index = -1
         self.blocks = []
+        self.search_results_indices = [] # New: To store indices of search results
+        self.current_search_result_index = -1 # New: To track current position in search results
 
         self._create_widgets()
         self._setup_menu()
@@ -40,15 +42,18 @@ class TranslatorApp:
         main_frame = ttk.Frame(self.root, padding="20")
         main_frame.pack(fill=tk.BOTH, expand=True)
 
-        input_frame = ttk.LabelFrame(main_frame, text="請輸入字串以搜尋 / 插入至區塊開頭", padding="10") # 更改提示文字
+        input_frame = ttk.LabelFrame(main_frame, text="請輸入字串以搜尋", padding="10") # Changed prompt text
         input_frame.pack(fill=tk.X, pady=10)
 
         self.entry_input = ttk.Entry(input_frame, width=50, font=('Arial', 12))
         self.entry_input.pack(side=tk.LEFT, padx=(0, 10), fill=tk.X, expand=True)
-        self.entry_input.bind("<Return>", lambda event: self.search_and_insert_to_block()) # 更改呼叫函式
+        self.entry_input.bind("<Return>", lambda event: self.search_all_blocks_and_list()) # Changed call function
 
-        btn_action = ttk.Button(input_frame, text="搜尋並插入至區塊", command=self.search_and_insert_to_block) # 更改按鈕文字
-        btn_action.pack(side=tk.RIGHT)
+        btn_action = ttk.Button(input_frame, text="搜尋所有區塊", command=self.search_all_blocks_and_list) # Changed button text
+        btn_action.pack(side=tk.LEFT, padx=(0, 5)) # Added padx
+        
+        btn_clear_search = ttk.Button(input_frame, text="清除搜尋結果", command=self.clear_search_results) # New: Clear search button
+        btn_clear_search.pack(side=tk.RIGHT)
 
         output_frame = ttk.LabelFrame(main_frame, text="當前編輯區塊 (請先載入檔案或建立新檔案)", padding="10")
         output_frame.pack(fill=tk.BOTH, expand=True, pady=10)
@@ -71,6 +76,17 @@ class TranslatorApp:
 
         self.btn_next_block = ttk.Button(nav_frame, text="下一個區塊", command=self.show_next_block, state=tk.DISABLED)
         self.btn_next_block.pack(side=tk.RIGHT, expand=True)
+        
+        # New: Navigation for search results
+        self.btn_prev_search_result = ttk.Button(nav_frame, text="上一個搜尋結果", command=self.show_prev_search_result, state=tk.DISABLED)
+        self.btn_prev_search_result.pack(side=tk.LEFT, expand=True, padx=(5,0))
+        
+        self.search_status_label = ttk.Label(nav_frame, text="", anchor=tk.CENTER)
+        self.search_status_label.pack(side=tk.LEFT, expand=True)
+        
+        self.btn_next_search_result = ttk.Button(nav_frame, text="下一個搜尋結果", command=self.show_next_search_result, state=tk.DISABLED)
+        self.btn_next_search_result.pack(side=tk.RIGHT, expand=True, padx=(0,5))
+
 
         button_frame = ttk.Frame(main_frame, padding="10")
         button_frame.pack(fill=tk.X, pady=5)
@@ -121,6 +137,18 @@ class TranslatorApp:
             self.block_status_label.config(text=f"區塊 {self.current_block_index + 1}/{total_blocks}")
             self.btn_prev_block.config(state=tk.NORMAL if self.current_block_index > 0 else tk.DISABLED)
             self.btn_next_block.config(state=tk.NORMAL if self.current_block_index < total_blocks - 1 else tk.DISABLED)
+            
+        # Update search result navigation buttons
+        if not self.search_results_indices:
+            self.btn_prev_search_result.config(state=tk.DISABLED)
+            self.btn_next_search_result.config(state=tk.DISABLED)
+            self.search_status_label.config(text="")
+        else:
+            total_results = len(self.search_results_indices)
+            self.search_status_label.config(text=f"搜尋結果 {self.current_search_result_index + 1}/{total_results}")
+            self.btn_prev_search_result.config(state=tk.NORMAL if self.current_search_result_index > 0 else tk.DISABLED)
+            self.btn_next_search_result.config(state=tk.NORMAL if self.current_search_result_index < total_results - 1 else tk.DISABLED)
+
 
     def _parse_blocks(self, content):
         pattern = re.compile(f"{re.escape(BLOCK_START_DELIMITER)}\n(.*?)?\n{re.escape(BLOCK_END_DELIMITER)}", re.DOTALL)
@@ -148,42 +176,86 @@ class TranslatorApp:
             messagebox.showwarning("區塊錯誤", "無效的區塊索引！")
             self.block_status_label.config(text="無區塊選中")
             self.text_output.delete("1.0", tk.END)
+            self.current_block_index = -1
+            self.clear_search_results() # Clear search results if no valid block is shown
 
     def show_prev_block(self):
         if self.current_block_index > 0:
+            self.clear_search_results() # Clear search results when navigating blocks directly
             self._show_block(self.current_block_index - 1)
 
     def show_next_block(self):
         if self.current_block_index < len(self.blocks) - 1:
+            self.clear_search_results() # Clear search results when navigating blocks directly
             self._show_block(self.current_block_index + 1)
+            
+    def show_prev_search_result(self):
+        if self.current_search_result_index > 0:
+            self.current_search_result_index -= 1
+            block_index_to_show = self.search_results_indices[self.current_search_result_index]
+            self._show_block(block_index_to_show)
+            self.status_bar.config(text=f"顯示搜尋結果 {self.current_search_result_index + 1}/{len(self.search_results_indices)}")
+            # Highlight the search term
+            self._highlight_search_term_in_current_block(self.entry_input.get())
 
-    def search_and_insert_to_block(self): # 更改函式名稱
-        input_text = self.entry_input.get()
-        if not input_text.strip():
-            messagebox.showwarning("輸入錯誤", "請輸入一些文字！")
+    def show_next_search_result(self):
+        if self.current_search_result_index < len(self.search_results_indices) - 1:
+            self.current_search_result_index += 1
+            block_index_to_show = self.search_results_indices[self.current_search_result_index]
+            self._show_block(block_index_to_show)
+            self.status_bar.config(text=f"顯示搜尋結果 {self.current_search_result_index + 1}/{len(self.search_results_indices)}")
+            # Highlight the search term
+            self._highlight_search_term_in_current_block(self.entry_input.get())
+
+
+    def search_all_blocks_and_list(self): # New function to search all blocks and list them
+        input_text = self.entry_input.get().strip()
+        if not input_text:
+            messagebox.showwarning("輸入錯誤", "請輸入一些文字進行搜尋！")
             return
 
-        found_block_index = -1
+        self.search_results_indices = []
         for i, block_content in enumerate(self.blocks):
             if input_text in block_content:
-                found_block_index = i
-                break
+                self.search_results_indices.append(i)
 
-        if found_block_index != -1:
-            self._show_block(found_block_index)
-            # 直接將輸入字串插入到找到區塊的最頂部
-            # 你可以選擇在這裡添加一個標籤，例如 "Inserted:" 或 "Query:"
-            self.status_bar.config(text=f"找到並顯示區塊 {found_block_index + 1} (包含 '{input_text}')，搜尋字串已插入")
+        if self.search_results_indices:
+            self.current_search_result_index = 0
+            block_index_to_show = self.search_results_indices[self.current_search_result_index]
+            self._show_block(block_index_to_show)
+            self.status_bar.config(text=f"找到 {len(self.search_results_indices)} 個包含 '{input_text}' 的區塊。顯示第一個結果。")
+            self._highlight_search_term_in_current_block(input_text)
         else:
-            # 如果未找到，清空顯示區並顯示未找到訊息
             self.text_output.delete("1.0", tk.END)
+            self.text_output.insert(tk.END, f"在任何區塊中未找到 '{input_text}'。")
+            self.status_bar.config(text=f"未找到包含 '{input_text}' 的區塊。")
             self.current_block_index = -1
-            self._update_nav_buttons()
-            self.text_output.insert(tk.END,
-                                   f"在任何區塊中未找到 '{input_text}'。")
-            self.status_bar.config(text=f"未找到包含 '{input_text}' 的區塊")
+            self.current_search_result_index = -1
+            self.search_results_indices = []
 
+        self._update_nav_buttons()
         self.text_output.see(tk.END)
+        
+    def _highlight_search_term_in_current_block(self, search_term):
+        self.text_output.tag_remove("search", "1.0", tk.END) # Remove previous highlights
+        if search_term:
+            start_pos = "1.0"
+            while True:
+                start_pos = self.text_output.search(search_term, start_pos, stopindex=tk.END, nocase=True)
+                if not start_pos:
+                    break
+                end_pos = f"{start_pos}+{len(search_term)}c"
+                self.text_output.tag_add("search", start_pos, end_pos)
+                start_pos = end_pos
+            self.text_output.tag_config("search", background="yellow", foreground="blue")
+
+
+    def clear_search_results(self):
+        self.search_results_indices = []
+        self.current_search_result_index = -1
+        self._update_nav_buttons()
+        self.text_output.tag_remove("search", "1.0", tk.END) # Clear highlights
+
 
     def copy_current_block_content(self):
         content_to_copy = self.text_output.get("1.0", tk.END).strip()
@@ -227,6 +299,7 @@ class TranslatorApp:
             self.status_bar.config(text="就緒。")
             self._update_nav_buttons()
             self.text_output.insert(tk.END, f"您已建立新檔案。若要新增區塊，請依以下格式輸入：\n\n{BLOCK_START_DELIMITER}\n\n您的區塊內容\n\n{BLOCK_END_DELIMITER}\n")
+            self.clear_search_results()
 
     def new_block(self):
         """Adds a new, empty block to the blocks list and displays it."""
@@ -239,8 +312,9 @@ class TranslatorApp:
         self._show_block(self.current_block_index)
         self.status_bar.config(text=f"已新增一個新區塊 (區塊 {self.current_block_index + 1})。")
         self.text_output.delete("1.0", tk.END)
-        self.text_output.insert(tk.END, "請在此輸入新區塊的內容。")
+        self.text_output.insert(tk.END, "")
         self.text_output.see(tk.END)
+        self.clear_search_results()
 
 
     def open_file(self):
@@ -271,6 +345,7 @@ class TranslatorApp:
                     messagebox.showinfo("提示", f"檔案 '{file_path.split('/')[-1]}' 未偵測到區塊標記。\n請確保區塊格式為：\n\n{BLOCK_START_DELIMITER}\n您的內容\n{BLOCK_END_DELIMITER}")
 
                 self._update_nav_buttons()
+                self.clear_search_results()
 
             except Exception as e:
                 messagebox.showerror("開啟失敗", f"開啟檔案時發生錯誤：\n{e}")
@@ -306,15 +381,15 @@ class TranslatorApp:
     def save_full_file(self):
         if self.current_file_path:
             if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
-                   self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+                self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
 
-                   self.full_document_content = ""
-                   for i, block_content in enumerate(self.blocks):
-                       self.full_document_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
-                       if i < len(self.blocks) - 1:
-                           self.full_document_content += "\n"
+                self.full_document_content = ""
+                for i, block_content in enumerate(self.blocks):
+                    self.full_document_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
+                    if i < len(self.blocks) - 1:
+                        self.full_document_content += "\n"
             else:
-                   self.full_document_content = self.text_output.get("1.0", tk.END).strip()
+                self.full_document_content = self.text_output.get("1.0", tk.END).strip()
 
             self._write_full_content_to_file(self.current_file_path)
         else:
@@ -353,6 +428,7 @@ class TranslatorApp:
             if self.blocks and self.current_block_index == -1:
                 self._show_block(0)
             self._update_nav_buttons()
+            self.clear_search_results()
 
 
     def _write_full_content_to_file(self, file_path, content=None):
