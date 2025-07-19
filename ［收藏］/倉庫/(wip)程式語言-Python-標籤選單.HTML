@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<HTML>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />
+    </head>
+    <body>
+<!--標題-->
+        <h1 style="text-align: center;">《程式語言-Python-標籤選單》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>Python</h3></p><hr>
+<pre><code>
+import tkinter as tk 
+from tkinter import ttk, messagebox
+
+LABEL_GROUPS = {
+    
+    "客戶狀態": ["新客戶", "老客戶", "VIP", "黑名單", "潛力客戶", "重要", "一般", "已流失", "觀察中", "待評估"],
+    "聯絡進度": ["已聯絡", "待回覆", "無法聯絡", "未處理", "電話未接", "已約訪", "已取消", "已回覆", "需追蹤", "已結案"],
+    "付款狀況": ["已付款", "未付款", "部分付款", "退費中", "已開發票", "逾期未付", "分期中"]
+}
+MIN_GROUPS = 1    # 最少一組
+
+class ScrollableCheckFrame(tk.Frame):
+    """可加卷軸的標籤複選區"""
+    def __init__(self, parent, labels, var_list):
+        super().__init__(parent)
+        canvas = tk.Canvas(self, height=120)
+        scrollbar = tk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        self.inner = tk.Frame(canvas)
+
+        self.inner.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        canvas.create_window((0,0), window=self.inner, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        for label in labels:
+            var = tk.BooleanVar()
+            chk = tk.Checkbutton(self.inner, text=label, variable=var)
+            chk.pack(anchor='w')
+            var_list.append((var, label))
+
+class MultiLabelSelector(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("可動態新增/減少組的多分類標籤選擇器")
+        self.geometry("500x550")
+        self.selected_groups = []
+        self.check_vars = []
+        self.scroll_frames = []
+        self.group_frames = []
+        self.create_outer_scrollable_area()
+        # 注意：不要在這裡預設 current_groups，否則初始化會多加兩組
+        # self.current_groups = 2
+
+    def create_outer_scrollable_area(self):
+        main_canvas = tk.Canvas(self)
+        main_scrollbar = tk.Scrollbar(self, orient="vertical", command=main_canvas.yview)
+        main_canvas.configure(yscrollcommand=main_scrollbar.set)
+        main_canvas.pack(side="left", fill="both", expand=True)
+        main_scrollbar.pack(side="right", fill="y")
+
+        self.content_frame = tk.Frame(main_canvas)
+        main_canvas.create_window((0,0), window=self.content_frame, anchor="nw")
+        self.content_frame.bind("<Configure>", lambda e: main_canvas.configure(scrollregion=main_canvas.bbox("all")))
+
+        self.toolbar = tk.Frame(self.content_frame)
+        self.toolbar.pack(fill='x', pady=(10,0))
+        tk.Label(self.toolbar, text="動態組數，主內容與標籤區皆可卷動", fg="blue").pack(side='left', padx=10)
+        tk.Button(self.toolbar, text="新增組", command=self.add_group, bg="#cfc").pack(side='right', padx=5)
+        tk.Button(self.toolbar, text="減少組", command=self.remove_group, bg="#fcc").pack(side='right', padx=5)
+
+        self.groups_container = tk.Frame(self.content_frame)
+        self.groups_container.pack(fill='both', expand=True)
+
+        self.btn_copy = tk.Button(self.content_frame, text="複製所有已選標籤", command=self.copy_labels, bg="#6cf")
+        self.btn_copy.pack(pady=18)
+
+        tk.Label(self.content_frame, text="標籤結果（可Ctrl+V貼上）:").pack(anchor='w', padx=10, pady=(10, 2))
+        self.result_entry = tk.Entry(self.content_frame, width=60)
+        self.result_entry.pack(padx=10, pady=(0, 10))
+
+        # 初始產生一組
+        self.add_group()
+
+    def add_group(self):
+        idx = len(self.selected_groups)
+        frame = tk.Frame(self.groups_container, bd=2, relief=tk.GROOVE, padx=5, pady=5)
+        frame.pack(fill='x', padx=10, pady=6)
+        self.group_frames.append(frame)
+
+        group_var = tk.StringVar(value=list(LABEL_GROUPS.keys())[0])
+        self.selected_groups.append(group_var)
+        label = tk.Label(frame, text=f"分類 {idx+1}:")
+        label.pack(anchor='w')
+        group_menu = ttk.Combobox(
+            frame, textvariable=group_var, values=list(LABEL_GROUPS.keys()), state="readonly"
+        )
+        group_menu.pack(fill='x')
+        group_menu.bind("<<ComboboxSelected>>", lambda event, idx=idx: self.update_checkbuttons(idx))
+
+        self.check_vars.append([])
+        scroll_frame = ScrollableCheckFrame(frame, LABEL_GROUPS[group_var.get()], self.check_vars[idx])
+        scroll_frame.pack(fill='x', pady=(5,0))
+        self.scroll_frames.append(scroll_frame)
+
+    def remove_group(self):
+        if len(self.selected_groups) <= MIN_GROUPS:
+            messagebox.showinfo("提示", f"最少要保留 {MIN_GROUPS} 組")
+            return
+        # 移除最後一組
+        self.selected_groups.pop()
+        self.check_vars.pop()
+        self.scroll_frames[-1].destroy()
+        self.scroll_frames.pop()
+        self.group_frames[-1].destroy()
+        self.group_frames.pop()
+
+    def update_checkbuttons(self, idx):
+        old_scroll = self.scroll_frames[idx]
+        old_scroll.destroy()
+        self.check_vars[idx] = []
+        group = self.selected_groups[idx].get()
+        parent = old_scroll.master
+        new_scroll = ScrollableCheckFrame(parent, LABEL_GROUPS[group], self.check_vars[idx])
+        new_scroll.pack(fill='x', pady=(5,0))
+        self.scroll_frames[idx] = new_scroll
+
+    def copy_labels(self):
+        all_selected = []
+        for group_vars in self.check_vars:
+            for var, label in group_vars:
+                if var.get():
+                    all_selected.append(label)
+        if not all_selected:
+            messagebox.showwarning("提示", "請至少勾選一個標籤")
+            return
+        result = ", ".join(all_selected)
+        self.clipboard_clear()
+        self.clipboard_append(result)
+        self.result_entry.delete(0, tk.END)
+        self.result_entry.insert(0, result)
+        messagebox.showinfo("已複製", "所有標籤已複製到剪貼簿，可Ctrl+V貼上！")
+
+if __name__ == "__main__":
+    app = MultiLabelSelector()
+    app.mainloop()
+</code></pre><hr>
+<ol>
+    <li><a href="https://www.w3schools.com/python/python_modules.asp">import</a>導入名為 <a href="https://pythonspot.com/tkinter/">tkinter</a> 的模組，並呼叫  函數：</li>
+    <ul>
+        <li>tkinter 是 Python 內建的標準模組</li>
+
+    </ul>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+    <li>123</li>
+</ol>
+</div>
+    </body>
+</HTML>

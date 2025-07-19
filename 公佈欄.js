@@ -1,37 +1,54 @@
-<!DOCTYPE html>
-<html lang="zh-tw">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>系列主題</title>
-    <link href="A0001.css" rel="stylesheet" />
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
-</head>
-<body>
-    <!-- 導覽列 -->
-<h1 style="text-align: center;">系列主題</h1>
-<p style="text-align: center;">收藏記錄</p>
-<!-- 左側布局 -->
-<div class="column side">
-    <script src="../公佈欄-選單.js"></script>
-    </div>
-    <!--中間布局-->
-    <div class="column middle">
-  <div id="app">
-    <h2><a href="https://docs.google.com/spreadsheets/d/1Vh4XNBMLcfryPCQppwQoDYXNz_hu3Ix3N-BF-go2UyM/edit?gid=944227299#gid=944227299">公佈欄</a></h2>
-    <google-sheet-multi-keyword-tabs></google-sheet-multi-keyword-tabs>
-  </div>
-  <script>
-  const PAGE_ORDER = [
+ const PAGE_ORDER = [
     "",
-    "柯文哲-先行者",
-    "黃國昌-通識課",
-    "陳之漢-義士",
-    "陳椒華-循道者",
+    "POE流亡暗道",
+    "Fate/Grand Order",
+    "這是什麼酷酷的東西",
+    "休閒牧場",
+    "ACG同好會",
+    "體育運動",
+    "棋類技藝",
+    "Vtuber/Vup收藏",
+    "台灣[Taiwan]",
+    "吹哨者",
+    "生活日常",
+    "裝扮造型風格",
+    "blender",
+    "繪圖",
+    "劇本",
+    "影片/攝影編輯",
+    "人生哲學",
+    "社會學",
+    "開創者",
+    "戀愛研究院",
+    "法律相關",
+    "食譜",
+    "醫學",
+    "健身|養身|武術",
+    "樂理知識",
+    "音樂收藏",
+    "舞蹈",
+    "科學",
+    "科技",
+    "軍武",
+    "工匠技藝",
+    "語言研究院",
+    "程式語言",
+    "Unity遊戲引擎",
+    "Google相關",
+    "Windows",
+    "軟體硬體應用",
+    "建築學",
+    "風水|玄學|靈異",
+    "生物學",
+    "泛普教育",
+    "防災手冊",
+    "防詐騙宣導",
+    "AI相關",
+    "系列主題",
+    "台灣民眾黨專區",
   ];
 
-  const GoogleSheetMultiKeywordTabs = {
+  const GoogleSheetTabs = {
     template: `
       <div>
         <div class="tabs">
@@ -75,33 +92,29 @@
         dateHeader: "",
         urlHeader: "",
         textHeader: "",
-        filterHeader: "", // D
-        subpageHeader: "" // E
+        pageHeader: ""
       }
     },
     computed: {
       filteredRows() {
         if (!this.tabs.length) return [];
         const tab = this.tabs[this.activeTab];
-        // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
-        return this.rows.filter(
-          row => (row[this.filterHeader] || '').includes('系列主題')
-             && (row[this.subpageHeader] || '').includes(tab));
+        return this.rows.filter(row => (row[this.pageHeader] || '').includes(tab));
       }
     },
     mounted() {
+      // 你的 Google Sheets "發佈到網路" CSV 連結
       const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYaye4pjVsaq7vZhdi-RRD71pH0sWcjGmAPKRXu8BdpJ6xttrGMFr7XxrT1oQdmSTqis40ONep9hwC/pub?output=csv';
       fetch(csvUrl)
         .then(res => res.text())
         .then(csv => {
           const lines = csv.trim().split('\n');
           const headers = lines[0].split(',');
-          // 假設A,B,C,D,E欄依序為「日期,網址,名稱,分類,子分頁」
+          // 假設A,B,C,D欄依序為「日期,網址,名稱,分頁」
           this.dateHeader = headers[0];
           this.urlHeader = headers[1];
           this.textHeader = headers[2];
-          this.filterHeader = headers[3]; // D
-          this.subpageHeader = headers[4]; // E
+          this.pageHeader = headers[3];
           const rows = lines.slice(1).map(line => {
             const values = [];
             let curr = '', inQuotes = false;
@@ -118,12 +131,9 @@
             return row;
           });
           this.rows = rows;
-          // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
-          this.tabs = PAGE_ORDER.filter(key =>
-            rows.some(row => 
-              (row[this.filterHeader] || '').includes('系列主題') &&
-              (row[this.subpageHeader] || '').includes(key)
-            )
+          // 只保留有資料的分頁，且用 includes 判斷
+          this.tabs = PAGE_ORDER.filter(page =>
+            rows.some(row => (row[this.pageHeader] || '').includes(page))
           );
         })
         .catch(err => {
@@ -133,11 +143,5 @@
   }
 
   const app = Vue.createApp({});
-  app.component('google-sheet-multi-keyword-tabs', GoogleSheetMultiKeywordTabs);
+  app.component('google-sheet-tabs', GoogleSheetTabs);
   app.mount('#app');
-  </script>
-
-    </div>
-
-</body>
-</html>

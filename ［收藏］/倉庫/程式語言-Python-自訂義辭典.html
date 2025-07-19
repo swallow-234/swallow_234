@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-Python-自訂義辭典》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>Python</h3></p><hr>
+<pre><code>
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
+from tkinter import filedialog
+import re 
+
+# Define block delimiters
+BLOCK_START_DELIMITER = "--- BLOCK START ---"
+BLOCK_END_DELIMITER = "--- BLOCK END ---"
+
+class TranslatorApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("區塊編輯器") # 更改標題以反映功能變化
+        self.root.geometry("800x650") 
+
+        self.full_document_content = ""  
+        self.current_file_path = None    
+        self.current_block_index = -1    
+        self.blocks = []                 
+
+        self._create_widgets()
+        self._setup_menu()
+
+    def _create_widgets(self):
+        main_frame = ttk.Frame(self.root, padding="20")
+        main_frame.pack(fill=tk.BOTH, expand=True)
+
+        input_frame = ttk.LabelFrame(main_frame, text="請輸入字串以搜尋 / 插入至區塊開頭", padding="10") # 更改提示文字
+        input_frame.pack(fill=tk.X, pady=10)
+
+        self.entry_input = ttk.Entry(input_frame, width=50, font=('Arial', 12))
+        self.entry_input.pack(side=tk.LEFT, padx=(0, 10), fill=tk.X, expand=True)
+        self.entry_input.bind("<Return>", lambda event: self.search_and_insert_to_block()) # 更改呼叫函式
+
+        btn_action = ttk.Button(input_frame, text="搜尋並插入至區塊", command=self.search_and_insert_to_block) # 更改按鈕文字
+        btn_action.pack(side=tk.RIGHT)
+
+        output_frame = ttk.LabelFrame(main_frame, text="當前編輯區塊 (請先載入檔案或建立新檔案)", padding="10")
+        output_frame.pack(fill=tk.BOTH, expand=True, pady=10)
+
+        self.text_output = tk.Text(output_frame, wrap=tk.WORD, height=18, font=('Arial', 11), bg="#ffffff", bd=1, relief="solid")
+        self.text_output.pack(fill=tk.BOTH, expand=True)
+
+        scrollbar = ttk.Scrollbar(self.text_output, command=self.text_output.yview)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.text_output.config(yscrollcommand=scrollbar.set)
+        
+        nav_frame = ttk.Frame(main_frame, padding="5")
+        nav_frame.pack(fill=tk.X, pady=(0, 10))
+
+        self.btn_prev_block = ttk.Button(nav_frame, text="上一個區塊", command=self.show_prev_block, state=tk.DISABLED)
+        self.btn_prev_block.pack(side=tk.LEFT, expand=True)
+        
+        self.block_status_label = ttk.Label(nav_frame, text="無區塊選中", anchor=tk.CENTER)
+        self.block_status_label.pack(side=tk.LEFT, expand=True)
+
+        self.btn_next_block = ttk.Button(nav_frame, text="下一個區塊", command=self.show_next_block, state=tk.DISABLED)
+        self.btn_next_block.pack(side=tk.RIGHT, expand=True)
+
+        button_frame = ttk.Frame(main_frame, padding="10")
+        button_frame.pack(fill=tk.X, pady=5)
+
+        btn_copy = ttk.Button(button_frame, text="複製當前區塊內容", command=self.copy_current_block_content)
+        btn_copy.pack(side=tk.LEFT, expand=True, padx=(0, 5))
+
+        btn_save = ttk.Button(button_frame, text="儲存區塊修改到檔案", command=self.save_block_to_file)
+        btn_save.pack(side=tk.LEFT, expand=True, padx=(5, 5)) 
+        
+        btn_save_as_full = ttk.Button(button_frame, text="另存完整檔案...", command=self.save_full_file_as)
+        btn_save_as_full.pack(side=tk.RIGHT, expand=True, padx=(5, 0)) 
+
+        self.status_bar = ttk.Label(self.root, text="就緒。", relief=tk.SUNKEN, anchor=tk.W)
+        self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
+
+    def _setup_menu(self):
+        menubar = tk.Menu(self.root)
+        self.root.config(menu=menubar)
+
+        file_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="檔案", menu=file_menu)
+        file_menu.add_command(label="新檔案", command=self.new_file)
+        file_menu.add_command(label="開啟舊檔...", command=self.open_file)
+        file_menu.add_command(label="儲存完整檔案", command=self.save_full_file) 
+        file_menu.add_command(label="另存完整檔案...", command=self.save_full_file_as)
+        file_menu.add_separator()
+        file_menu.add_command(label="結束", command=self.root.quit)
+
+    def _update_nav_buttons(self):
+        if not self.blocks:
+            self.btn_prev_block.config(state=tk.DISABLED)
+            self.btn_next_block.config(state=tk.DISABLED)
+            self.block_status_label.config(text="無區塊")
+            return
+
+        total_blocks = len(self.blocks)
+        if total_blocks == 0:
+            self.block_status_label.config(text="無區塊")
+            self.btn_prev_block.config(state=tk.DISABLED)
+            self.btn_next_block.config(state=tk.DISABLED)
+        elif total_blocks == 1:
+            self.block_status_label.config(text="區塊 1/1")
+            self.btn_prev_block.config(state=tk.DISABLED)
+            self.btn_next_block.config(state=tk.DISABLED)
+        else:
+            self.block_status_label.config(text=f"區塊 {self.current_block_index + 1}/{total_blocks}")
+            self.btn_prev_block.config(state=tk.NORMAL if self.current_block_index > 0 else tk.DISABLED)
+            self.btn_next_block.config(state=tk.NORMAL if self.current_block_index < total_blocks - 1 else tk.DISABLED)
+
+    def _parse_blocks(self, content):
+        pattern = re.compile(f"{re.escape(BLOCK_START_DELIMITER)}\n(.*?)?\n{re.escape(BLOCK_END_DELIMITER)}", re.DOTALL)
+        
+        matches = pattern.findall(content)
+        parsed_blocks = []
+        for match in matches:
+            block_content = match.strip()
+            parsed_blocks.append(block_content)
+        return parsed_blocks
+
+    def _show_block(self, index):
+        if 0 <= index < len(self.blocks):
+            if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+                # Save current block's content before switching
+                self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+
+            self.current_block_index = index
+            self.text_output.delete("1.0", tk.END)
+            self.text_output.insert(tk.END, self.blocks[self.current_block_index])
+            self.text_output.see(tk.END)
+            self._update_nav_buttons()
+            self.status_bar.config(text=f"顯示區塊 {index + 1}/{len(self.blocks)}")
+        else:
+            messagebox.showwarning("區塊錯誤", "無效的區塊索引！")
+            self.block_status_label.config(text="無區塊選中")
+            self.text_output.delete("1.0", tk.END) 
+
+    def show_prev_block(self):
+        if self.current_block_index > 0:
+            self._show_block(self.current_block_index - 1)
+
+    def show_next_block(self):
+        if self.current_block_index < len(self.blocks) - 1:
+            self._show_block(self.current_block_index + 1)
+
+    def search_and_insert_to_block(self): # 更改函式名稱
+        input_text = self.entry_input.get()
+        if not input_text.strip():
+            messagebox.showwarning("輸入錯誤", "請輸入一些文字！")
+            return
+        
+        found_block_index = -1
+        for i, block_content in enumerate(self.blocks):
+            if input_text in block_content:
+                found_block_index = i
+                break 
+
+        if found_block_index != -1:
+            self._show_block(found_block_index) 
+            # 直接將輸入字串插入到找到區塊的最頂部
+            # 你可以選擇在這裡添加一個標籤，例如 "Inserted:" 或 "Query:"
+            self.status_bar.config(text=f"找到並顯示區塊 {found_block_index + 1} (包含 '{input_text}')，搜尋字串已插入")
+        else:
+            # 如果未找到，清空顯示區並顯示未找到訊息
+            self.text_output.delete("1.0", tk.END)
+            self.current_block_index = -1 
+            self._update_nav_buttons()
+            self.text_output.insert(tk.END, 
+                                   f"在任何區塊中未找到 '{input_text}'。")
+            self.status_bar.config(text=f"未找到包含 '{input_text}' 的區塊")
+            
+        self.text_output.see(tk.END) 
+
+    def copy_current_block_content(self):
+        content_to_copy = self.text_output.get("1.0", tk.END).strip()
+        if content_to_copy:
+            self.root.clipboard_clear()
+            self.root.clipboard_append(content_to_copy)
+            messagebox.showinfo("複製成功", "當前區塊內容已複製到剪貼簿！")
+        else:
+            messagebox.showwarning("沒有內容", "沒有內容可以複製。")
+
+    def _get_cleaned_block_content_from_text_output(self):
+        """Helper to extract actual block content by stripping any added headers."""
+        current_display_content = self.text_output.get("1.0", tk.END).strip()
+        lines = current_display_content.splitlines()
+        
+        block_content_start_index = -1
+        for i, line in enumerate(lines):
+            # Find the first line that is NOT a header or separator
+            # 現在只檢查 "--- 搜尋字串" 和 "----"
+            if not line.startswith("--- 搜尋字串") and \
+               not line.startswith("--- 原始輸入") and \
+               not line.startswith("--- 無匹配區塊時的翻譯結果") and \
+               not line.startswith("----") and \
+               line.strip() != "": 
+                block_content_start_index = i
+                break
+        
+        if block_content_start_index != -1:
+            return "\n".join(lines[block_content_start_index:]).strip()
+        else:
+            return "" 
+
+    def new_file(self):
+        if messagebox.askyesno("新檔案", "您確定要建立新檔案嗎？未儲存的內容將會遺失。"):
+            self.text_output.delete("1.0", tk.END)
+            self.full_document_content = ""
+            self.current_file_path = None
+            self.blocks = []
+            self.current_block_index = -1
+            self.root.title("區塊編輯器 - 無標題") # 更改標題
+            self.status_bar.config(text="就緒。")
+            self._update_nav_buttons()
+            self.text_output.insert(tk.END, f"您已建立新檔案。若要新增區塊，請依以下格式輸入：\n\n{BLOCK_START_DELIMITER}\n\n您的區塊內容\n\n{BLOCK_END_DELIMITER}\n")
+
+
+    def open_file(self):
+        file_path = filedialog.askopenfilename(
+            filetypes=[("Text files", "*.txt"), ("All files", "*.*")],
+            title="開啟檔案"
+        )
+        if file_path:
+            try:
+                with open(file_path, "r", encoding="utf-8") as file:
+                    self.full_document_content = file.read() 
+                
+                self.blocks = self._parse_blocks(self.full_document_content) 
+                
+                if self.blocks:
+                    self._show_block(0) 
+                    self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]}") # 更改標題
+                    self.status_bar.config(text=f"已開啟：{file_path} (共 {len(self.blocks)} 個區塊)")
+                    self.current_file_path = file_path
+                else:
+                    self.text_output.delete("1.0", tk.END)
+                    self.text_output.insert(tk.END, self.full_document_content)
+                    self.current_file_path = file_path 
+                    self.blocks = []
+                    self.current_block_index = -1
+                    self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]} (無區塊偵測)") # 更改標題
+                    self.status_bar.config(text=f"已開啟：{file_path} (未偵測到區塊，顯示完整內容)")
+                    messagebox.showinfo("提示", f"檔案 '{file_path.split('/')[-1]}' 未偵測到區塊標記。\n請確保區塊格式為：\n\n{BLOCK_START_DELIMITER}\n您的內容\n{BLOCK_END_DELIMITER}")
+                
+                self._update_nav_buttons()
+
+            except Exception as e:
+                messagebox.showerror("開啟失敗", f"開啟檔案時發生錯誤：\n{e}")
+                self.new_file() 
+
+    def save_block_to_file(self):
+        if self.current_file_path is None:
+            messagebox.showwarning("無法儲存", "請先開啟或另存一個檔案。")
+            self.save_full_file_as() 
+            return
+
+        if self.current_block_index == -1 or not self.blocks:
+            messagebox.showwarning("無法儲存", "目前沒有選中的區塊可供儲存。")
+            return
+            
+        self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+            
+        new_full_content = ""
+        for i, block_content in enumerate(self.blocks):
+            new_full_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
+            if i < len(self.blocks) - 1:
+                new_full_content += "\n" 
+
+        try:
+            with open(self.current_file_path, "w", encoding="utf-8") as file:
+                file.write(new_full_content.strip()) 
+            messagebox.showinfo("儲存成功", f"當前區塊的修改已儲存到：\n{self.current_file_path}")
+            self.status_bar.config(text=f"區塊修改已儲存：{self.current_file_path.split('/')[-1]}")
+            self.full_document_content = new_full_content.strip() 
+        except Exception as e:
+            messagebox.showerror("儲存失敗", f"儲存檔案時發生錯誤：\n{e}")
+
+    def save_full_file(self):
+        if self.current_file_path:
+            if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+                 self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+
+                 self.full_document_content = "" 
+                 for i, block_content in enumerate(self.blocks):
+                     self.full_document_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
+                     if i < len(self.blocks) - 1:
+                         self.full_document_content += "\n"
+            else: 
+                 self.full_document_content = self.text_output.get("1.0", tk.END).strip()
+
+            self._write_full_content_to_file(self.current_file_path)
+        else:
+            self.save_full_file_as() 
+
+    def save_full_file_as(self):
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            content_to_save = self._get_cleaned_block_content_from_text_output()
+            self.blocks[self.current_block_index] = content_to_save 
+            
+            temp_full_content = ""
+            for i, block_content in enumerate(self.blocks):
+                temp_full_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
+                if i < len(self.blocks) - 1:
+                    temp_full_content += "\n"
+            content_to_save = temp_full_content.strip()
+        else: 
+            content_to_save = self.text_output.get("1.0", tk.END).strip()
+
+        if not content_to_save:
+            messagebox.showwarning("沒有內容", "沒有內容可以儲存。")
+            return
+
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".txt",
+            filetypes=[("Text files", "*.txt"), ("All files", "*.*")],
+            title="另存完整檔案為"
+        )
+        if file_path:
+            self.current_file_path = file_path 
+            self._write_full_content_to_file(file_path, content_to_save)
+            self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]}") # 更改標題
+            self.status_bar.config(text=f"完整檔案已儲存：{file_path}")
+            
+            self.blocks = self._parse_blocks(content_to_save)
+            if self.blocks and self.current_block_index == -1: 
+                self._show_block(0)
+            self._update_nav_buttons()
+
+
+    def _write_full_content_to_file(self, file_path, content=None):
+        if content is None: 
+            content = self.full_document_content
+
+        try:
+            with open(file_path, "w", encoding="utf-8") as file:
+                file.write(content)
+            messagebox.showinfo("儲存成功", f"完整檔案已成功儲存到：\n{file_path}")
+            self.status_bar.config(text=f"完整檔案已儲存：{file_path.split('/')[-1]}")
+        except Exception as e:
+            messagebox.showerror("儲存失敗", f"儲存檔案時發生錯誤：\n{e}")
+
+# Launch the application
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = TranslatorApp(root)
+    root.mainloop()
+</code></pre>    
+    </body>
+</html>

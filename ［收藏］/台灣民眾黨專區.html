@@ -146,7 +146,7 @@
           // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
           this.tabs = PAGE_ORDER.filter(key =>
             rows.some(row => 
-              (row[this.filterHeader] || '').includes('系列主題') &&
+              (row[this.filterHeader] || '').includes('台灣民眾黨專區') &&
               (row[this.subpageHeader] || '').includes(key)
             )
           );

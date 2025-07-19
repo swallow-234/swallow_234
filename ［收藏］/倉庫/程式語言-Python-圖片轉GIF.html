@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-Python-圖片轉GIF》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>命令提示字元</h3></p><hr>
+如果您尚未安裝 Pillow，請打開您的命令提示字元 (Command Prompt) 或終端機 (Terminal)，然後執行以下命令：<br>
+pip install Pillow
+    <p><h3>Python</h3></p><hr>
+<pre><code>
+    import os
+from PIL import Image
+
+def create_gif_from_images(image_folder, output_gif_name="output.gif", duration=100, loop=0):
+    """
+    將指定資料夾中的所有圖片轉換為 GIF 動畫。
+
+    Args:
+        image_folder (str): 包含圖片的資料夾路徑。
+        output_gif_name (str): 輸出 GIF 檔案的名稱 (含 .gif 副檔名)。
+        duration (int): 每個影格顯示的毫秒數 (例如 100 毫秒 = 0.1 秒)。
+        loop (int): GIF 播放的次數。0 表示無限循環。
+    """
+    images = []
+    # 獲取資料夾中所有圖片檔案的列表，並按名稱排序
+    # 這裡只篩選 .png 和 .jpg 檔案，您可以根據需要添加其他格式
+    image_files = sorted([f for f in os.listdir(image_folder) if f.endswith(('.png', '.jpg', '.jpeg'))])
+
+    if not image_files:
+        print(f"在資料夾 '{image_folder}' 中沒有找到任何圖片檔案。")
+        return
+
+    print(f"找到以下圖片檔案：{image_files}")
+
+    for filename in image_files:
+        filepath = os.path.join(image_folder, filename)
+        try:
+            img = Image.open(filepath)
+            images.append(img)
+        except Exception as e:
+            print(f"無法打開圖片檔案 '{filename}': {e}")
+            continue
+
+    if not images:
+        print("沒有成功載入任何圖片，無法創建 GIF。")
+        return
+
+    # 將第一張圖片作為基礎，然後添加其他圖片作為影格
+    # save_all=True 表示儲存多個影格
+    # append_images 是要追加的影格列表
+    # duration 是每個影格的持續時間 (毫秒)
+    # loop=0 表示無限循環
+    try:
+        images[0].save(
+            output_gif_name,
+            save_all=True,
+            append_images=images[1:],
+            duration=duration,
+            loop=loop
+        )
+        print(f"成功創建 GIF：{output_gif_name}")
+    except Exception as e:
+        print(f"創建 GIF 時發生錯誤：{e}")
+
+# --- 如何使用 ---
+if __name__ == "__main__":
+    # 設定圖片所在的資料夾路徑
+    # 如果您的圖片就在這個 .py 檔案的同一個資料夾，可以使用 '.'
+    # 如果在子資料夾，例如 'my_images'，則使用 'my_images'
+    current_directory = os.getcwd()
+    print(f"目前工作目錄：{current_directory}")
+
+    # 範例用法：
+    # 假設您的圖片在 'C:\Users\永夜暗夜\Downloads\MyImages' 資料夾
+    # 或者如果圖片就在 'Downloads' 資料夾，則 image_source_folder = r'C:\Users\永夜暗夜\Downloads'
+    # 請根據您的實際情況修改以下路徑和名稱
+    image_source_folder = r'路徑' # 請替換為您圖片所在的資料夾路徑
+    output_filename = "my_animation.gif"
+    frame_duration = 500 # 每個影格顯示 500 毫秒 (0.5 秒)
+    loop_count = 0       # 0 表示無限循環
+
+    create_gif_from_images(image_source_folder, output_filename, frame_duration, loop_count)
+</code></pre>    
+    </body>
+</html>
