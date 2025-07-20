@@ -97,16 +97,16 @@ def download_youtube_media(url, output_filepath, format_type='mp4', quality='bes
 
 # --- 使用範例 ---
 
-# 請替換為你要下載的 YouTube 影片網址
+# 請替換為你要下載的 YouTube 影片網址，利用註解的方式開啟關閉MP4或MP3的程式碼。
 youtube_video_url = "網址" # 範例網址
 
 # --- 下載為 MP4 影片 ---
 output_mp4_file = r"路徑\檔名.mp4"
-# download_youtube_media(youtube_video_url, output_mp4_file, format_type='mp4', quality='720p')
+download_youtube_media(youtube_video_url, output_mp4_file, format_type='mp4', quality='720p')
 
 # --- 下載並轉換為 MP3 音樂 ---
 output_mp3_file = r"路徑\檔名.mp3"
-download_youtube_media(youtube_video_url, output_mp3_file, format_type='mp3/mp4')
+download_youtube_media(youtube_video_url, output_mp3_file, format_type='mp3')
 
 # 你也可以只提供一個基本檔名，讓程式自動補全副檔名
 # download_youtube_media(youtube_video_url, r"路徑\檔名", format_type='mp3')
