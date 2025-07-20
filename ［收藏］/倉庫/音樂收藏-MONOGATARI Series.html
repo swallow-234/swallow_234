@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專輯收藏-MONOGATARI Series</title>
+  <link href="A0001.css" rel="stylesheet" />        
+</head>
+<body>
+
+<div class="container20250720">
+        <h1>專輯收藏-MONOGATARI Series</h1>
+
+        <ul class="album-list20250720" id="albumList">
+            </ul>
+</div>
+
+<script>
+        const albums = [
+            {
+                title: 'Utamonogatari Special Edition (Original Soundtrack)',
+                artist: 'MONOGATARI Series',
+                year:  2016,
+                genre: '原聲帶',
+                tracks: 23,
+                description: '該專輯收錄了從《化物語》到《物語系列 第二季》在內的精選歌曲，共23首。專輯分為通常盤、附DVD限定盤和附BD限定盤三個版本。專輯附帶了《物語》系列人物設計渡邊明夫繪製的插畫，限定盤額外附有除《鬼物語》主題曲《white lies》之外的無字幕版片頭及片尾影像，以及詞曲作者的評論。',
+                image: 'https://i9.ytimg.com/s_p/OLAK5uy_mQKfXH3Z4o6VYocguSbcqLeEadiW8FK8Y/maxresdefault.jpg?sqp=CLjx88MGir7X7AMICPqvzb4GEAE=&rs=AOn4CLAkiZChkOBfgTMtAopsLeXtJYbaxg&v=1741903866',
+                link: 'https://www.youtube.com/playlist?list=OLAK5uy_mQKfXH3Z4o6VYocguSbcqLeEadiW8FK8Y'
+            },
+            {
+                title: 'Nekomonogatari (Kuro) Gekihanongakushu (Original Soundtrack)',
+                artist: 'MONOGATARI Series',
+                year: 2018,
+                genre: '原聲帶',
+                tracks: 26,
+                description: '',
+                image: 'https://i9.ytimg.com/s_p/OLAK5uy_nsPPuIW83i-Gdrzinp5Gt1OK6N-WzY_S0/maxresdefault.jpg?sqp=COj688MGir7X7AMICOiAyb0GEAE=&rs=AOn4CLAcU9X-X5mEoD5_Yg68d6E_B1hr7g&v=1739735144',
+                link: 'https://www.youtube.com/playlist?list=OLAK5uy_nsPPuIW83i-Gdrzinp5Gt1OK6N-WzY_S0'
+            },
+            {
+                title: 'Hanamonogatari Gekihanongakushu (Original Soundtrack)',
+                artist: 'MONOGATARI Series',
+                year: 2018,
+                genre: '原聲帶',
+                tracks: 30,
+                description: '',
+                image: 'https://i9.ytimg.com/s_p/OLAK5uy_kihPiphwnkgshMmvzWi20fIL9vq863mcE/maxresdefault.jpg?sqp=COyB9MMGir7X7AMICK7M0r0GEAE=&rs=AOn4CLB2nzTjEGAy4RiaLuGc_zTbRVX9_g&v=1739892270',
+                link: 'https://www.youtube.com/playlist?list=OLAK5uy_kihPiphwnkgshMmvzWi20fIL9vq863mcE'
+            }
+            // ...更多專輯
+        ];
+
+        const albumList = document.getElementById('albumList');
+
+        albums.forEach(album => {
+            const listItem = document.createElement('li');
+
+            listItem.innerHTML = `
+                <a href="${album.link}" target="_blank" rel="noopener noreferrer">
+                    <img src="${album.image}" alt="${album.title} 專輯封面">
+                    <div class="album-info20250720">
+                        <div class="album-title20250720">${album.title}</div>
+                        <div class="album-artist20250720">${album.artist}</div>
+                        <div class="album-meta20250720">${album.year} | ${album.genre} | ${album.tracks} 首歌</div>
+                        <div class="album-description20250720">${album.description}</div>
+                    </div>
+                </a>
+                <span class="link-icon20250720">↗</span>
+            `;
+            albumList.appendChild(listItem);
+        });
+</script>
+
+</body>
+</html>
