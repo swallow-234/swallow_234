@@ -7,13 +7,109 @@
     </head>
     <body>
         <!--標題-->
-        <h1 style="text-align: center;">《程式語言-Python-圖片轉GIF》</h1>
+        <h1 style="text-align: center;">《程式語言-Python-youtube影片下載》</h1>
 <!--內文-->
 <div class="column ZZZ" style="color:#B7B7B7">
     <p><h3>命令提示字元</h3></p><hr>
 如果您尚未安裝 yt-dlp，請打開您的命令提示字元 (Command Prompt) 或終端機 (Terminal)，然後執行以下命令：<br>
-pip install -U yt-dlp
-    <p><h3>命令提示字元</h3></p><hr>
-yt-dlp -o "路徑/檔名" "網址" 
-    </body>
+pip install -U yt-dlp<br>
+如果您尚未安裝  <a href="https://ffmpeg.org/download.html#build-windows">FFmpeg</a>，請打開您的命令提示字元 (Command Prompt) 或終端機 (Terminal)，然後執行以下命令：<br>
+ffmpeg -version<br>
+    <p><h3>python</h3></p><hr>
+<pre><code>
+import yt_dlp
+import os
+
+def download_youtube_media(url, output_filepath, format_type='mp4/mp3', quality='best'):
+    """
+    從 YouTube 下載媒體內容，可選擇下載為 MP4 影片或轉換為 MP3 音樂。
+
+    Args:
+        url (str): YouTube 影片的網址。
+        output_filepath (str): 媒體儲存的完整檔案路徑和名稱。
+                             例如 'C:\\Users\\永夜暗夜\\Downloads\\我的音樂.mp3' 或 'C:\\Users\\永夜暗夜\\Downloads\\我的影片.mp4'。
+        format_type (str): 指定輸出格式。可選 'mp4' (影片) 或 'mp3' (音訊)。
+        quality (str): 針對影片的畫質選項 ('best', '1080p', '720p' 等)。
+                       對於 MP3，此參數無效。
+    """
+    # 從完整的檔案路徑中提取目錄部分，並確保該目錄存在
+    output_dir = os.path.dirname(output_filepath)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        print(f"已建立下載資料夾：{output_dir}")
+
+    # --- 在這裡明確指定 ffmpeg 的路徑 (如果之前需要的話) ---
+    # 如果你已經成功設定了系統 PATH，可以將這一行註解掉或刪除
+    # 如果不確定，建議保留它，確保萬無一失
+    ffmpeg_executable_path = r"路徑\ffmpeg-master-latest-win64-gpl-shared\bin\ffmpeg.exe"
+    # --------------------------------------------------------
+
+    ydl_opts = {
+        'outtmpl': output_filepath,
+        'noplaylist': True,
+        'overwrites': True,
+        'ffmpeg_location': ffmpeg_executable_path, # 指定 ffmpeg 路徑
+        'postprocessors': [], # 後處理器列表
+    }
+
+    if format_type == 'mp3':
+        ydl_opts['format'] = 'bestaudio/best' # 只下載最佳音訊流
+        ydl_opts['postprocessors'].append({
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192', # MP3 品質，可選 '96', '128', '192', '256', '320'
+        })
+        # 確保輸出檔案副檔名是 .mp3
+        if not output_filepath.endswith('.mp3'):
+            output_filepath_base, _ = os.path.splitext(output_filepath)
+            ydl_opts['outtmpl'] = output_filepath_base + '.mp3'
+            print(f"將自動更正輸出檔案名稱為：{ydl_opts['outtmpl']}")
+
+    elif format_type == 'mp4':
+        ydl_opts['merge_output_format'] = 'mp4' # 合併影片和音訊為 mp4 格式
+        # 處理影片畫質選項
+        if quality == 'best':
+            ydl_opts['format'] = 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'
+        elif quality == 'worst':
+            ydl_opts['format'] = 'worstvideo[ext=mp4]+worstaudio[ext=m4a]/worst[ext=mp4]/worst'
+        else:
+            ydl_opts['format'] = f'bestvideo[height<={quality.replace("p", "")}][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'
+        # 確保輸出檔案副檔名是 .mp4
+        if not output_filepath.endswith('.mp4'):
+            output_filepath_base, _ = os.path.splitext(output_filepath)
+            ydl_opts['outtmpl'] = output_filepath_base + '.mp4'
+            print(f"將自動更正輸出檔案名稱為：{ydl_opts['outtmpl']}")
+    else:
+        print(f"不支援的格式類型：{format_type}。請選擇 'mp4' 或 'mp3'。")
+        return
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            print(f"\n嘗試下載媒體：{url}")
+            print(f"將儲存到：{ydl_opts['outtmpl']}") # 顯示最終的輸出路徑
+            info_dict = ydl.extract_info(url, download=True)
+            print(f"媒體已成功下載到：{ydl.prepare_filename(info_dict)}") # 顯示 yt-dlp 實際產生的檔名
+    except Exception as e:
+        print(f"下載媒體時發生錯誤：{e}")
+        print("請檢查網址是否正確，或媒體是否存在。")
+        print("如果錯誤訊息仍然提示 'ffmpeg is not installed'，請再次確認程式碼中 ffmpeg_executable_path 的路徑是否完全正確。")
+
+
+# --- 使用範例 ---
+
+# 請替換為你要下載的 YouTube 影片網址
+youtube_video_url = "網址" # 範例網址
+
+# --- 下載為 MP4 影片 ---
+output_mp4_file = r"路徑\檔名.mp4"
+# download_youtube_media(youtube_video_url, output_mp4_file, format_type='mp4', quality='720p')
+
+# --- 下載並轉換為 MP3 音樂 ---
+output_mp3_file = r"路徑\檔名.mp3"
+download_youtube_media(youtube_video_url, output_mp3_file, format_type='mp3')
+
+# 你也可以只提供一個基本檔名，讓程式自動補全副檔名
+# download_youtube_media(youtube_video_url, r"路徑\檔名", format_type='mp3')
+# download_youtube_media(youtube_video_url, r"路徑\檔名", format_type='mp4', quality='best')</code></pre> 
+</body>
 </html>
