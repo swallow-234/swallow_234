@@ -203,8 +203,8 @@ table, tr, td{
             text-decoration: underline;
         }
         .album-list20250720 img {
-            width: 100px; /* 專輯圖片大小 */
-            height: 100px;
+            width: 300px; /* 專輯圖片大小 */
+            height: 300px;
             object-fit: cover;
             border-radius: 4px;
             flex-shrink: 0;
