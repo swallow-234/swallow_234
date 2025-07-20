@@ -33,7 +33,7 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li>醫學</li>\
         <li>健身|養身|武術</li>\
         <li>樂理知識</li>\
-        <li>音樂收藏</li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E9%9F%B3%E6%A8%82%E6%94%B6%E8%97%8F.html">音樂收藏</a></li>\
         <li>舞蹈</li>\
         <li>科學</li>\
         <li>科技</li>\
