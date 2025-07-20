@@ -20,7 +20,7 @@ ffmpeg -version<br>
 import yt_dlp
 import os
 
-def download_youtube_media(url, output_filepath, format_type='mp4/mp3', quality='best'):
+def download_youtube_media(url, output_filepath, format_type='mp4', quality='best'):
     """
     從 YouTube 下載媒體內容，可選擇下載為 MP4 影片或轉換為 MP3 音樂。
 
@@ -106,7 +106,7 @@ output_mp4_file = r"路徑\檔名.mp4"
 
 # --- 下載並轉換為 MP3 音樂 ---
 output_mp3_file = r"路徑\檔名.mp3"
-download_youtube_media(youtube_video_url, output_mp3_file, format_type='mp3')
+download_youtube_media(youtube_video_url, output_mp3_file, format_type='mp3/mp4')
 
 # 你也可以只提供一個基本檔名，讓程式自動補全副檔名
 # download_youtube_media(youtube_video_url, r"路徑\檔名", format_type='mp3')
