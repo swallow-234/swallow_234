@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-命令提示字元-影片下載》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>命令提示字元</h3></p><hr>
+如果您尚未安裝 yt-dlp，請打開您的命令提示字元 (Command Prompt) 或終端機 (Terminal)，然後執行以下命令：<br>
+pip install -U yt-dlp
+    <p><h3>命令提示字元</h3></p><hr>
+<pre><code>
+===基本語法1===
+yt-dlp "下載網址"
+-o "你的/目標/路徑/"
+#小提示： 在 Windows 上，路徑中的斜線 (/) 和反斜線 (\) 通常都可以使用，但為了避免混淆，使用正斜線 (/) 在命令列工具中更為常見。
+yt-dlp 的模板語法：%(title)s.%(ext)s
+%(title)s 會自動替換為影片的標題。
+%(ext)s 會自動替換為影片的副檔名（例如：.mp4）。
+
+範例：
+yt-dlp -o "你的/目標/路徑/%(title)s.%(ext)s" "下載網址"
+
+
+
+===基本語法2===
+--legacy-server-connect #伺服器使用了某些舊版或不安全的協定，而您的 yt-dlp 或底層的 Python 環境為了安全考量拒絕了這種連線。
+--no-check-certificates #yt-dlp 提供了一個參數來禁用 SSL 憑證的驗證。請注意：禁用憑證驗證會降低安全性，因為它讓您無法確認您正在連接的伺服器是否是真正的目標伺服器，潛在增加了中間人攻擊的風險。
+--socket-timeout 60 #它允許您設定連線超時的秒數。預設值通常是 10-30 秒，我們可以試著把它調高。
+
+範例：
+yt-dlp --no-check-certificates --legacy-server-connect --socket-timeout 60 -o "路徑\%(title)s.%(ext)s" "網址"
+
+
+
+===進階操作===
+1.開啟 iVod 影片頁面：在您的網頁瀏覽器（推薦 Chrome、Edge 或 Firefox）中打開連結
+2.開啟開發者工具：
+-Chrome / Edge：按下 F12 鍵，或者右鍵點擊頁面空白處，選擇「檢查 (Inspect)」。
+-Firefox：按下 F12 鍵，或者右鍵點擊頁面空白處，選擇「檢查元素 (Inspect Element)」。
+3.切換到「網路 (Network)」標籤頁：在開發者工具的視窗中，找到並點擊 「Network (網路)」 標籤。
+4.開始錄製網路活動並播放影片：
+-在「網路」標籤頁中，確認左上角有一個圓形的錄製按鈕（通常是紅色的，如果不是紅色，點擊它開始錄製網路活動）。
+-然後，回到影片頁面，點擊影片的播放按鈕，讓影片開始播放；或重新整理後播放。
+5.篩選並尋找影片串流：當影片播放時，您會在「網路」標籤頁中看到大量請求。為了找到影片檔案，您可以
+-在搜尋或過濾框中輸入關鍵字，例如：.mp4、.m3u8、.ts、media、vod。
+-觀察「類型 (Type)」欄位，尋找 media、XHR 或 video 類型。
+-觀察「大小 (Size)」欄位，通常影片檔案會比較大。
+#特別注意 m3u8 檔案： iVod 系統很有可能使用 HLS (HTTP Live Streaming) 技術，這種技術會將一個長影片分割成許多小的 .ts (Transport Stream) 片段，並用一個 .m3u8 檔案來作為這些片段的播放列表或索引。這表示您會看到一個副檔名為 .m3u8 的檔案。這個檔案是影片片段的播放列表。如果找到 .m3u8 檔案，它就是您要找的目標。
+
+範例：
+yt-dlp --no-check-certificates --legacy-server-connect --socket-timeout 60 -o "路徑\%(title)s.%(ext)s" "網址"
+</code></pre>
+    </body>
+</html>
