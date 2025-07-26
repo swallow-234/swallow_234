@@ -10,6 +10,14 @@
         <h1 style="text-align: center;">《程式語言-Python-自訂義辭典》</h1>
 <!--內文-->
 <div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>補充</h3></p><hr>
+   <pre><code>Apply specified colors based on different patterns:
+        [text] = #E69138 (Orange)
+        (text) = #8E7CC3 (Purple)
+        ＜text＞ = #CC0000 (Red)
+        {text} = #B7B7B7 (Light Gray)
+        "text" = #76A5AF (Teal)
+    </code></pre> 
     <p><h3>Python</h3></p><hr>
 <pre><code>
 import tkinter as tk
@@ -25,34 +33,42 @@ BLOCK_END_DELIMITER = "--- BLOCK END ---"
 class TranslatorApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("區塊編輯器") # 更改標題以反映功能變化
+        self.root.title("區塊編輯器")
         self.root.geometry("800x650")
 
         self.full_document_content = ""
         self.current_file_path = None
         self.current_block_index = -1
         self.blocks = []
-        self.search_results_indices = [] # New: To store indices of search results
-        self.current_search_result_index = -1 # New: To track current position in search results
+        self.search_results_indices = []
+        self.current_search_result_index = -1
 
         self._create_widgets()
         self._setup_menu()
+        
+        # Configure the "search" tag for highlighting search results
+        self.text_output.tag_config("search", background="yellow", foreground="blue")
+        
+        # Bind the <KeyRelease> event to trigger text changes and reapply colors
+        self.text_output.bind("<KeyRelease>", self._on_text_change)
+        # Apply initial colors if any content is present
+        self._apply_text_colors() 
 
     def _create_widgets(self):
         main_frame = ttk.Frame(self.root, padding="20")
         main_frame.pack(fill=tk.BOTH, expand=True)
 
-        input_frame = ttk.LabelFrame(main_frame, text="請輸入字串以搜尋", padding="10") # Changed prompt text
+        input_frame = ttk.LabelFrame(main_frame, text="請輸入字串以搜尋", padding="10")
         input_frame.pack(fill=tk.X, pady=10)
 
         self.entry_input = ttk.Entry(input_frame, width=50, font=('Arial', 12))
         self.entry_input.pack(side=tk.LEFT, padx=(0, 10), fill=tk.X, expand=True)
-        self.entry_input.bind("<Return>", lambda event: self.search_all_blocks_and_list()) # Changed call function
+        self.entry_input.bind("<Return>", lambda event: self.search_all_blocks_and_list())
 
-        btn_action = ttk.Button(input_frame, text="搜尋所有區塊", command=self.search_all_blocks_and_list) # Changed button text
-        btn_action.pack(side=tk.LEFT, padx=(0, 5)) # Added padx
+        btn_action = ttk.Button(input_frame, text="搜尋所有區塊", command=self.search_all_blocks_and_list)
+        btn_action.pack(side=tk.LEFT, padx=(0, 5))
         
-        btn_clear_search = ttk.Button(input_frame, text="清除搜尋結果", command=self.clear_search_results) # New: Clear search button
+        btn_clear_search = ttk.Button(input_frame, text="清除搜尋結果", command=self.clear_search_results)
         btn_clear_search.pack(side=tk.RIGHT)
 
         output_frame = ttk.LabelFrame(main_frame, text="當前編輯區塊 (請先載入檔案或建立新檔案)", padding="10")
@@ -77,7 +93,6 @@ class TranslatorApp:
         self.btn_next_block = ttk.Button(nav_frame, text="下一個區塊", command=self.show_next_block, state=tk.DISABLED)
         self.btn_next_block.pack(side=tk.RIGHT, expand=True)
         
-        # New: Navigation for search results
         self.btn_prev_search_result = ttk.Button(nav_frame, text="上一個搜尋結果", command=self.show_prev_search_result, state=tk.DISABLED)
         self.btn_prev_search_result.pack(side=tk.LEFT, expand=True, padx=(5,0))
         
@@ -96,7 +111,7 @@ class TranslatorApp:
 
         btn_save = ttk.Button(button_frame, text="儲存區塊修改到檔案", command=self.save_block_to_file)
         btn_save.pack(side=tk.LEFT, expand=True, padx=(5, 5))
-
+        
         btn_save_as_full = ttk.Button(button_frame, text="另存完整檔案...", command=self.save_full_file_as)
         btn_save_as_full.pack(side=tk.RIGHT, expand=True, padx=(5, 0))
 
@@ -111,11 +126,102 @@ class TranslatorApp:
         menubar.add_cascade(label="檔案", menu=file_menu)
         file_menu.add_command(label="新檔案", command=self.new_file)
         file_menu.add_command(label="開啟舊檔...", command=self.open_file)
-        file_menu.add_command(label="新增區塊", command=self.new_block) # Added New Block option
+        file_menu.add_command(label="新增區塊", command=self.new_block)
         file_menu.add_command(label="儲存完整檔案", command=self.save_full_file)
         file_menu.add_command(label="另存完整檔案...", command=self.save_full_file_as)
         file_menu.add_separator()
         file_menu.add_command(label="結束", command=self.root.quit)
+
+    def _on_text_change(self, event=None):
+        """
+        Callback for text changes. This updates the internal block content
+        and re-applies the text colors.
+        """
+        self._apply_text_colors()
+
+        # Update the block content if it's currently selected
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            # Only update if the content actually changed to avoid unnecessary saves
+            current_display_content = self.text_output.get("1.0", tk.END).strip()
+            if self.blocks[self.current_block_index] != current_display_content:
+                self.blocks[self.current_block_index] = current_display_content
+
+
+    def _clear_all_custom_tags(self):
+        """
+        Clears all custom tags (color tags and search highlight tags) 
+        from the Text widget.
+        """
+        # Get all tag names currently applied
+        all_tags = self.text_output.tag_names()
+        
+        # Define the tags we manage and want to clear
+        tags_to_clear = ["colored_text_orange", "colored_text_purple", 
+                         "colored_text_red", "colored_text_light_gray", 
+                         "colored_text_teal", "search"]
+        
+        for tag in tags_to_clear:
+            if tag in all_tags:
+                self.text_output.tag_remove(tag, "1.0", tk.END)
+
+        # Re-apply default config for search tag in case it was modified
+        self.text_output.tag_config("search", background="yellow", foreground="blue")
+
+
+    def _apply_text_colors(self):
+        """
+        Apply specified colors based on different patterns:
+        [text] = #E69138 (Orange)
+        (text) = #8E7CC3 (Purple)
+        <text> = #CC0000 (Red)
+        {text} = #B7B7B7 (Light Gray)
+        "text" = #76A5AF (Teal)
+        """
+        # Save current cursor position and scroll position to restore later
+        insert_position = self.text_output.index(tk.INSERT)
+        first_line_on_screen, _ = self.text_output.yview()
+        
+        # Temporarily unbind <KeyRelease> to prevent re-triggering during content manipulation
+        self.text_output.unbind("<KeyRelease>") 
+
+        self._clear_all_custom_tags() # Clear all previous tags
+
+        current_content = self.text_output.get("1.0", tk.END)
+
+        # Patterns and their corresponding tags/colors
+        color_patterns = [
+            (re.compile(r'\[(.*?)\]'), "colored_text_orange", "#E69138"),  # Orange
+            (re.compile(r'\((.*?)\)'), "colored_text_purple", "#8E7CC3"),  # Purple
+            (re.compile(r'\<(.*?)\>'), "colored_text_red", "#CC0000"),     # Red
+            (re.compile(r'\{(.*?)\}'), "colored_text_light_gray", "#B7B7B7"), # Light Gray
+            (re.compile(r'\'(.*?)\''), "colored_text_teal", "#76A5AF"),    # Teal
+        ]
+        
+        for pattern, tag_name, color_code in color_patterns:
+            for match in pattern.finditer(current_content):
+                # The part we want to color is the content inside the delimiters (group 1)
+                start_index_in_match = match.start(1) 
+                end_index_in_match = match.end(1)     
+
+                # Convert character indices to Tkinter Text widget indices
+                tk_start_index = self.text_output.index(f"1.0 + {start_index_in_match}c")
+                tk_end_index = self.text_output.index(f"1.0 + {end_index_in_match}c")
+                
+                self.text_output.tag_add(tag_name, tk_start_index, tk_end_index)
+                self.text_output.tag_config(tag_name, foreground=color_code)
+
+        # Re-bind <KeyRelease> after all manipulations are done
+        self.text_output.bind("<KeyRelease>", self._on_text_change) 
+
+        # Restore cursor position and scroll
+        try:
+            self.text_output.mark_set(tk.INSERT, insert_position)
+            self.text_output.yview_moveto(first_line_on_screen)
+        except tk.TclError:
+            # If the original position is no longer valid (e.g., text deleted), go to start
+            self.text_output.mark_set(tk.INSERT, "1.0")
+            self.text_output.yview_moveto(0)
+
 
     def _update_nav_buttons(self):
         if not self.blocks:
@@ -138,7 +244,6 @@ class TranslatorApp:
             self.btn_prev_block.config(state=tk.NORMAL if self.current_block_index > 0 else tk.DISABLED)
             self.btn_next_block.config(state=tk.NORMAL if self.current_block_index < total_blocks - 1 else tk.DISABLED)
             
-        # Update search result navigation buttons
         if not self.search_results_indices:
             self.btn_prev_search_result.config(state=tk.DISABLED)
             self.btn_next_search_result.config(state=tk.DISABLED)
@@ -152,7 +257,6 @@ class TranslatorApp:
 
     def _parse_blocks(self, content):
         pattern = re.compile(f"{re.escape(BLOCK_START_DELIMITER)}\n(.*?)?\n{re.escape(BLOCK_END_DELIMITER)}", re.DOTALL)
-
         matches = pattern.findall(content)
         parsed_blocks = []
         for match in matches:
@@ -161,14 +265,18 @@ class TranslatorApp:
         return parsed_blocks
 
     def _show_block(self, index):
-        if 0 <= index < len(self.blocks):
-            if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
-                # Save current block's content before switching
-                self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            # Save current block's content before switching
+            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
 
+        if 0 <= index < len(self.blocks):
             self.current_block_index = index
             self.text_output.delete("1.0", tk.END)
             self.text_output.insert(tk.END, self.blocks[self.current_block_index])
+            
+            # Apply color tags after content is inserted
+            self._apply_text_colors() 
+
             self.text_output.see(tk.END)
             self._update_nav_buttons()
             self.status_bar.config(text=f"顯示區塊 {index + 1}/{len(self.blocks)}")
@@ -177,42 +285,55 @@ class TranslatorApp:
             self.block_status_label.config(text="無區塊選中")
             self.text_output.delete("1.0", tk.END)
             self.current_block_index = -1
-            self.clear_search_results() # Clear search results if no valid block is shown
+            self.clear_search_results()
+
 
     def show_prev_block(self):
         if self.current_block_index > 0:
-            self.clear_search_results() # Clear search results when navigating blocks directly
+            self.clear_search_results()
             self._show_block(self.current_block_index - 1)
 
     def show_next_block(self):
         if self.current_block_index < len(self.blocks) - 1:
-            self.clear_search_results() # Clear search results when navigating blocks directly
+            self.clear_search_results()
             self._show_block(self.current_block_index + 1)
             
     def show_prev_search_result(self):
-        if self.current_search_result_index > 0:
-            self.current_search_result_index -= 1
+        if self.search_results_indices:
+            if self.current_search_result_index > 0:
+                self.current_search_result_index -= 1
+            else:
+                self.current_search_result_index = len(self.search_results_indices) - 1
+            
             block_index_to_show = self.search_results_indices[self.current_search_result_index]
             self._show_block(block_index_to_show)
             self.status_bar.config(text=f"顯示搜尋結果 {self.current_search_result_index + 1}/{len(self.search_results_indices)}")
-            # Highlight the search term
             self._highlight_search_term_in_current_block(self.entry_input.get())
+
 
     def show_next_search_result(self):
-        if self.current_search_result_index < len(self.search_results_indices) - 1:
-            self.current_search_result_index += 1
+        if self.search_results_indices:
+            if self.current_search_result_index < len(self.search_results_indices) - 1:
+                self.current_search_result_index += 1
+            else:
+                self.current_search_result_index = 0
+            
             block_index_to_show = self.search_results_indices[self.current_search_result_index]
             self._show_block(block_index_to_show)
             self.status_bar.config(text=f"顯示搜尋結果 {self.current_search_result_index + 1}/{len(self.search_results_indices)}")
-            # Highlight the search term
             self._highlight_search_term_in_current_block(self.entry_input.get())
 
 
-    def search_all_blocks_and_list(self): # New function to search all blocks and list them
+    def search_all_blocks_and_list(self):
         input_text = self.entry_input.get().strip()
         if not input_text:
             messagebox.showwarning("輸入錯誤", "請輸入一些文字進行搜尋！")
             return
+
+        # Ensure the current block's content is up-to-date in the self.blocks list
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+
 
         self.search_results_indices = []
         for i, block_content in enumerate(self.blocks):
@@ -238,9 +359,11 @@ class TranslatorApp:
         
     def _highlight_search_term_in_current_block(self, search_term):
         self.text_output.tag_remove("search", "1.0", tk.END) # Remove previous highlights
+        
         if search_term:
             start_pos = "1.0"
             while True:
+                # search for the term, case-insensitive
                 start_pos = self.text_output.search(search_term, start_pos, stopindex=tk.END, nocase=True)
                 if not start_pos:
                     break
@@ -267,26 +390,12 @@ class TranslatorApp:
             messagebox.showwarning("沒有內容", "沒有內容可以複製。")
 
     def _get_cleaned_block_content_from_text_output(self):
-        """Helper to extract actual block content by stripping any added headers."""
-        current_display_content = self.text_output.get("1.0", tk.END).strip()
-        lines = current_display_content.splitlines()
+        """
+        Helper to extract actual block content from the Text widget.
+        No special parsing is needed here as the display format is the same as storage format.
+        """
+        return self.text_output.get("1.0", tk.END).strip()
 
-        block_content_start_index = -1
-        for i, line in enumerate(lines):
-            # Find the first line that is NOT a header or separator
-            # 現在只檢查 "--- 搜尋字串" 和 "----"
-            if not line.startswith("--- 搜尋字串") and \
-               not line.startswith("--- 原始輸入") and \
-               not line.startswith("--- 無匹配區塊時的翻譯結果") and \
-               not line.startswith("----") and \
-               line.strip() != "":
-                block_content_start_index = i
-                break
-
-        if block_content_start_index != -1:
-            return "\n".join(lines[block_content_start_index:]).strip()
-        else:
-            return ""
 
     def new_file(self):
         if messagebox.askyesno("新檔案", "您確定要建立新檔案嗎？未儲存的內容將會遺失。"):
@@ -295,11 +404,12 @@ class TranslatorApp:
             self.current_file_path = None
             self.blocks = []
             self.current_block_index = -1
-            self.root.title("區塊編輯器 - 無標題") # 更改標題
+            self.root.title("區塊編輯器 - 無標題")
             self.status_bar.config(text="就緒。")
             self._update_nav_buttons()
-            self.text_output.insert(tk.END, f"您已建立新檔案。若要新增區塊，請依以下格式輸入：\n\n{BLOCK_START_DELIMITER}\n\n您的區塊內容\n\n{BLOCK_END_DELIMITER}\n")
+            self.text_output.insert(tk.END, f"您已建立新檔案。若要新增區塊，請依以下格式輸入：\n\n{BLOCK_START_DELIMITER}\n\n您的區塊內容\n例如：這是一段[橘色文字]，一段(紫色文字)，一段<紅色文字>，一段{{淺灰色文字}}，和一段\"藍綠色文字\"。\n\n{BLOCK_END_DELIMITER}\n")
             self.clear_search_results()
+            self._apply_text_colors() # Apply colors for the new file template
 
     def new_block(self):
         """Adds a new, empty block to the blocks list and displays it."""
@@ -311,10 +421,11 @@ class TranslatorApp:
         self.current_block_index = len(self.blocks) - 1
         self._show_block(self.current_block_index)
         self.status_bar.config(text=f"已新增一個新區塊 (區塊 {self.current_block_index + 1})。")
-        self.text_output.delete("1.0", tk.END)
-        self.text_output.insert(tk.END, "")
+        self.text_output.delete("1.0", tk.END) # Clear content of the displayed Text widget
+        self.text_output.insert(tk.END, "") # Insert empty content
         self.text_output.see(tk.END)
         self.clear_search_results()
+        self._apply_text_colors() # Apply colors (will be none for empty block)
 
 
     def open_file(self):
@@ -329,20 +440,25 @@ class TranslatorApp:
 
                 self.blocks = self._parse_blocks(self.full_document_content)
 
+                self.text_output.delete("1.0", tk.END) # Clear content first
+
                 if self.blocks:
-                    self._show_block(0)
-                    self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]}") # 更改標題
+                    self._show_block(0) # _show_block will handle inserting content and applying tags
+                    self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]}")
                     self.status_bar.config(text=f"已開啟：{file_path} (共 {len(self.blocks)} 個區塊)")
                     self.current_file_path = file_path
                 else:
-                    self.text_output.delete("1.0", tk.END)
-                    self.text_output.insert(tk.END, self.full_document_content)
+                    # If no blocks detected, insert full content and then apply tags
+                    self.text_output.insert(tk.END, self.full_document_content) 
                     self.current_file_path = file_path
-                    self.blocks = []
+                    self.blocks = [] # Ensure blocks list is cleared if no blocks found
                     self.current_block_index = -1
-                    self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]} (無區塊偵測)") # 更改標題
+                    self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]} (無區塊偵測)")
                     self.status_bar.config(text=f"已開啟：{file_path} (未偵測到區塊，顯示完整內容)")
                     messagebox.showinfo("提示", f"檔案 '{file_path.split('/')[-1]}' 未偵測到區塊標記。\n請確保區塊格式為：\n\n{BLOCK_START_DELIMITER}\n您的內容\n{BLOCK_END_DELIMITER}")
+                    # Crucially, apply colors even if no blocks were found, 
+                    # as the full content might still contain them.
+                    self._apply_text_colors() 
 
                 self._update_nav_buttons()
                 self.clear_search_results()
@@ -354,60 +470,74 @@ class TranslatorApp:
     def save_block_to_file(self):
         if self.current_file_path is None:
             messagebox.showwarning("無法儲存", "請先開啟或另存一個檔案。")
-            self.save_full_file_as()
+            self.save_full_file_as() # Offer to save as new file
             return
 
-        if self.current_block_index == -1 or not self.blocks:
-            messagebox.showwarning("無法儲存", "目前沒有選中的區塊可供儲存。")
+        if self.current_block_index == -1 and not self.blocks:
+            messagebox.showwarning("無法儲存", "目前沒有內容可供儲存。")
             return
-
-        self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+        
+        # If a block is selected, update its content from the Text widget
+        if self.current_block_index != -1:
+            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+        else:
+            # If no block is selected, take the full content from the text_output
+            self.full_document_content = self._get_cleaned_block_content_from_text_output()
 
         new_full_content = ""
-        for i, block_content in enumerate(self.blocks):
-            new_full_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
-            if i < len(self.blocks) - 1:
-                new_full_content += "\n"
+        if self.blocks: # If blocks exist, reconstruct from blocks
+            for i, block_content in enumerate(self.blocks):
+                new_full_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
+                if i < len(self.blocks) - 1:
+                    new_full_content += "\n"
+        else: # If no blocks, use the full document content (might be from an unblocked file)
+            new_full_content = self.full_document_content
 
         try:
             with open(self.current_file_path, "w", encoding="utf-8") as file:
                 file.write(new_full_content.strip())
             messagebox.showinfo("儲存成功", f"當前區塊的修改已儲存到：\n{self.current_file_path}")
             self.status_bar.config(text=f"區塊修改已儲存：{self.current_file_path.split('/')[-1]}")
-            self.full_document_content = new_full_content.strip()
+            self.full_document_content = new_full_content.strip() # Update full document content in memory
         except Exception as e:
             messagebox.showerror("儲存失敗", f"儲存檔案時發生錯誤：\n{e}")
 
     def save_full_file(self):
         if self.current_file_path:
+            # Ensure the current Text widget content is saved back to the block list or full content
             if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
                 self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+            else:
+                self.full_document_content = self._get_cleaned_block_content_from_text_output()
 
-                self.full_document_content = ""
+            self.full_document_content = ""
+            if self.blocks:
                 for i, block_content in enumerate(self.blocks):
                     self.full_document_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
                     if i < len(self.blocks) - 1:
                         self.full_document_content += "\n"
-            else:
-                self.full_document_content = self.text_output.get("1.0", tk.END).strip()
+            else: # If there are no blocks defined, save the raw content from the Text widget
+                self.full_document_content = self._get_cleaned_block_content_from_text_output()
 
-            self._write_full_content_to_file(self.current_file_path)
+            self._write_full_content_to_file(self.current_file_path, self.full_document_content)
         else:
             self.save_full_file_as()
 
     def save_full_file_as(self):
+        # Ensure the current Text widget content is saved back to the block list or full content
         if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
-            content_to_save = self._get_cleaned_block_content_from_text_output()
-            self.blocks[self.current_block_index] = content_to_save
-
-            temp_full_content = ""
+            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+        
+        temp_full_content = ""
+        if self.blocks:
             for i, block_content in enumerate(self.blocks):
                 temp_full_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
                 if i < len(self.blocks) - 1:
                     temp_full_content += "\n"
             content_to_save = temp_full_content.strip()
-        else:
-            content_to_save = self.text_output.get("1.0", tk.END).strip()
+        else: # If no blocks, save the raw content from the Text widget
+            content_to_save = self._get_cleaned_block_content_from_text_output()
+
 
         if not content_to_save:
             messagebox.showwarning("沒有內容", "沒有內容可以儲存。")
@@ -421,10 +551,12 @@ class TranslatorApp:
         if file_path:
             self.current_file_path = file_path
             self._write_full_content_to_file(file_path, content_to_save)
-            self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]}") # 更改標題
+            self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]}")
             self.status_bar.config(text=f"完整檔案已儲存：{file_path}")
 
+            # Re-parse blocks from the saved content to update the internal state
             self.blocks = self._parse_blocks(content_to_save)
+            # If blocks were just created by saving, show the first one
             if self.blocks and self.current_block_index == -1:
                 self._show_block(0)
             self._update_nav_buttons()
