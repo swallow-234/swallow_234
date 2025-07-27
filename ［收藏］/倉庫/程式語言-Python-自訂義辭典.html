@@ -42,6 +42,10 @@ class TranslatorApp:
         self.blocks = []
         self.search_results_indices = []
         self.current_search_result_index = -1
+        
+        # --- Drag and Drop variables for TOC ---
+        self._drag_data = {"item_index": -1, "original_y": 0} # Modified to store just the index
+        # --- End Drag and Drop variables ---
 
         self._create_widgets()
         self._setup_menu()
@@ -70,6 +74,12 @@ class TranslatorApp:
                                       selectmode=tk.SINGLE, exportselection=False)
         self.toc_listbox.pack(fill=tk.BOTH, expand=True)
         self.toc_listbox.bind("<<ListboxSelect>>", self._on_toc_select)
+        
+        # --- Bind Drag and Drop events for Listbox ---
+        self.toc_listbox.bind("<Button-1>", self._on_drag_start) # Left mouse button click
+        self.toc_listbox.bind("<B1-Motion>", self._on_drag_motion) # Mouse motion while left button is pressed
+        self.toc_listbox.bind("<ButtonRelease-1>", self._on_drag_end) # Left mouse button release
+        # --- End Drag and Drop events ---
 
         toc_scrollbar = ttk.Scrollbar(self.toc_listbox, command=self.toc_listbox.yview)
         toc_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -98,13 +108,21 @@ class TranslatorApp:
 
         output_frame = ttk.LabelFrame(main_frame, text="當前編輯區塊 (請先載入檔案或建立新檔案)", padding="10")
         output_frame.pack(fill=tk.BOTH, expand=True, pady=10)
+        
+        # --- IMPORTANT CHANGE START ---
+        # Create a frame to hold the Text widget and its scrollbar,
+        # so they can be laid out correctly together.
+        text_scroll_frame = ttk.Frame(output_frame)
+        text_scroll_frame.pack(fill=tk.BOTH, expand=True)
 
-        self.text_output = tk.Text(output_frame, wrap=tk.WORD, height=18, font=('Arial', 11), bg="#ffffff", bd=1, relief="solid")
-        self.text_output.pack(fill=tk.BOTH, expand=True)
-
-        scrollbar = ttk.Scrollbar(self.text_output, command=self.text_output.yview)
+        self.text_output = tk.Text(text_scroll_frame, wrap=tk.WORD, height=18, font=('Arial', 11), bg="#ffffff", bd=1, relief="solid")
+        # Pack the scrollbar FIRST, then the text widget next to it
+        scrollbar = ttk.Scrollbar(text_scroll_frame, command=self.text_output.yview)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.text_output.pack(side=tk.LEFT, fill=tk.BOTH, expand=True) # Text widget expands and fills remaining space
         self.text_output.config(yscrollcommand=scrollbar.set)
+        # --- IMPORTANT CHANGE END ---
+
 
         nav_frame = ttk.Frame(main_frame, padding="5")
         nav_frame.pack(fill=tk.X, pady=(0, 10))
@@ -285,10 +303,14 @@ class TranslatorApp:
 
     def _update_toc(self):
         """Populates the Table of Contents Listbox with the first line of each block."""
+        # Save current block's content before refreshing TOC if a block is selected
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+
         self.toc_listbox.delete(0, tk.END)
         for i, block_content in enumerate(self.blocks):
             first_line = self._get_first_line(block_content)
-            self.toc_listbox.insert(tk.END, f"{i+1}: {first_line}")
+            self.toc_listbox.insert(tk.END, f"區塊 {i+1}: {first_line}") # Changed format to "區塊 N: "
         
         # Select the current block in the TOC
         if 0 <= self.current_block_index < len(self.blocks):
@@ -318,6 +340,83 @@ class TranslatorApp:
             if index != self.current_block_index: # Only show if different block selected
                 self.clear_search_results()
                 self._show_block(index)
+
+    # --- Drag and Drop Methods ---
+    def _on_drag_start(self, event):
+        """Initiates a drag operation."""
+        # Get the index of the item clicked
+        index = self.toc_listbox.nearest(event.y)
+        if 0 <= index < self.toc_listbox.size():
+            self._drag_data["item_index"] = index
+            self._drag_data["original_y"] = event.y
+            # Visually indicate the item being dragged (optional, but good UX)
+            self.toc_listbox.itemconfig(index, background='lightblue')
+            self.status_bar.config(text=f"開始拖曳區塊 {index+1}")
+
+    def _on_drag_motion(self, event):
+        """Handles item movement during a drag."""
+        if self._drag_data["item_index"] != -1:
+            current_y = event.y
+            original_index = self._drag_data["item_index"]
+            
+            # Determine the new index based on the current mouse position
+            target_index = self.toc_listbox.nearest(current_y)
+
+            # Ensure target_index is within valid bounds
+            if not (0 <= target_index < len(self.blocks)):
+                return # Don't do anything if outside valid range
+
+            if target_index != original_index:
+                # Save current block content before reordering
+                if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+                    self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+
+                # Perform the reordering in the actual blocks list
+                block_to_move = self.blocks.pop(original_index)
+                self.blocks.insert(target_index, block_to_move)
+
+                # Update the current_block_index if the moved block was the active one
+                # or if blocks shifted around the active one
+                if self.current_block_index == original_index:
+                    self.current_block_index = target_index
+                elif original_index < self.current_block_index <= target_index:
+                    self.current_block_index -= 1
+                elif target_index <= self.current_block_index < original_index:
+                    self.current_block_index += 1
+                
+                # Update the drag data with the new position of the dragged item
+                self._drag_data["item_index"] = target_index
+
+                # Update the Listbox display immediately
+                self._update_toc() # This will also re-select the correct block
+                # After updating TOC, the visual highlight might be lost, reapply
+                self.toc_listbox.itemconfig(target_index, background='lightblue')
+
+
+    def _on_drag_end(self, event):
+        """Ends a drag operation."""
+        if self._drag_data["item_index"] != -1:
+            # Reset visual indication for the final position of the item
+            final_index = self._drag_data["item_index"]
+            if 0 <= final_index < self.toc_listbox.size():
+                self.toc_listbox.itemconfig(final_index, background='white') # Or default background
+            
+            # Reset drag data
+            self._drag_data = {"item_index": -1, "original_y": 0}
+            self.status_bar.config(text="拖曳結束。區塊順序已更新。")
+            
+            # After reordering, if the active block changed its position,
+            # make sure the text_output shows the correct content.
+            if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+                self._show_block(self.current_block_index)
+            else:
+                self.text_output.delete("1.0", tk.END) # Clear if no blocks are selected/valid
+                self.block_status_label.config(text="無區塊選中")
+            self._update_nav_buttons()
+
+
+    # --- End Drag and Drop Methods ---
+
 
     def _parse_blocks(self, content):
         pattern = re.compile(f"{re.escape(BLOCK_START_DELIMITER)}\n(.*?)?\n{re.escape(BLOCK_END_DELIMITER)}", re.DOTALL)
