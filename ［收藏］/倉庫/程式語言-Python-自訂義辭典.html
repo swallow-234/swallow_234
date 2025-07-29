@@ -42,6 +42,7 @@ class TranslatorApp:
         self.blocks = []
         self.search_results_indices = []
         self.current_search_result_index = -1
+        self.pinned_block_indices = [] # Changed: To store indices of multiple pinned blocks
         
         # --- Drag and Drop variables for TOC ---
         self._drag_data = {"item_index": -1, "original_y": 0} # Modified to store just the index
@@ -50,13 +51,14 @@ class TranslatorApp:
         self._create_widgets()
         self._setup_menu()
         
-        # Configure the "search" tag for highlighting search results
+        # Configure the "search" tag for highlighting search results for the Text widget
         self.text_output.tag_config("search", background="yellow", foreground="blue")
+        # Listbox does not have tag_configure, handled directly in _update_toc/itemconfig
         
         # Bind the <KeyRelease> event to trigger text changes and reapply colors
         self.text_output.bind("<KeyRelease>", self._on_text_change)
         # Apply initial colors if any content is present
-        self._apply_text_colors() 
+        self._apply_text_colors()    
 
     def _create_widgets(self):
         # Use a PanedWindow to allow resizing between sidebar and main content
@@ -70,7 +72,23 @@ class TranslatorApp:
         toc_label = ttk.Label(sidebar_frame, text="《目錄》", font=('Arial', 12, 'bold'))
         toc_label.pack(pady=(0, 5))
 
-        self.toc_listbox = tk.Listbox(sidebar_frame, height=25, font=('Arial', 10),
+        # Create a frame for TOC buttons and listbox
+        toc_content_frame = ttk.Frame(sidebar_frame)
+        toc_content_frame.pack(fill=tk.BOTH, expand=True)
+
+        # Sort options menu
+        self.sort_options_menu = tk.Menu(toc_content_frame, tearoff=0)
+        self.sort_options_menu.add_command(label="依據名稱 A-Z", command=lambda: self._sort_blocks_by_name_asc())
+        self.sort_options_menu.add_command(label="依據名稱 Z-A", command=lambda: self._sort_blocks_by_name_desc())
+        self.sort_button = ttk.Menubutton(toc_content_frame, text="排序", menu=self.sort_options_menu, direction="below")
+        self.sort_button.pack(pady=(0, 5), fill=tk.X)
+
+        # Pin button
+        self.pin_button = ttk.Button(toc_content_frame, text="置頂/取消置頂", command=self._toggle_pin_block)
+        self.pin_button.pack(pady=(0, 5), fill=tk.X)
+
+
+        self.toc_listbox = tk.Listbox(toc_content_frame, height=25, font=('Arial', 10),
                                       selectmode=tk.SINGLE, exportselection=False)
         self.toc_listbox.pack(fill=tk.BOTH, expand=True)
         self.toc_listbox.bind("<<ListboxSelect>>", self._on_toc_select)
@@ -223,7 +241,7 @@ class TranslatorApp:
         insert_position = self.text_output.index(tk.INSERT)
         first_line_on_screen, _ = self.text_output.yview()
         
-        self.text_output.unbind("<KeyRelease>") 
+        self.text_output.unbind("<KeyRelease>")    
 
         self._clear_all_custom_tags() # Clear all previous tags
 
@@ -232,7 +250,7 @@ class TranslatorApp:
         color_patterns = [
             (re.compile(r'\[(.*?)\]'), "colored_text_orange", "#E69138"),  # Orange
             (re.compile(r'\((.*?)\)'), "colored_text_purple", "#8E7CC3"),  # Purple
-            (re.compile(r'\<(.*?)\>'), "colored_text_red", "#CC0000"),     # Red
+            (re.compile(r'\<(.*?)\>'), "colored_text_red", "#CC0000"),    # Red
             (re.compile(r'\{(.*?)\}'), "colored_text_light_gray", "#B7B7B7"), # Light Gray
             (re.compile(r'\"(.*?)\"'), "colored_text_teal", "#76A5AF"),    # Teal (Using double quotes as per original request)
             # Note: For single quotes 'text', if you need it, add a new pattern:
@@ -241,8 +259,8 @@ class TranslatorApp:
         
         for pattern, tag_name, color_code in color_patterns:
             for match in pattern.finditer(current_content):
-                start_index_in_match = match.start(1) 
-                end_index_in_match = match.end(1)     
+                start_index_in_match = match.start(1)    
+                end_index_in_match = match.end(1)        
 
                 tk_start_index = self.text_output.index(f"1.0 + {start_index_in_match}c")
                 tk_end_index = self.text_output.index(f"1.0 + {end_index_in_match}c")
@@ -250,7 +268,7 @@ class TranslatorApp:
                 self.text_output.tag_add(tag_name, tk_start_index, tk_end_index)
                 self.text_output.tag_config(tag_name, foreground=color_code)
 
-        self.text_output.bind("<KeyRelease>", self._on_text_change) 
+        self.text_output.bind("<KeyRelease>", self._on_text_change)    
 
         try:
             self.text_output.mark_set(tk.INSERT, insert_position)
@@ -302,104 +320,424 @@ class TranslatorApp:
         return "(空區塊)" # Default for empty blocks
 
     def _update_toc(self):
-        """Populates the Table of Contents Listbox with the first line of each block."""
+        """Populates the Table of Contents Listbox with the first line of each block,
+        prioritizing pinned blocks at the top."""
         # Save current block's content before refreshing TOC if a block is selected
         if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
             self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
 
         self.toc_listbox.delete(0, tk.END)
+        
+        # Separate pinned and unpinned blocks
+        pinned_blocks_with_original_indices = []
+        unpinned_blocks_with_original_indices = []
+        
         for i, block_content in enumerate(self.blocks):
+            if i in self.pinned_block_indices:
+                pinned_blocks_with_original_indices.append((block_content, i))
+            else:
+                unpinned_blocks_with_original_indices.append((block_content, i))
+
+        # Sort unpinned blocks by their original index to maintain stability
+        # (or you could sort them alphabetically if that's desired for unpinned blocks)
+        unpinned_blocks_with_original_indices.sort(key=lambda x: x[1])
+
+        # Combine pinned and unpinned blocks for display
+        # First, display pinned blocks
+        for block_content, original_index in pinned_blocks_with_original_indices:
             first_line = self._get_first_line(block_content)
-            self.toc_listbox.insert(tk.END, f"區塊 {i+1}: {first_line}") # Changed format to "區塊 N: "
+            display_text = f"{original_index+1}: {first_line}"
+            self.toc_listbox.insert(tk.END, display_text)
+            self.toc_listbox.itemconfig(tk.END, {'bg': '#CCE5FF'}) # Light blue for pinned items
+
+        # Then, display unpinned blocks
+        for block_content, original_index in unpinned_blocks_with_original_indices:
+            first_line = self._get_first_line(block_content)
+            display_text = f"{original_index+1}: {first_line}"
+            self.toc_listbox.insert(tk.END, display_text)
+            self.toc_listbox.itemconfig(tk.END, {'bg': 'white'}) # Reset background for non-pinned items
         
         # Select the current block in the TOC
         if 0 <= self.current_block_index < len(self.blocks):
-            self.toc_listbox.selection_clear(0, tk.END)
-            self.toc_listbox.selection_set(self.current_block_index)
-            self.toc_listbox.activate(self.current_block_index)
-            self.toc_listbox.see(self.current_block_index)
+            # Find the new display index for the current_block_index
+            new_display_index = -1
+            # Check if current_block is pinned
+            if self.current_block_index in self.pinned_block_indices:
+                new_display_index = self.pinned_block_indices.index(self.current_block_index)
+            else:
+                # It's an unpinned block, find its position relative to other unpinned blocks
+                offset = len(self.pinned_block_indices)
+                unpinned_sorted_indices = [item[1] for item in unpinned_blocks_with_original_indices]
+                if self.current_block_index in unpinned_sorted_indices:
+                    new_display_index = offset + unpinned_sorted_indices.index(self.current_block_index)
 
-    def _update_toc_entry(self, index, new_first_line):
-        """Updates a specific entry in the Table of Contents Listbox."""
-        if 0 <= index < self.toc_listbox.size():
-            self.toc_listbox.delete(index)
-            self.toc_listbox.insert(index, f"區塊 {index+1}: {new_first_line}")
+            if new_display_index != -1:
+                self.toc_listbox.selection_clear(0, tk.END)
+                self.toc_listbox.selection_set(new_display_index)
+                self.toc_listbox.activate(new_display_index)
+                self.toc_listbox.see(new_display_index)
+
+    def _update_toc_entry(self, original_index, new_first_line):
+        """Updates a specific entry in the Table of Contents Listbox, maintaining its pinned status."""
+        # This method is trickier with dynamic reordering of _update_toc.
+        # It's usually better to just call _update_toc() after a content change
+        # if the order is based on dynamic states like "pinned".
+        # However, if we must update a single entry, we need to find its current display index.
+
+        # The simplest and most robust way with pinned items is to just re-call _update_toc
+        # because the display order can change based on pinning.
+        self._update_toc()
+        # After update_toc, the correct selection will be handled by _update_toc itself.
+
+
+    def _toggle_pin_block(self):
+        """Toggles the pinned status of the currently selected block."""
+        selected_indices_in_toc = self.toc_listbox.curselection()
+        if not selected_indices_in_toc:
+            messagebox.showwarning("置頂區塊", "請先選取一個區塊以進行置頂或取消置頂。")
+            return
+        
+        display_index = int(selected_indices_in_toc[0])
+        
+        # Get the original block index from the displayed item text
+        try:
+            item_text = self.toc_listbox.get(display_index)
+            original_block_index = int(item_text.split(':')[0]) - 1
+        except (ValueError, IndexError):
+            messagebox.showerror("錯誤", "無法解析選取的區塊索引。")
+            return
+
+        # Save current block's content before changing block order
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+
+        if original_block_index in self.pinned_block_indices:
+            # Unpin the block
+            self.pinned_block_indices.remove(original_block_index)
+            self.status_bar.config(text=f"區塊 {original_block_index+1} 已取消置頂。")
+        else:
+            # Pin the block
+            self.pinned_block_indices.append(original_block_index)
+            self.status_bar.config(text=f"區塊 {original_block_index+1} 已置頂。")
             
-        # Re-select the entry after update
-        self.toc_listbox.selection_clear(0, tk.END)
-        self.toc_listbox.selection_set(index)
-        self.toc_listbox.activate(index)
-        self.toc_listbox.see(index)
+        # Keep pinned indices sorted for consistent display order (optional but good practice)
+        self.pinned_block_indices.sort()
+
+        self._update_toc() # Refresh TOC to show new pinned status
+        self._update_nav_buttons() # Update nav buttons for current block index
+        # No need to re-show block here, _update_toc already handles selection
+
+    def _sort_blocks_by_name_asc(self):
+        """Sorts blocks in ascending order based on their first line."""
+        if not self.blocks:
+            return
+        
+        # Save current block's content before sorting
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+
+        # Separate pinned and unpinned blocks
+        pinned_blocks_data = [] # Stores (block_content, original_index) for pinned blocks
+        unpinned_blocks_data = [] # Stores (first_line_lower, original_index, block_content) for unpinned blocks
+
+        for i, block_content in enumerate(self.blocks):
+            if i in self.pinned_block_indices:
+                pinned_blocks_data.append((block_content, i))
+            else:
+                unpinned_blocks_data.append((self._get_first_line(block_content).lower(), i, block_content))
+        
+        # Sort unpinned blocks based on their first line (case-insensitive)
+        unpinned_blocks_data.sort(key=lambda x: x[0])
+        
+        # Reconstruct the blocks list: Pinned blocks first, then sorted unpinned blocks
+        new_blocks = []
+        new_pinned_block_indices = [] # Update pinned indices to reflect new positions
+        
+        # Add pinned blocks back in their original pinned order (if multiple pinned)
+        # We need to maintain the order in which they were pinned, or by their original index.
+        # Sorting pinned_blocks_data by original_index ensures stable display order of pinned items.
+        pinned_blocks_data.sort(key=lambda x: x[1]) 
+        
+        for i, (block_content, original_index) in enumerate(pinned_blocks_data):
+            new_blocks.append(block_content)
+            new_pinned_block_indices.append(len(new_blocks) - 1) # New index for this pinned block
+
+        # Add sorted unpinned blocks
+        for _, original_index, block_content in unpinned_blocks_data:
+            new_blocks.append(block_content)
+
+        old_current_block_content = ""
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            old_current_block_content = self.blocks[self.current_block_index]
+
+        self.blocks = new_blocks
+        self.pinned_block_indices = new_pinned_block_indices # Update the stored pinned indices
+
+        # Find the new index of the previously selected block
+        if old_current_block_content:
+            try:
+                self.current_block_index = self.blocks.index(old_current_block_content)
+            except ValueError:
+                self.current_block_index = -1 
+        else:
+            self.current_block_index = -1 
+
+        self._update_toc()
+        self._update_nav_buttons()
+        self.status_bar.config(text="區塊已依名稱 A-Z 排序。")
+        if self.current_block_index != -1:
+            self._show_block(self.current_block_index) # Re-display the correct block
+
+    def _sort_blocks_by_name_desc(self):
+        """Sorts blocks in descending order based on their first line."""
+        if not self.blocks:
+            return
+
+        # Save current block's content before sorting
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+
+        pinned_blocks_data = []
+        unpinned_blocks_data = []
+
+        for i, block_content in enumerate(self.blocks):
+            if i in self.pinned_block_indices:
+                pinned_blocks_data.append((block_content, i))
+            else:
+                unpinned_blocks_data.append((self._get_first_line(block_content).lower(), i, block_content))
+        
+        # Sort unpinned blocks in reverse order based on their first line (case-insensitive)
+        unpinned_blocks_data.sort(key=lambda x: x[0], reverse=True)
+        
+        new_blocks = []
+        new_pinned_block_indices = []
+
+        # Add pinned blocks back in their original pinned order
+        pinned_blocks_data.sort(key=lambda x: x[1]) 
+
+        for i, (block_content, original_index) in enumerate(pinned_blocks_data):
+            new_blocks.append(block_content)
+            new_pinned_block_indices.append(len(new_blocks) - 1)
+
+        for _, original_index, block_content in unpinned_blocks_data:
+            new_blocks.append(block_content)
+
+        old_current_block_content = ""
+        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
+            old_current_block_content = self.blocks[self.current_block_index]
+
+        self.blocks = new_blocks
+        self.pinned_block_indices = new_pinned_block_indices
+
+        if old_current_block_content:
+            try:
+                self.current_block_index = self.blocks.index(old_current_block_content)
+            except ValueError:
+                self.current_block_index = -1
+        else:
+            self.current_block_index = -1
+
+        self._update_toc()
+        self._update_nav_buttons()
+        self.status_bar.config(text="區塊已依名稱 Z-A 排序。")
+        if self.current_block_index != -1:
+            self._show_block(self.current_block_index)
 
 
     def _on_toc_select(self, event):
         """Handles selection in the Table of Contents Listbox."""
         selected_indices = self.toc_listbox.curselection()
         if selected_indices:
-            index = int(selected_indices[0])
-            if index != self.current_block_index: # Only show if different block selected
+            display_index = int(selected_indices[0])
+            
+            # Get the original block index from the displayed item text
+            try:
+                item_text = self.toc_listbox.get(display_index)
+                original_block_index = int(item_text.split(':')[0]) - 1
+            except (ValueError, IndexError):
+                messagebox.showerror("錯誤", "無法解析選取的區塊索引。")
+                return
+
+            if original_block_index != self.current_block_index: # Only show if different block selected
                 self.clear_search_results()
-                self._show_block(index)
+                self._show_block(original_block_index) # Use the original index to show the block
 
     # --- Drag and Drop Methods ---
     def _on_drag_start(self, event):
         """Initiates a drag operation."""
-        # Get the index of the item clicked
-        index = self.toc_listbox.nearest(event.y)
-        if 0 <= index < self.toc_listbox.size():
-            self._drag_data["item_index"] = index
+        # Get the index of the item clicked in the TOC display
+        display_index = self.toc_listbox.nearest(event.y)
+        if 0 <= display_index < self.toc_listbox.size():
+            # Get the original block index from the displayed item text
+            try:
+                item_text = self.toc_listbox.get(display_index)
+                original_block_index = int(item_text.split(':')[0]) - 1
+            except (ValueError, IndexError):
+                messagebox.showerror("錯誤", "無法解析選取的區塊索引。")
+                return
+
+            # Prevent dragging pinned block
+            if original_block_index in self.pinned_block_indices:
+                self.status_bar.config(text="置頂區塊不能拖曳。請先取消置頂。")
+                self._drag_data = {"item_index": -1, "original_y": 0} # Reset drag data
+                return
+
+            self._drag_data["item_index"] = original_block_index # Store original block index
             self._drag_data["original_y"] = event.y
             # Visually indicate the item being dragged (optional, but good UX)
-            self.toc_listbox.itemconfig(index, background='lightblue')
-            self.status_bar.config(text=f"開始拖曳區塊 {index+1}")
+            self.toc_listbox.itemconfig(display_index, background='lightblue')
+            self.status_bar.config(text=f"開始拖曳區塊 {original_block_index+1}")
 
     def _on_drag_motion(self, event):
         """Handles item movement during a drag."""
         if self._drag_data["item_index"] != -1:
             current_y = event.y
-            original_index = self._drag_data["item_index"]
+            original_dragged_block_index = self._drag_data["item_index"]
             
-            # Determine the new index based on the current mouse position
-            target_index = self.toc_listbox.nearest(current_y)
+            # Determine the new display index based on the current mouse position
+            target_display_index = self.toc_listbox.nearest(current_y)
 
-            # Ensure target_index is within valid bounds
-            if not (0 <= target_index < len(self.blocks)):
-                return # Don't do anything if outside valid range
+            # Get the original index of the block at the target display position
+            target_original_block_index = -1
+            if 0 <= target_display_index < self.toc_listbox.size():
+                try:
+                    target_item_text = self.toc_listbox.get(target_display_index)
+                    target_original_block_index = int(target_item_text.split(':')[0]) - 1
+                except (ValueError, IndexError):
+                    pass # Ignore if target index is invalid
 
-            if target_index != original_index:
-                # Save current block content before reordering
-                if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
-                    self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+            # Prevent dragging into or past pinned blocks
+            if target_original_block_index in self.pinned_block_indices:
+                self.status_bar.config(text="無法拖曳到置頂區塊的位置。")
+                return
 
-                # Perform the reordering in the actual blocks list
-                block_to_move = self.blocks.pop(original_index)
-                self.blocks.insert(target_index, block_to_move)
+            # Find the actual indices of the dragged and target blocks in the self.blocks list
+            # This is complex because _update_toc reorders for display.
+            # It's safer to directly manipulate the `self.blocks` list and then call `_update_toc`.
+            
+            # Let's simplify the drag logic:
+            # We need to find the current position of `original_dragged_block_index` in `self.blocks`
+            # and the current position of `target_original_block_index` in `self.blocks`.
 
-                # Update the current_block_index if the moved block was the active one
-                # or if blocks shifted around the active one
-                if self.current_block_index == original_index:
-                    self.current_block_index = target_index
-                elif original_index < self.current_block_index <= target_index:
-                    self.current_block_index -= 1
-                elif target_index <= self.current_block_index < original_index:
-                    self.current_block_index += 1
+            if original_dragged_block_index not in self.blocks: # Ensure it's still a valid block
+                return
+
+            # Determine the new logical index where the dragged block should be inserted
+            # This requires understanding the *current* logical order of blocks
+            # rather than just their display order.
+            
+            # Find the current logical index of the dragged block
+            current_logical_dragged_index = -1
+            try:
+                current_logical_dragged_index = self.blocks.index(self.blocks[original_dragged_block_index]) # This is still the original index
+            except ValueError:
+                return # Block not found, possibly already moved or removed
+
+            # Let's rebuild the blocks list for drag operations, considering only unpinned blocks for drag.
+            # This simplifies the logic by not needing to track complex index shifts for display vs. internal.
+            
+            # Get the block content itself
+            dragged_block_content = self.blocks[original_dragged_block_index]
+
+            # Separate pinned and unpinned blocks
+            current_unpinned_blocks = [block_content for i, block_content in enumerate(self.blocks) if i not in self.pinned_block_indices]
+            
+            if dragged_block_content in current_unpinned_blocks:
+                # Remove the dragged block from the unpinned list
+                current_unpinned_blocks.remove(dragged_block_content)
+            else:
+                # This should not happen if drag start correctly identified a non-pinned block
+                return
+
+            # Determine the insertion point in the unpinned list based on target_display_index
+            # Calculate the effective target index within the *unpinned* blocks list
+            
+            # Get the count of pinned items currently displayed
+            num_pinned_displayed = len(self.pinned_block_indices)
+            
+            # Adjust target_display_index to be relative to the unpinned section
+            effective_target_unpinned_index = target_display_index - num_pinned_displayed
+
+            if 0 <= effective_target_unpinned_index <= len(current_unpinned_blocks):
+                # Insert the dragged block at the new position in the unpinned list
+                current_unpinned_blocks.insert(effective_target_unpinned_index, dragged_block_content)
+
+                # Reconstruct the full blocks list
+                new_full_blocks = []
+                # Add pinned blocks back in their original order
+                for p_idx in sorted(self.pinned_block_indices): # Use sorted to maintain consistent order
+                    new_full_blocks.append(self.blocks[p_idx])
                 
-                # Update the drag data with the new position of the dragged item
-                self._drag_data["item_index"] = target_index
+                # Add the reordered unpinned blocks
+                new_full_blocks.extend(current_unpinned_blocks)
 
-                # Update the Listbox display immediately
-                self._update_toc() # This will also re-select the correct block
-                # After updating TOC, the visual highlight might be lost, reapply
-                self.toc_listbox.itemconfig(target_index, background='lightblue')
+                # Update the main blocks list
+                self.blocks = new_full_blocks
+
+                # Update `self.current_block_index` if the active block was moved
+                # This is tricky as original_dragged_block_index refers to the old `self.blocks`
+                # The easiest way is to re-find it after reconstructing `self.blocks`.
+                if self.current_block_index != -1:
+                    # Find the content of the currently active block before the move
+                    current_active_block_content = self.blocks[self.current_block_index] # This refers to the content _before_ reordering
+                    try:
+                        self.current_block_index = new_full_blocks.index(current_active_block_content)
+                    except ValueError:
+                        pass # Should not happen if content is unique
+
+                # Update self.pinned_block_indices to reflect new positions (if they are re-indexed, which they are not here)
+                # Since pinned blocks are always inserted at the beginning, their original_indices are no longer valid as direct indices.
+                # We need to rebuild `self.pinned_block_indices` based on the new `self.blocks` array.
+                
+                # The _update_toc will correctly re-display and handle selection.
+                self._update_toc()
+
+                # Reapply lightblue highlight to the dragged item's new display position
+                # This requires finding the new display index of the dragged block
+                new_display_index_of_dragged_item = -1
+                for i in range(self.toc_listbox.size()):
+                    item_text = self.toc_listbox.get(i)
+                    try:
+                        idx_from_text = int(item_text.split(':')[0]) - 1
+                        if idx_from_text == original_dragged_block_index: # Find based on original ID
+                            new_display_index_of_dragged_item = i
+                            break
+                    except (ValueError, IndexError):
+                        pass
+
+                if new_display_index_of_dragged_item != -1:
+                    self.toc_listbox.itemconfig(new_display_index_of_dragged_item, background='lightblue')
+                    # Update drag_data with the original_block_index, not the display index
+                    # This is crucial: _drag_data["item_index"] should always refer to the original block ID
+                    # not its current position in the Listbox.
+                    self._drag_data["item_index"] = original_dragged_block_index # Still tracking the same block ID
+                else:
+                    self._drag_data["item_index"] = -1 # Something went wrong, stop dragging
 
 
     def _on_drag_end(self, event):
         """Ends a drag operation."""
         if self._drag_data["item_index"] != -1:
-            # Reset visual indication for the final position of the item
-            final_index = self._drag_data["item_index"]
-            if 0 <= final_index < self.toc_listbox.size():
-                self.toc_listbox.itemconfig(final_index, background='white') # Or default background
+            original_dragged_block_index = self._drag_data["item_index"]
+            
+            # Find the final display index of the dragged item
+            final_display_index = -1
+            for i in range(self.toc_listbox.size()):
+                item_text = self.toc_listbox.get(i)
+                try:
+                    idx_from_text = int(item_text.split(':')[0]) - 1
+                    if idx_from_text == original_dragged_block_index:
+                        final_display_index = i
+                        break
+                except (ValueError, IndexError):
+                    pass
+
+            if final_display_index != -1:
+                # Check if it's a pinned block (shouldn't be, as we blocked dragging them)
+                if original_dragged_block_index in self.pinned_block_indices:
+                    self.toc_listbox.itemconfig(final_display_index, background='#CCE5FF') 
+                else:
+                    self.toc_listbox.itemconfig(final_display_index, background='white') # Or default background
             
             # Reset drag data
             self._drag_data = {"item_index": -1, "original_y": 0}
@@ -428,9 +766,14 @@ class TranslatorApp:
         return parsed_blocks
 
     def _show_block(self, index):
+        # We need to ensure that `index` here refers to the actual index in `self.blocks`.
+        # When called from TOC, it passes `original_block_index`.
+        
         if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
             # Save current block's content before switching
             self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+            # No need to call _update_toc_entry here, as _update_toc will be called when block content changes,
+            # which happens on _on_text_change.
 
         if 0 <= index < len(self.blocks):
             self.current_block_index = index
@@ -438,16 +781,41 @@ class TranslatorApp:
             self.text_output.insert(tk.END, self.blocks[self.current_block_index])
             
             # Apply color tags after content is inserted
-            self._apply_text_colors() 
+            self._apply_text_colors()    
 
             self.text_output.see(tk.END)
             self._update_nav_buttons()
             self.status_bar.config(text=f"顯示區塊 {index + 1}/{len(self.blocks)}")
+            
             # Select the block in TOC
-            self.toc_listbox.selection_clear(0, tk.END)
-            self.toc_listbox.selection_set(index)
-            self.toc_listbox.activate(index)
-            self.toc_listbox.see(index)
+            # Find the display index of the current block in the TOC
+            display_index = -1
+            
+            # Find the new display index for the current_block_index
+            # This logic needs to mirror _update_toc's display order
+            # First, check if current_block_index is in pinned_block_indices
+            if index in self.pinned_block_indices:
+                display_index = self.pinned_block_indices.index(index)
+            else:
+                # It's an unpinned block, find its position relative to other unpinned blocks
+                offset = len(self.pinned_block_indices)
+                unpinned_blocks_with_original_indices = []
+                for i, block_content in enumerate(self.blocks):
+                    if i not in self.pinned_block_indices:
+                        unpinned_blocks_with_original_indices.append((block_content, i))
+                
+                unpinned_blocks_with_original_indices.sort(key=lambda x: x[1]) # Sort by original index
+                unpinned_sorted_original_indices = [item[1] for item in unpinned_blocks_with_original_indices]
+                
+                if index in unpinned_sorted_original_indices:
+                    display_index = offset + unpinned_sorted_original_indices.index(index)
+
+            if display_index != -1:
+                self.toc_listbox.selection_clear(0, tk.END)
+                self.toc_listbox.selection_set(display_index)
+                self.toc_listbox.activate(display_index)
+                self.toc_listbox.see(display_index)
+            
         else:
             messagebox.showwarning("區塊錯誤", "無效的區塊索引！")
             self.block_status_label.config(text="無區塊選中")
@@ -572,6 +940,7 @@ class TranslatorApp:
             self.current_file_path = None
             self.blocks = []
             self.current_block_index = -1
+            self.pinned_block_indices = [] # Reset pinned blocks
             self.root.title("區塊編輯器 - 無標題")
             self.status_bar.config(text="就緒。")
             self._update_nav_buttons()
@@ -586,8 +955,11 @@ class TranslatorApp:
             # Save current block's content before creating a new one
             self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
 
+        # Add new block at the end of the unpinned blocks
+        # First, ensure self.blocks only contains unpinned blocks followed by pinned blocks (if any)
+        # This will be handled implicitly by the _update_toc after the new block is appended.
         self.blocks.append("")  # Add an empty string for the new block
-        self.current_block_index = len(self.blocks) - 1
+        self.current_block_index = len(self.blocks) - 1 # New block is always the last in the internal list
         self._show_block(self.current_block_index)
         self.status_bar.config(text=f"已新增一個新區塊 (區塊 {self.current_block_index + 1})。")
         self.text_output.delete("1.0", tk.END) # Clear content of the displayed Text widget
@@ -611,6 +983,7 @@ class TranslatorApp:
                 self.blocks = self._parse_blocks(self.full_document_content)
 
                 self.text_output.delete("1.0", tk.END) # Clear content first
+                self.pinned_block_indices = [] # Reset pinned blocks on new file open
 
                 if self.blocks:
                     self._show_block(0) # _show_block will handle inserting content and applying tags
@@ -619,16 +992,16 @@ class TranslatorApp:
                     self.current_file_path = file_path
                 else:
                     # If no blocks detected, insert full content and then apply tags
-                    self.text_output.insert(tk.END, self.full_document_content) 
+                    self.text_output.insert(tk.END, self.full_document_content)    
                     self.current_file_path = file_path
                     self.blocks = [] # Ensure blocks list is cleared if no blocks found
                     self.current_block_index = -1
                     self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]} (無區塊偵測)")
                     self.status_bar.config(text=f"已開啟：{file_path} (未偵測到區塊，顯示完整內容)")
                     messagebox.showinfo("提示", f"檔案 '{file_path.split('/')[-1]}' 未偵測到區塊標記。\n請確保區塊格式為：\n\n{BLOCK_START_DELIMITER}\n您的內容\n{BLOCK_END_DELIMITER}")
-                    # Crucially, apply colors even if no blocks were found, 
+                    # Crucially, apply colors even if no blocks were found,    
                     # as the full content might still contain them.
-                    self._apply_text_colors() 
+                    self._apply_text_colors()    
 
                 self._update_nav_buttons()
                 self.clear_search_results()
@@ -651,16 +1024,40 @@ class TranslatorApp:
         # If a block is selected, update its content from the Text widget
         if self.current_block_index != -1:
             self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
-            self._update_toc_entry(self.current_block_index, self._get_first_line(self.blocks[self.current_block_index]))
+            # Calling _update_toc() here is safer than _update_toc_entry with complex pinning/ordering
+            self._update_toc() 
         else:
             # If no block is selected, take the full content from the text_output
             self.full_document_content = self._get_cleaned_block_content_from_text_output()
 
         new_full_content = ""
-        if self.blocks: # If blocks exist, reconstruct from blocks
-            for i, block_content in enumerate(self.blocks):
+        # Reconstruct the full document content by iterating through the original `blocks` list
+        # and checking if each block is pinned or unpinned to determine its position.
+        
+        # Get blocks in their sorted order (pinned first, then unpinned)
+        # This mirrors how `_update_toc` displays them.
+        
+        # Separate pinned and unpinned blocks by content, maintaining original index mapping
+        temp_blocks_map = {i: block_content for i, block_content in enumerate(self.blocks)}
+        
+        ordered_content_to_save = []
+        
+        # Add pinned blocks in their original pinned order
+        for original_idx in sorted(self.pinned_block_indices): # Sorting to ensure stable output if multiple pinned
+            if original_idx in temp_blocks_map:
+                ordered_content_to_save.append(temp_blocks_map[original_idx])
+                del temp_blocks_map[original_idx] # Remove from map
+        
+        # Add remaining (unpinned) blocks, sorted by their original index
+        unpinned_original_indices = sorted(temp_blocks_map.keys())
+        for original_idx in unpinned_original_indices:
+            ordered_content_to_save.append(temp_blocks_map[original_idx])
+
+        # Format with delimiters
+        if ordered_content_to_save:
+            for i, block_content in enumerate(ordered_content_to_save):
                 new_full_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
-                if i < len(self.blocks) - 1:
+                if i < len(ordered_content_to_save) - 1:
                     new_full_content += "\n"
         else: # If no blocks, use the full document content (might be from an unblocked file)
             new_full_content = self.full_document_content
@@ -671,89 +1068,63 @@ class TranslatorApp:
             messagebox.showinfo("儲存成功", f"當前區塊的修改已儲存到：\n{self.current_file_path}")
             self.status_bar.config(text=f"區塊修改已儲存：{self.current_file_path.split('/')[-1]}")
             self.full_document_content = new_full_content.strip() # Update full document content in memory
-            # No need to call _update_toc here if only one block's content changed, _on_text_change handles it.
-            # But if a block was just created/deleted, _update_toc should be called.
         except Exception as e:
             messagebox.showerror("儲存失敗", f"儲存檔案時發生錯誤：\n{e}")
 
     def save_full_file(self):
         if self.current_file_path:
-            # Ensure the current Text widget content is saved back to the block list or full content
+            # If a block is currently being edited, ensure its content is saved to the blocks list
             if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
                 self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
+                # Calling _update_toc() here is safer than _update_toc_entry with complex pinning/ordering
+                self._update_toc()
+
+            if not self.blocks:
+                # If no blocks are defined, save the raw content from the text editor
+                content_to_save = self.text_output.get("1.0", tk.END).strip()
             else:
-                self.full_document_content = self._get_cleaned_block_content_from_text_output()
+                # Reconstruct the full document content from all blocks, respecting pinned order for saving
+                temp_blocks_map = {i: block_content for i, block_content in enumerate(self.blocks)}
+                ordered_content_to_save = []
+                
+                # Add pinned blocks in their original pinned order
+                for original_idx in sorted(self.pinned_block_indices):
+                    if original_idx in temp_blocks_map:
+                        ordered_content_to_save.append(temp_blocks_map[original_idx])
+                        del temp_blocks_map[original_idx]
+                
+                # Add remaining (unpinned) blocks, sorted by their original index
+                unpinned_original_indices = sorted(temp_blocks_map.keys())
+                for original_idx in unpinned_original_indices:
+                    ordered_content_to_save.append(temp_blocks_map[original_idx])
 
-            self.full_document_content = ""
-            if self.blocks:
-                for i, block_content in enumerate(self.blocks):
-                    self.full_document_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
-                    if i < len(self.blocks) - 1:
-                        self.full_document_content += "\n"
-            else: # If there are no blocks defined, save the raw content from the Text widget
-                self.full_document_content = self._get_cleaned_block_content_from_text_output()
+                content_parts = []
+                for block_content in ordered_content_to_save:
+                    content_parts.append(f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}")
+                content_to_save = "\n\n".join(content_parts).strip()
 
-            self._write_full_content_to_file(self.current_file_path, self.full_document_content)
-            self.blocks = self._parse_blocks(self.full_document_content) # Re-parse blocks after full save
-            self._update_toc() # Update TOC after full save
-
+            try:
+                with open(self.current_file_path, "w", encoding="utf-8") as file:
+                    file.write(content_to_save)
+                messagebox.showinfo("儲存成功", f"檔案已儲存：\n{self.current_file_path}")
+                self.status_bar.config(text=f"完整檔案已儲存：{self.current_file_path.split('/')[-1]}")
+                self.full_document_content = content_to_save
+            except Exception as e:
+                messagebox.showerror("儲存失敗", f"儲存檔案時發生錯誤：\n{e}")
         else:
             self.save_full_file_as()
 
     def save_full_file_as(self):
-        # Ensure the current Text widget content is saved back to the block list or full content
-        if self.current_block_index != -1 and self.current_block_index < len(self.blocks):
-            self.blocks[self.current_block_index] = self._get_cleaned_block_content_from_text_output()
-        
-        temp_full_content = ""
-        if self.blocks:
-            for i, block_content in enumerate(self.blocks):
-                temp_full_content += f"{BLOCK_START_DELIMITER}\n{block_content}\n{BLOCK_END_DELIMITER}\n"
-                if i < len(self.blocks) - 1:
-                    temp_full_content += "\n"
-            content_to_save = temp_full_content.strip()
-        else: # If no blocks, save the raw content from the Text widget
-            content_to_save = self._get_cleaned_block_content_from_text_output()
-
-
-        if not content_to_save:
-            messagebox.showwarning("沒有內容", "沒有內容可以儲存。")
-            return
-
         file_path = filedialog.asksaveasfilename(
             defaultextension=".txt",
             filetypes=[("Text files", "*.txt"), ("All files", "*.*")],
-            title="另存完整檔案為"
+            title="另存完整檔案為..."
         )
         if file_path:
             self.current_file_path = file_path
-            self._write_full_content_to_file(file_path, content_to_save)
-            self.root.title(f"區塊編輯器 - {file_path.split('/')[-1]}")
-            self.status_bar.config(text=f"完整檔案已儲存：{file_path}")
-
-            # Re-parse blocks from the saved content to update the internal state
-            self.blocks = self._parse_blocks(content_to_save)
-            # If blocks were just created by saving, show the first one
-            if self.blocks and self.current_block_index == -1:
-                self._show_block(0)
-            self._update_nav_buttons()
-            self.clear_search_results()
-            self._update_toc() # Update TOC after saving as new file
+            self.save_full_file() # Use the existing save logic
 
 
-    def _write_full_content_to_file(self, file_path, content=None):
-        if content is None:
-            content = self.full_document_content
-
-        try:
-            with open(file_path, "w", encoding="utf-8") as file:
-                file.write(content)
-            messagebox.showinfo("儲存成功", f"完整檔案已成功儲存到：\n{file_path}")
-            self.status_bar.config(text=f"完整檔案已儲存：{file_path.split('/')[-1]}")
-        except Exception as e:
-            messagebox.showerror("儲存失敗", f"儲存檔案時發生錯誤：\n{e}")
-
-# Launch the application
 if __name__ == "__main__":
     root = tk.Tk()
     app = TranslatorApp(root)
