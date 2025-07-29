@@ -48,6 +48,13 @@ class TranslatorApp:
         self._drag_data = {"item_index": -1, "original_y": 0} # Modified to store just the index
         # --- End Drag and Drop variables ---
 
+        # --- Font Size Management ---
+        self.base_font_size = 11  # Initial font size for main text and listbox
+        self.current_font_size = self.base_font_size
+        self.min_font_size = 8
+        self.max_font_size = 20
+        # --- End Font Size Management ---
+
         self._create_widgets()
         self._setup_menu()
         
@@ -60,6 +67,9 @@ class TranslatorApp:
         # Apply initial colors if any content is present
         self._apply_text_colors()    
 
+        # Apply initial font size - This call is now safe because self.toc_label exists
+        self._apply_font_size()
+
     def _create_widgets(self):
         # Use a PanedWindow to allow resizing between sidebar and main content
         self.paned_window = ttk.PanedWindow(self.root, orient=tk.HORIZONTAL)
@@ -69,8 +79,9 @@ class TranslatorApp:
         sidebar_frame = ttk.Frame(self.paned_window, padding="10", width=200) # Fixed width for sidebar
         sidebar_frame.pack_propagate(False) # Prevent frame from resizing to content
         
-        toc_label = ttk.Label(sidebar_frame, text="《目錄》", font=('Arial', 12, 'bold'))
-        toc_label.pack(pady=(0, 5))
+        # Store toc_label as an instance variable
+        self.toc_label = ttk.Label(sidebar_frame, text="《目錄》", font=('Arial', 12, 'bold'))
+        self.toc_label.pack(pady=(0, 5))
 
         # Create a frame for TOC buttons and listbox
         toc_content_frame = ttk.Frame(sidebar_frame)
@@ -88,7 +99,7 @@ class TranslatorApp:
         self.pin_button.pack(pady=(0, 5), fill=tk.X)
 
 
-        self.toc_listbox = tk.Listbox(toc_content_frame, height=25, font=('Arial', 10),
+        self.toc_listbox = tk.Listbox(toc_content_frame, height=25, font=('Arial', 10), # Initial font for listbox
                                       selectmode=tk.SINGLE, exportselection=False)
         self.toc_listbox.pack(fill=tk.BOTH, expand=True)
         self.toc_listbox.bind("<<ListboxSelect>>", self._on_toc_select)
@@ -114,7 +125,7 @@ class TranslatorApp:
         input_frame = ttk.LabelFrame(main_frame, text="請輸入字串以搜尋", padding="10")
         input_frame.pack(fill=tk.X, pady=10)
 
-        self.entry_input = ttk.Entry(input_frame, width=50, font=('Arial', 12))
+        self.entry_input = ttk.Entry(input_frame, width=50, font=('Arial', 12)) # Initial font for entry
         self.entry_input.pack(side=tk.LEFT, padx=(0, 10), fill=tk.X, expand=True)
         self.entry_input.bind("<Return>", lambda event: self.search_all_blocks_and_list())
 
@@ -133,7 +144,8 @@ class TranslatorApp:
         text_scroll_frame = ttk.Frame(output_frame)
         text_scroll_frame.pack(fill=tk.BOTH, expand=True)
 
-        self.text_output = tk.Text(text_scroll_frame, wrap=tk.WORD, height=18, font=('Arial', 11), bg="#ffffff", bd=1, relief="solid")
+        self.text_output = tk.Text(text_scroll_frame, wrap=tk.WORD, height=18, font=('Arial', 11), # Initial font for text output
+                                   bg="#ffffff", bd=1, relief="solid")
         # Pack the scrollbar FIRST, then the text widget next to it
         scrollbar = ttk.Scrollbar(text_scroll_frame, command=self.text_output.yview)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
@@ -195,6 +207,21 @@ class TranslatorApp:
         file_menu.add_command(label="另存完整檔案...", command=self.save_full_file_as)
         file_menu.add_separator()
         file_menu.add_command(label="結束", command=self.root.quit)
+
+        # --- New: Zoom Menu ---
+        zoom_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="縮放", menu=zoom_menu)
+        zoom_menu.add_command(label="放大 (Ctrl++)", command=self.zoom_in)
+        zoom_menu.add_command(label="縮小 (Ctrl+-)", command=self.zoom_out)
+        zoom_menu.add_command(label="重設 (Ctrl+0)", command=self.reset_zoom)
+        # --- End New: Zoom Menu ---
+
+        # --- New: Bind keyboard shortcuts for zoom ---
+        self.root.bind("<Control-plus>", lambda event: self.zoom_in())
+        self.root.bind("<Control-equal>", lambda event: self.zoom_in()) # Ctrl+= is often Ctrl++
+        self.root.bind("<Control-minus>", lambda event: self.zoom_out())
+        self.root.bind("<Control-Key-0>", lambda event: self.reset_zoom())
+        # --- End New: Bind keyboard shortcuts ---
 
     def _on_text_change(self, event=None):
         """
@@ -1123,6 +1150,38 @@ class TranslatorApp:
         if file_path:
             self.current_file_path = file_path
             self.save_full_file() # Use the existing save logic
+
+    # --- New Zoom Functionality ---
+    def _apply_font_size(self):
+        """Applies the current font size to relevant widgets."""
+        font_style = ("Arial", self.current_font_size)
+        self.text_output.config(font=font_style)
+        self.toc_listbox.config(font=font_style)
+        self.entry_input.config(font=font_style) # Also apply to search entry
+        
+        # Directly use the instance variable for the TOC label
+        self.toc_label.config(font=('Arial', self.current_font_size + 1, 'bold')) # Adjust TOC label size slightly
+        
+        self.status_bar.config(text=f"字體大小：{self.current_font_size}")
+
+    def zoom_in(self):
+        """Increases the font size."""
+        if self.current_font_size < self.max_font_size:
+            self.current_font_size += 1
+            self._apply_font_size()
+
+    def zoom_out(self):
+        """Decreases the font size."""
+        if self.current_font_size > self.min_font_size:
+            self.current_font_size -= 1
+            self._apply_font_size()
+
+    def reset_zoom(self):
+        """Resets the font size to the default."""
+        if self.current_font_size != self.base_font_size:
+            self.current_font_size = self.base_font_size
+            self._apply_font_size()
+    # --- End New Zoom Functionality ---
 
 
 if __name__ == "__main__":
