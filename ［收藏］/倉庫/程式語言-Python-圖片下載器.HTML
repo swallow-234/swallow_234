@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-Python-圖片下載器》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>Python</h3></p><hr>
+<pre><code>
+import requests
+import os
+import tkinter as tk
+from tkinter import filedialog, messagebox, ttk, simpledialog
+import threading
+import pyperclip
+
+class ImageDownloaderApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("圖片下載器")
+        self.root.geometry("800x600")
+
+        self.image_urls = []
+        self.setup_ui()
+
+    def setup_ui(self):
+        # 主框架
+        main_frame = tk.Frame(self.root, padx=10, pady=10)
+        main_frame.pack(fill=tk.BOTH, expand=True)
+
+        # 網址輸入區
+        input_frame = tk.Frame(main_frame)
+        input_frame.pack(fill=tk.X, pady=5)
+
+        tk.Label(input_frame, text="圖片網址:").pack(side=tk.LEFT)
+        self.url_entry = tk.Entry(input_frame, width=60)
+        self.url_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(5, 5))
+        
+        self.add_from_clipboard_button = tk.Button(input_frame, text="從剪貼簿新增網址", command=self.add_from_clipboard)
+        self.add_from_clipboard_button.pack(side=tk.LEFT)
+
+        # 清單和按鈕區
+        list_frame = tk.Frame(main_frame)
+        list_frame.pack(fill=tk.BOTH, expand=True, pady=5)
+
+        tk.Label(list_frame, text="待下載項目: (右鍵可分組命名)").pack(pady=(0, 5))
+        self.url_listbox = tk.Listbox(list_frame, selectmode=tk.EXTENDED)
+        self.url_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        scrollbar_listbox = tk.Scrollbar(list_frame, command=self.url_listbox.yview)
+        scrollbar_listbox.pack(side=tk.RIGHT, fill=tk.Y)
+        self.url_listbox.config(yscrollcommand=scrollbar_listbox.set)
+
+        # 綁定右鍵選單
+        self.url_listbox.bind("<Button-3>", self.show_context_menu)
+        self.context_menu = tk.Menu(self.root, tearoff=0)
+        self.context_menu.add_command(label="分組並重新命名", command=self.rename_group)
+
+        # 功能按鈕區
+        button_frame = tk.Frame(main_frame)
+        button_frame.pack(fill=tk.X, pady=5)
+        
+        self.delete_button = tk.Button(button_frame, text="刪除選取項目", command=self.delete_selected_items)
+        self.delete_button.pack(side=tk.LEFT, padx=(0, 5))
+
+        self.start_button = tk.Button(button_frame, text="選擇資料夾並開始下載", command=self.start_download)
+        self.start_button.pack(side=tk.RIGHT)
+        
+        # 進度顯示區
+        tk.Label(main_frame, text="下載進度:").pack(pady=(10, 5))
+        
+        progress_canvas = tk.Canvas(main_frame)
+        progress_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        
+        scrollbar_progress = ttk.Scrollbar(main_frame, orient=tk.VERTICAL, command=progress_canvas.yview)
+        scrollbar_progress.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        progress_canvas.configure(yscrollcommand=scrollbar_progress.set)
+        progress_canvas.bind('<Configure>', lambda e: progress_canvas.configure(scrollregion=progress_canvas.bbox("all")))
+
+        self.progress_frame = tk.Frame(progress_canvas)
+        progress_canvas.create_window((0, 0), window=self.progress_frame, anchor="nw")
+    
+    def add_from_clipboard(self):
+        """從剪貼簿讀取網址並新增到清單"""
+        try:
+            url = pyperclip.paste().strip()
+            if url:
+                item = (url, None)
+                if item not in self.image_urls:
+                    self.image_urls.append(item)
+                    self.url_listbox.insert(tk.END, url)
+                    self.url_entry.delete(0, tk.END)
+                    self.url_entry.insert(0, url)
+                else:
+                    messagebox.showinfo("提示", "此網址已在清單中。")
+            else:
+                messagebox.showwarning("警告", "剪貼簿中沒有有效的網址。")
+        except pyperclip.PyperclipException:
+            messagebox.showwarning("警告", "無法從剪貼簿讀取內容。請確認是否已複製。")
+
+    def show_context_menu(self, event):
+        """顯示右鍵選單"""
+        try:
+            self.context_menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            self.context_menu.grab_release()
+
+    def rename_group(self):
+        """重新命名選中的項目，並更新到內部清單"""
+        selected_indices = self.url_listbox.curselection()
+        if not selected_indices:
+            messagebox.showwarning("警告", "請先選取要分組命名的項目。")
+            return
+        
+        # 建立一個新的對話框，用於輸入新名稱
+        dialog = NameInputDialog(self.root)
+        if dialog.result:
+            new_name = dialog.result
+            for index in selected_indices:
+                url = self.image_urls[index][0]
+                self.image_urls[index] = (url, new_name)
+                self.url_listbox.delete(index)
+                self.url_listbox.insert(index, f"[分組: {new_name}] - {url}")
+
+    def delete_selected_items(self):
+        """刪除選中的項目"""
+        selected_indices = self.url_listbox.curselection()
+        if not selected_indices:
+            messagebox.showwarning("警告", "請先選取要刪除的項目。")
+            return
+
+        for index in selected_indices[::-1]:
+            self.url_listbox.delete(index)
+            del self.image_urls[index]
+
+    def start_download(self):
+        """開始下載圖片"""
+        if not self.image_urls:
+            messagebox.showwarning("警告", "清單中沒有任何圖片網址。")
+            return
+            
+        output_folder = filedialog.askdirectory(title="選擇存檔資料夾")
+        if not output_folder:
+            return
+
+        self.start_button.config(state=tk.DISABLED)
+        self.add_from_clipboard_button.config(state=tk.DISABLED)
+        self.delete_button.config(state=tk.DISABLED)
+
+        for widget in self.progress_frame.winfo_children():
+            widget.destroy()
+
+        progress_bars = []
+        status_labels = []
+        
+        download_list = []
+        grouped_urls = {}
+
+        for i, (url, group_name) in enumerate(self.image_urls):
+            if group_name:
+                if group_name not in grouped_urls:
+                    grouped_urls[group_name] = 0
+                grouped_urls[group_name] += 1
+                extension = os.path.splitext(url)[1] or ".jpg"
+                filename = f"{group_name}-{grouped_urls[group_name]:03d}{extension}"
+            else:
+                filename = os.path.basename(url) or f"image_{i+1}.jpg"
+            
+            download_list.append({'url': url, 'filename': filename})
+
+            frame = tk.Frame(self.progress_frame, pady=5)
+            frame.pack(fill=tk.X)
+            label = tk.Label(frame, text=f"準備下載: {filename}", anchor="w")
+            label.pack(side=tk.LEFT, fill=tk.X, expand=True)
+            status_labels.append(label)
+            progress = ttk.Progressbar(frame, orient="horizontal", length=200, mode="determinate")
+            progress.pack(side=tk.LEFT)
+            progress_bars.append(progress)
+
+        download_thread = threading.Thread(target=self.download_images_thread, 
+                                           args=(output_folder, download_list, progress_bars, status_labels))
+        download_thread.start()
+        
+    def download_images_thread(self, output_folder, download_list, progress_bars, status_labels):
+        """下載圖片的核心函式，在背景執行"""
+        for i, item in enumerate(download_list):
+            url = item['url']
+            filename = item['filename']
+            try:
+                filepath = os.path.join(output_folder, filename)
+
+                status_labels[i].config(text=f"正在下載: {filename}")
+                progress_bars[i]['value'] = 0
+                
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                    "Referer": url,
+                }
+                
+                response = requests.get(url, headers=headers, stream=True)
+                response.raise_for_status()
+
+                total_size = int(response.headers.get('content-length', 0))
+                bytes_downloaded = 0
+
+                with open(filepath, "wb") as file:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        file.write(chunk)
+                        bytes_downloaded += len(chunk)
+                        if total_size > 0:
+                            progress = (bytes_downloaded / total_size) * 100
+                            progress_bars[i]['value'] = progress
+                
+                status_labels[i].config(text=f"完成: {filename}", foreground="green")
+                progress_bars[i]['value'] = 100
+            
+            except requests.exceptions.RequestException as e:
+                status_labels[i].config(text=f"下載失敗: {filename} - {e}", foreground="red")
+                progress_bars[i]['value'] = 0
+        
+        messagebox.showinfo("下載完成", "所有圖片下載完畢！")
+        self.start_button.config(state=tk.NORMAL)
+        self.add_from_clipboard_button.config(state=tk.NORMAL)
+        self.delete_button.config(state=tk.NORMAL)
+
+class NameInputDialog(simpledialog.Dialog):
+    """自訂義的輸入對話框，帶有右鍵選單"""
+    def body(self, master):
+        tk.Label(master, text="請輸入新的檔案前綴名：").pack(pady=5)
+        self.entry = tk.Entry(master)
+        self.entry.pack(pady=5)
+        self.entry.bind("<Button-3>", self.show_context_menu)
+        
+        self.context_menu = tk.Menu(self.entry, tearoff=0)
+        self.context_menu.add_command(label="複製", command=self.copy_text)
+        self.context_menu.add_command(label="貼上", command=self.paste_text)
+        
+        return self.entry
+
+    def show_context_menu(self, event):
+        """在輸入框中顯示右鍵選單"""
+        try:
+            self.context_menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            self.context_menu.grab_release()
+
+    def copy_text(self):
+        """複製選取的文字到剪貼簿"""
+        try:
+            selected_text = self.entry.selection_get()
+            if selected_text:
+                pyperclip.copy(selected_text)
+        except tk.TclError:
+            # 沒有選取文字時忽略錯誤
+            pass
+
+    def paste_text(self):
+        """將剪貼簿的文字貼到輸入框"""
+        try:
+            clipboard_text = pyperclip.paste()
+            self.entry.delete(tk.SEL_FIRST, tk.SEL_LAST)
+            self.entry.insert(tk.INSERT, clipboard_text)
+        except tk.TclError:
+            # 插入點無效時，直接在末尾貼上
+            self.entry.insert(tk.END, clipboard_text)
+        except pyperclip.PyperclipException:
+            pass
+
+    def apply(self):
+        """將輸入的結果傳回"""
+        self.result = self.entry.get()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = ImageDownloaderApp(root)
+    root.mainloop()
+</code></pre>    
+    </body>
+</html>
