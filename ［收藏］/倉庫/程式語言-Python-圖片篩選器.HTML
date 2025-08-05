@@ -13,7 +13,7 @@
     <p><h3>Python</h3></p><hr>
 <pre><code>
 #請在你的終端機或命令提示字元中執行以下指令來安裝：
-#pip install opencv-contrib-python scikit-image Pillow send2trash --user
+#pip install opencv-contrib-python scikit-image Pillow send2trash imagehash --user
 import os
 import cv2
 import tkinter as tk
@@ -25,6 +25,7 @@ from datetime import datetime
 import shutil
 import random
 import re
+import imagehash
 
 class Sorting:
     def __init__(self, folder_path, image_paths):
@@ -178,7 +179,7 @@ class SimilarImageApp:
         tk.Button(top_frame, text="瀏覽...", command=self.browse_folder).pack(side=tk.LEFT)
         
         tk.Label(top_frame, text="排序方式:").pack(side=tk.LEFT, padx=(10, 5))
-        self.sort_option = ttk.Combobox(top_frame, values=["檔案像素", "檔案大小", "修改日期", "建立日期", "讀取日期", "檔案名稱", "色相", "隨機"], width=12)
+        self.sort_option = ttk.Combobox(top_frame, values=["感知哈希", "檔案像素", "檔案大小", "修改日期", "建立日期", "讀取日期", "檔案名稱", "色相", "隨機"], width=12)
         self.sort_option.set("修改日期")
         self.sort_option.pack(side=tk.LEFT)
         
@@ -256,15 +257,6 @@ class SimilarImageApp:
         if os.path.exists(self.all_image_paths_file):
             os.remove(self.all_image_paths_file)
 
-        # 檢查快取檔案是否存在，如果存在則直接載入
-        if self.load_similar_pairs_cache():
-            self.show_current_pair()
-            return
-
-        # 如果沒有快取，則執行完整分析並分批處理
-        self.progress_label['text'] = "沒有快取檔案，執行完整分析..."
-        self.root.update_idletasks()
-        
         valid_extensions = ('.png', '.jpg', '.jpeg', '.bmp', '.gif','.webp','.jfif')
         all_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)]
         
@@ -273,8 +265,14 @@ class SimilarImageApp:
         # 過濾掉已經被標記為刪除的檔案
         self.all_image_paths = [p for p in self.all_image_paths if os.path.basename(p) not in self.marked_for_deletion]
         
-        # 依據使用者選擇的方式進行排序
         sort_by = self.sort_option.get()
+
+        # 根據排序方式選擇不同的比對邏輯
+        if sort_by == "感知哈希":
+            self.find_similar_by_hash()
+            return
+        
+        # 依據使用者選擇的方式進行排序 (非哈希模式)
         sorter = Sorting(folder_path, self.all_image_paths)
         
         if sort_by == "檔案像素":
@@ -293,7 +291,12 @@ class SimilarImageApp:
             sorter.sort_by_hue()
         elif sort_by == "隨機":
             sorter.sort_by_random()
-        
+
+        # 檢查快取檔案是否存在，如果存在則直接載入
+        if self.load_similar_pairs_cache():
+            self.show_current_pair()
+            return
+
         # [步驟一] 將排序後的檔案路徑存入文字檔並釋放暫存記憶體
         with open(self.all_image_paths_file, 'w', encoding='utf-8') as f:
             for path in self.all_image_paths:
@@ -309,6 +312,44 @@ class SimilarImageApp:
         self.total_batches = (total_files + self.batch_size - 1) // self.batch_size
 
         self.root.after(100, self.process_next_batch)
+
+    def find_similar_by_hash(self):
+        self.progress_label['text'] = "使用感知哈希比對中..."
+        self.root.update_idletasks()
+        
+        hashes = {}
+        for i, path in enumerate(self.all_image_paths):
+            try:
+                img = Image.open(path)
+                h = imagehash.phash(img)
+                if h not in hashes:
+                    hashes[h] = []
+                hashes[h].append(os.path.basename(path))
+            except Exception as e:
+                print(f"無法為圖片 {os.path.basename(path)} 計算哈希值: {e}")
+            
+            self.progressbar['value'] = (i + 1) / len(self.all_image_paths) * 100
+            self.progress_label['text'] = f"比對進度: {i + 1}/{len(self.all_image_paths)}"
+            self.root.update_idletasks()
+
+        self.similar_pairs = []
+        for h, filenames in hashes.items():
+            if len(filenames) > 1:
+                # 將找到的重複圖片組成多個圖片對
+                for i in range(len(filenames) - 1):
+                    for j in range(i + 1, len(filenames)):
+                        self.similar_pairs.append(((filenames[i], filenames[j]), 1.0))
+        
+        self.similar_pairs.sort(key=lambda x: x[0][0])
+        
+        if self.similar_pairs:
+            self.progress_label['text'] = f"找到 {len(self.similar_pairs)} 組相似圖片。"
+            self.progressbar['value'] = 100
+            self.show_current_pair()
+        else:
+            self.clear_display()
+            self.progress_label['text'] = "沒有找到任何相似圖片。"
+            tk.messagebox.showinfo("完成", "沒有找到任何相似圖片。")
 
     def process_next_batch(self):
         start_index = self.current_batch_index * self.batch_size
