@@ -14,7 +14,6 @@
 <pre><code>
 #請在你的終端機或命令提示字元中執行以下指令來安裝：
 #pip install opencv-contrib-python scikit-image Pillow send2trash --user
-
 import os
 import cv2
 import tkinter as tk
@@ -25,6 +24,53 @@ import numpy as np
 from datetime import datetime
 import shutil
 import random
+import re
+
+class Sorting:
+    def __init__(self, folder_path, image_paths):
+        self.folder_path = folder_path
+        self.image_paths = image_paths
+
+    def sort_by_size(self):
+        self.image_paths.sort(key=lambda path: os.path.getsize(path), reverse=True)
+
+    def sort_by_mod_date(self):
+        self.image_paths.sort(key=lambda path: os.path.getmtime(path), reverse=True)
+
+    def sort_by_creation_date(self):
+        self.image_paths.sort(key=lambda path: os.path.getctime(path), reverse=True)
+    
+    def sort_by_access_date(self):
+        self.image_paths.sort(key=lambda path: os.path.getatime(path), reverse=True)
+
+    def sort_by_filename(self):
+        self.image_paths.sort(key=lambda path: os.path.basename(path))
+
+    def sort_by_random(self):
+        random.shuffle(self.image_paths)
+
+    def sort_by_pixel(self):
+        def get_pixel_count(path):
+            try:
+                with Image.open(path) as img:
+                    return img.width * img.height
+            except Exception:
+                return 0
+        self.image_paths.sort(key=get_pixel_count, reverse=True)
+
+    def sort_by_hue(self):
+        def get_average_hue(path):
+            try:
+                img = cv2.imread(path)
+                if img is None:
+                    return -1
+                hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+                h, s, v = cv2.split(hsv_img)
+                return np.mean(h)
+            except Exception as e:
+                print(f"無法取得圖片 {path} 的色相: {e}")
+                return -1
+        self.image_paths.sort(key=get_average_hue)
 
 class SimilarImageApp:
     def __init__(self, root):
@@ -45,6 +91,7 @@ class SimilarImageApp:
         self.deleted_folder_path = ""
         self.deleted_records_file = ""
         self.similar_pairs_cache_file = ""
+        self.all_image_paths_file = ""
         self.marked_for_deletion = set()
         self.last_marked_file = None 
 
@@ -61,6 +108,7 @@ class SimilarImageApp:
         self.deleted_folder_path = os.path.join(folder_path, "_deleted_")
         self.deleted_records_file = os.path.join(self.deleted_folder_path, "deleted_records.txt")
         self.similar_pairs_cache_file = os.path.join(folder_path, "similar_pairs_cache.txt")
+        self.all_image_paths_file = os.path.join(folder_path, "all_image_paths.txt")
             
         if not os.path.exists(self.deleted_folder_path):
             os.makedirs(self.deleted_folder_path)
@@ -101,8 +149,9 @@ class SimilarImageApp:
                             file1_name, file2_name, similarity = parts
                             similarity = float(similarity)
                             
-                            file1_path = os.path.join(self.folder_path_entry.get(), file1_name)
-                            file2_path = os.path.join(self.folder_path_entry.get(), file2_name)
+                            folder_path = self.folder_path_entry.get()
+                            file1_path = os.path.join(folder_path, file1_name)
+                            file2_path = os.path.join(folder_path, file2_name)
                             
                             # 檢查檔案是否存在且未被標記為刪除
                             if os.path.exists(file1_path) and os.path.exists(file2_path) and \
@@ -111,44 +160,45 @@ class SimilarImageApp:
                             
                     except Exception as e:
                         print(f"快取檔案格式錯誤，跳過該行: {line.strip()}")
-
-                    self.progressbar['value'] = (i + 1) / len(lines) * 100
-                    self.root.update_idletasks()
             
             if self.similar_pairs:
                 self.similar_pairs.sort(key=lambda x: x[1], reverse=True)
+                self.progress_label['text'] = f"已載入 {len(self.similar_pairs)} 組相似圖片。"
                 return True
         return False
     
     def create_widgets(self):
-        folder_frame = tk.Frame(self.root, padx=10, pady=10)
-        folder_frame.pack(fill=tk.X)
-        
-        tk.Label(folder_frame, text="圖片資料夾路徑:").pack(side=tk.LEFT)
-        self.folder_path_entry = tk.Entry(folder_frame, width=50)
+        # 創建頂部控制區塊
+        top_frame = tk.Frame(self.root, padx=10, pady=10)
+        top_frame.pack(fill=tk.X, anchor='n')
+
+        tk.Label(top_frame, text="圖片資料夾路徑:").pack(side=tk.LEFT)
+        self.folder_path_entry = tk.Entry(top_frame, width=50)
         self.folder_path_entry.pack(side=tk.LEFT, padx=5, expand=True, fill=tk.X)
-        tk.Button(folder_frame, text="瀏覽...", command=self.browse_folder).pack(side=tk.LEFT)
+        tk.Button(top_frame, text="瀏覽...", command=self.browse_folder).pack(side=tk.LEFT)
         
-        tk.Label(folder_frame, text="排序方式:").pack(side=tk.LEFT, padx=(10, 5))
-        self.sort_option = ttk.Combobox(folder_frame, values=["讀取日期", "檔案名稱", "隨機"], width=10)
-        self.sort_option.set("讀取日期")
+        tk.Label(top_frame, text="排序方式:").pack(side=tk.LEFT, padx=(10, 5))
+        self.sort_option = ttk.Combobox(top_frame, values=["檔案像素", "檔案大小", "修改日期", "建立日期", "讀取日期", "檔案名稱", "色相", "隨機"], width=12)
+        self.sort_option.set("修改日期")
         self.sort_option.pack(side=tk.LEFT)
         
-        tk.Button(folder_frame, text="尋找相似圖片", command=self.find_similar_images).pack(side=tk.LEFT, padx=5)
+        tk.Button(top_frame, text="尋找相似圖片", command=self.find_similar_images).pack(side=tk.LEFT, padx=5)
 
+        # 圖片顯示區塊
         self.image_frame = tk.Frame(self.root, padx=10, pady=10)
-        self.image_frame.pack()
+        self.image_frame.pack(fill=tk.BOTH, expand=True)
 
         self.image_label_A = tk.Label(self.image_frame, text="圖片 A", borderwidth=2, relief="groove")
-        self.image_label_A.pack(side=tk.LEFT, padx=10, pady=5)
+        self.image_label_A.pack(side=tk.LEFT, padx=10, pady=5, fill=tk.BOTH, expand=True)
         
         self.image_label_B = tk.Label(self.image_frame, text="圖片 B", borderwidth=2, relief="groove")
-        self.image_label_B.pack(side=tk.LEFT, padx=10, pady=5)
+        self.image_label_B.pack(side=tk.LEFT, padx=10, pady=5, fill=tk.BOTH, expand=True)
         
         self.details_frame = tk.Frame(self.root, padx=10, pady=10)
         self.details_frame.pack(fill=tk.X)
         self.create_details_table()
         
+        # 進度條區塊
         self.progress_frame = tk.Frame(self.root, padx=10, pady=5)
         self.progress_frame.pack(fill=tk.X)
         self.progress_label = tk.Label(self.progress_frame, text="準備中...")
@@ -156,14 +206,16 @@ class SimilarImageApp:
         self.progressbar = ttk.Progressbar(self.progress_frame, orient="horizontal", length=300, mode="determinate")
         self.progressbar.pack(side=tk.LEFT, padx=5, expand=True, fill=tk.X)
         
+        # 功能按鈕區塊 (固定在視窗底部)
         action_frame_row1 = tk.Frame(self.root, padx=10, pady=5)
-        action_frame_row1.pack(fill=tk.X)
+        action_frame_row1.pack(fill=tk.X, anchor='s')
+        
         tk.Button(action_frame_row1, text="標記檔案 A 為刪除", command=lambda: self.mark_for_deletion_and_next(0)).pack(side=tk.LEFT, padx=5, expand=True)
         tk.Button(action_frame_row1, text="取消上一個刪除標記", command=self.unmark_last_deleted).pack(side=tk.LEFT, padx=5, expand=True)
         tk.Button(action_frame_row1, text="標記檔案 B 為刪除", command=lambda: self.mark_for_deletion_and_next(1)).pack(side=tk.LEFT, padx=5, expand=True)
         
         action_frame_row2 = tk.Frame(self.root, padx=10, pady=5)
-        action_frame_row2.pack(fill=tk.X)
+        action_frame_row2.pack(fill=tk.X, anchor='s')
         tk.Button(action_frame_row2, text="執行刪除並關閉程式", command=self.execute_deletion).pack(side=tk.LEFT, padx=5, expand=True)
 
     def create_details_table(self):
@@ -197,13 +249,19 @@ class SimilarImageApp:
         self.clear_display()
         self.current_pair_index = 0
         self.load_deleted_records()
+        
+        # 刪除舊的快取檔案以強制重新排序和比對
+        if os.path.exists(self.similar_pairs_cache_file):
+            os.remove(self.similar_pairs_cache_file)
+        if os.path.exists(self.all_image_paths_file):
+            os.remove(self.all_image_paths_file)
 
-        # 嘗試從快取載入，如果成功，就直接進入瀏覽模式
+        # 檢查快取檔案是否存在，如果存在則直接載入
         if self.load_similar_pairs_cache():
             self.show_current_pair()
             return
-        
-        # 如果沒有快取或快取無效，則執行完整分析並分批處理
+
+        # 如果沒有快取，則執行完整分析並分批處理
         self.progress_label['text'] = "沒有快取檔案，執行完整分析..."
         self.root.update_idletasks()
         
@@ -215,34 +273,65 @@ class SimilarImageApp:
         # 過濾掉已經被標記為刪除的檔案
         self.all_image_paths = [p for p in self.all_image_paths if os.path.basename(p) not in self.marked_for_deletion]
         
+        # 依據使用者選擇的方式進行排序
         sort_by = self.sort_option.get()
-        if sort_by == "讀取日期":
-            self.all_image_paths.sort(key=lambda path: os.path.getmtime(path), reverse=True)
-        elif sort_by == "檔案名稱":
-            self.all_image_paths.sort(key=lambda path: os.path.basename(path))
-        elif sort_by == "隨機":
-            random.shuffle(self.all_image_paths)
-            
-        self.current_batch_index = 0
-        self.total_batches = (len(self.all_image_paths) + self.batch_size - 1) // self.batch_size
+        sorter = Sorting(folder_path, self.all_image_paths)
         
-        # 清空舊的快取檔案
-        if os.path.exists(self.similar_pairs_cache_file):
-            os.remove(self.similar_pairs_cache_file)
-            
+        if sort_by == "檔案像素":
+            sorter.sort_by_pixel()
+        elif sort_by == "檔案大小":
+            sorter.sort_by_size()
+        elif sort_by == "修改日期":
+            sorter.sort_by_mod_date()
+        elif sort_by == "建立日期":
+            sorter.sort_by_creation_date()
+        elif sort_by == "讀取日期":
+            sorter.sort_by_access_date()
+        elif sort_by == "檔案名稱":
+            sorter.sort_by_filename()
+        elif sort_by == "色相":
+            sorter.sort_by_hue()
+        elif sort_by == "隨機":
+            sorter.sort_by_random()
+        
+        # [步驟一] 將排序後的檔案路徑存入文字檔並釋放暫存記憶體
+        with open(self.all_image_paths_file, 'w', encoding='utf-8') as f:
+            for path in self.all_image_paths:
+                f.write(f"{path}\n")
+        
+        self.all_image_paths = [] # 釋放記憶體
+        self.current_batch_index = 0
+        
+        # [步驟二] 根據文字檔內的總數計算批次
+        with open(self.all_image_paths_file, 'r', encoding='utf-8') as f:
+            total_files = len(f.readlines())
+        
+        self.total_batches = (total_files + self.batch_size - 1) // self.batch_size
+
         self.root.after(100, self.process_next_batch)
 
     def process_next_batch(self):
         start_index = self.current_batch_index * self.batch_size
         
-        if start_index >= len(self.all_image_paths):
+        if self.current_batch_index >= self.total_batches:
             self.progress_label['text'] = "所有圖片都已處理完畢。"
             tk.messagebox.showinfo("完成", "所有圖片批次都已處理完畢。")
+            
+            # 處理完所有批次後，從快取載入所有相似對
             self.load_similar_pairs_cache()
-            self.show_current_pair()
+            if self.similar_pairs:
+                self.show_current_pair()
+            else:
+                self.clear_display()
+                self.progress_label['text'] = "沒有找到任何相似圖片。"
             return
-        
-        current_batch_paths = self.all_image_paths[start_index:start_index + self.batch_size]
+
+        # 從文字檔讀取批次檔案路徑
+        current_batch_paths = []
+        with open(self.all_image_paths_file, 'r', encoding='utf-8') as f:
+            for i, line in enumerate(f):
+                if i >= start_index and len(current_batch_paths) < self.batch_size:
+                    current_batch_paths.append(line.strip())
         
         self.progress_label['text'] = f"處理批次 {self.current_batch_index + 1}/{self.total_batches}..."
         self.root.update_idletasks()
@@ -257,11 +346,10 @@ class SimilarImageApp:
         similar_pairs_in_batch = self.find_and_group_similar_images()
         self.append_similar_pairs_cache(similar_pairs_in_batch)
         
-        # 釋放記憶體
+        # [步驟三] 釋放記憶體
         self.images = {}
         self.full_images = {}
         
-        # 準備處理下一批次
         self.current_batch_index += 1
         self.root.after(100, self.process_next_batch)
         
@@ -367,7 +455,6 @@ class SimilarImageApp:
         return similar_pairs
 
     def are_filenames_similar(self, name1, name2):
-        import re
         base_name1 = os.path.splitext(name1)[0]
         base_name2 = os.path.splitext(name2)[0]
         
@@ -380,7 +467,6 @@ class SimilarImageApp:
         if not self.similar_pairs:
             self.clear_display()
             self.progress_label['text'] = "已無更多相似圖片。"
-            tk.messagebox.showinfo("完成", "所有相似圖片都已瀏覽完畢。")
             return
 
         file1_name, file2_name = self.similar_pairs[self.current_pair_index][0]
@@ -396,6 +482,11 @@ class SimilarImageApp:
         
         self.update_details_table(file1_path, file2_path, similarity)
         self.update_mark_buttons()
+        
+        # 更新進度條標籤，顯示當前圖片對編號和總數
+        total_pairs = len(self.similar_pairs)
+        self.progress_label['text'] = f"相似圖片 {self.current_pair_index + 1}/{total_pairs} (相似度: {similarity:.4f})"
+
 
     def update_mark_buttons(self):
         pass
@@ -447,19 +538,19 @@ class SimilarImageApp:
 
         self.tree.insert("", "end", values=("相似度", f"{similarity:.4f}", f"{similarity:.4f}"))
         self.tree.insert("", "end", values=("解析度 (像素)", details_a['resolution'], details_b['resolution']))
-        self.tree.insert("", "end", values=("位元深度", details_a['bit_depth'], details_b['bit_depth']))
         self.tree.insert("", "end", values=("檔案大小", details_a['size'], details_b['size']))
         self.tree.insert("", "end", values=("檔案類型", details_a['type'], details_b['type']))
-        self.tree.insert("", "end", values=("建檔日期", details_a['creation_date'], details_b['creation_date']))
+        self.tree.insert("", "end", values=("修改日期", details_a['mod_date'], details_b['mod_date']))
+        self.tree.insert("", "end", values=("建立日期", details_a['creation_date'], details_b['creation_date']))
         
         self.tree.insert("", "end", values=("檔案名稱(重新命名)", os.path.basename(file_a), os.path.basename(file_b)), tags=('editable',))
     
     def get_file_details(self, file_path):
         details = {
             'resolution': 'N/A',
-            'bit_depth': 'N/A',
             'size': 'N/A',
             'type': 'N/A',
+            'mod_date': 'N/A',
             'creation_date': 'N/A'
         }
         try:
@@ -467,16 +558,12 @@ class SimilarImageApp:
                 return details
             file_stats = os.stat(file_path)
             details['size'] = f"{file_stats.st_size / (1024 * 1024):.2f} MB"
+            details['mod_date'] = datetime.fromtimestamp(file_stats.st_mtime).strftime('%Y-%m-%d %H:%M')
             details['creation_date'] = datetime.fromtimestamp(file_stats.st_ctime).strftime('%Y-%m-%d %H:%M')
 
             img = Image.open(file_path)
             details['resolution'] = f"{img.width}x{img.height}"
             details['type'] = img.format
-
-            try:
-                details['bit_depth'] = f"{img.mode} ({img.bits} bits)"
-            except AttributeError:
-                details['bit_depth'] = f"{img.mode}"
                 
         except Exception as e:
             print(f"無法取得檔案詳細資訊 {file_path}: {e}")
@@ -490,7 +577,7 @@ class SimilarImageApp:
             return
 
         item_values = self.tree.item(item_id, 'values')
-        if item_values and item_values[0] == "檔案名稱":
+        if item_values and item_values[0] == "檔案名稱(重新命名)":
             col_index = int(column_id[1]) - 1
             old_filename = item_values[col_index]
             
@@ -559,6 +646,13 @@ class SimilarImageApp:
         
         if not self.marked_for_deletion:
             tk.messagebox.showinfo("完成", "沒有找到任何標記為刪除的檔案，程式將關閉。")
+            
+            # 關閉程式時刪除快取檔
+            if os.path.exists(self.all_image_paths_file):
+                os.remove(self.all_image_paths_file)
+            if os.path.exists(self.similar_pairs_cache_file):
+                os.remove(self.similar_pairs_cache_file)
+                
             self.root.destroy()
             return
         
@@ -581,6 +675,13 @@ class SimilarImageApp:
                     print(f"無法將檔案 {filename} 移動到 _deleted_ 資料夾: {e}")
         
         tk.messagebox.showinfo("完成", f"已將 {deleted_count} 個標記為刪除的檔案移動到 _deleted_ 資料夾。")
+        
+        # 關閉程式時刪除快取檔
+        if os.path.exists(self.all_image_paths_file):
+            os.remove(self.all_image_paths_file)
+        if os.path.exists(self.similar_pairs_cache_file):
+            os.remove(self.similar_pairs_cache_file)
+
         self.root.destroy()
 
     def clear_display(self):
