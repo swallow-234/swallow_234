@@ -179,7 +179,7 @@ class SimilarImageApp:
         tk.Button(top_frame, text="瀏覽...", command=self.browse_folder).pack(side=tk.LEFT)
         
         tk.Label(top_frame, text="排序方式:").pack(side=tk.LEFT, padx=(10, 5))
-        self.sort_option = ttk.Combobox(top_frame, values=["感知哈希", "檔案像素", "檔案大小", "修改日期", "建立日期", "讀取日期", "檔案名稱", "色相", "隨機"], width=12)
+        self.sort_option = ttk.Combobox(top_frame, values=["感知哈希 (pHash)", "差值哈希 (dHash)", "平均哈希 (aHash)", "檔案像素", "檔案大小", "修改日期", "建立日期", "讀取日期", "檔案名稱", "色相", "隨機"], width=15)
         self.sort_option.set("修改日期")
         self.sort_option.pack(side=tk.LEFT)
         
@@ -217,7 +217,10 @@ class SimilarImageApp:
         
         action_frame_row2 = tk.Frame(self.root, padx=10, pady=5)
         action_frame_row2.pack(fill=tk.X, anchor='s')
+        
+        tk.Button(action_frame_row2, text="上一組", command=self.show_prev_pair).pack(side=tk.LEFT, padx=5, expand=True)
         tk.Button(action_frame_row2, text="執行刪除並關閉程式", command=self.execute_deletion).pack(side=tk.LEFT, padx=5, expand=True)
+        tk.Button(action_frame_row2, text="下一組", command=self.show_next_pair).pack(side=tk.LEFT, padx=5, expand=True)
 
     def create_details_table(self):
         columns = ("detail", "image_a", "image_b")
@@ -268,8 +271,13 @@ class SimilarImageApp:
         sort_by = self.sort_option.get()
 
         # 根據排序方式選擇不同的比對邏輯
-        if sort_by == "感知哈希":
-            self.find_similar_by_hash()
+        if "哈希" in sort_by:
+            if sort_by == "感知哈希 (pHash)":
+                self.find_similar_by_hash_algorithm(imagehash.phash)
+            elif sort_by == "差值哈希 (dHash)":
+                self.find_similar_by_hash_algorithm(imagehash.dhash)
+            elif sort_by == "平均哈希 (aHash)":
+                self.find_similar_by_hash_algorithm(imagehash.average_hash)
             return
         
         # 依據使用者選擇的方式進行排序 (非哈希模式)
@@ -313,15 +321,15 @@ class SimilarImageApp:
 
         self.root.after(100, self.process_next_batch)
 
-    def find_similar_by_hash(self):
-        self.progress_label['text'] = "使用感知哈希比對中..."
+    def find_similar_by_hash_algorithm(self, hash_algorithm):
+        self.progress_label['text'] = f"使用 {self.sort_option.get()} 比對中..."
         self.root.update_idletasks()
         
         hashes = {}
         for i, path in enumerate(self.all_image_paths):
             try:
                 img = Image.open(path)
-                h = imagehash.phash(img)
+                h = hash_algorithm(img)
                 if h not in hashes:
                     hashes[h] = []
                 hashes[h].append(os.path.basename(path))
@@ -547,7 +555,8 @@ class SimilarImageApp:
     def show_prev_pair(self):
         if not self.similar_pairs:
             return
-        self.current_pair_index = (self.current_pair_index - 1 + len(self.similar_pairs)) % len(self.similar_pairs)
+        # 確保索引不會小於0
+        self.current_pair_index = max(0, self.current_pair_index - 1)
         self.show_current_pair()
     
     def display_image(self, file_path, label):
