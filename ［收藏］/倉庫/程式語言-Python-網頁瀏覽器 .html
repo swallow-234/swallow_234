@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-Python-網頁瀏覽器》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>Python</h3></p><hr>
+<pre><code>
+import tkinter as tk
+from tkinter import messagebox, filedialog, ttk
+import requests
+from bs4 import BeautifulSoup
+import webbrowser
+import re
+from io import BytesIO
+from PIL import Image, ImageTk, ImageSequence
+import threading
+import os
+import urllib.parse
+import tempfile
+import platform
+import queue
+
+class ImagePreviewPanel(tk.Frame):
+    def __init__(self, parent, root, image_cache, base_url, url, preview_size, on_open_temp):
+        super().__init__(parent, relief="solid", borderwidth=1, padx=5, pady=5)
+        self.root = root
+        self.image_cache = image_cache
+        self.base_url = base_url
+        self.url = self.resolve_url(base_url, url)
+        self.on_open_temp_callback = on_open_temp
+        self.preview_size = preview_size
+        self.image = None
+        self.last_pil_image = None
+        self.last_image_data = None
+        self.gif_frames = []
+        self.frame_index = 0
+        self.animation_id = None
+        self.lock = threading.Lock()
+        self.is_destroyed = False
+
+        self.main_frame = tk.Frame(self)
+        self.main_frame.pack(side="left", padx=(0, 10))
+
+        self.image_label = tk.Label(self.main_frame, width=int(preview_size / 10), height=int(preview_size / 10),
+                                     borderwidth=1, relief="solid")
+        self.image_label.pack(side="top", pady=(5, 0))
+
+        self.control_frame = tk.Frame(self)
+        self.control_frame.pack(side="right", fill="y", expand=True)
+        
+        self.open_url_button = tk.Button(self.control_frame, text="開啟網址", command=lambda: self.open_in_browser(self.url))
+        self.open_url_button.pack(side="top", anchor="w", pady=(2, 2))
+        
+        self.progress_bar = ttk.Progressbar(self, orient="horizontal", length=preview_size + 50, mode="indeterminate")
+        self.progress_bar.pack(side="bottom", fill="x", pady=(5, 0))
+
+    def resolve_url(self, base_url, relative_url):
+        if not relative_url:
+            return ""
+        if relative_url.startswith('//'):
+            return 'https:' + relative_url
+        return urllib.parse.urljoin(base_url, relative_url)
+
+    def load_and_display_image(self):
+        try:
+            self.progress_bar.start()
+            if not self.url:
+                self.show_error_label("網址為空")
+                return
+
+            with self.lock:
+                if self.url in self.image_cache:
+                    cached_data = self.image_cache.get(self.url)
+                    self.last_pil_image = cached_data.get('pil_image')
+                    self.last_image_data = cached_data.get('image_data')
+                    self.gif_frames = cached_data.get('gif_frames', [])
+                else:
+                    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+                    response = requests.get(self.url, headers=headers, timeout=60)
+                    response.raise_for_status()
+                    self.last_image_data = BytesIO(response.content)
+                    self.last_pil_image = Image.open(self.last_image_data)
+                    self.image_cache[self.url] = {'pil_image': self.last_pil_image, 'image_data': self.last_image_data}
+                    
+                    if self.last_pil_image.format == 'GIF':
+                        self.gif_frames = self.load_gif_frames(self.last_pil_image)
+                        self.image_cache[self.url]['gif_frames'] = self.gif_frames
+            
+            self.root.after(0, self.update_image)
+
+        except Exception as e:
+            print(f"無法下載或顯示圖片 {self.url}: {e}")
+            self.root.after(0, lambda: self.show_error_label(str(e)))
+            self.root.after(0, lambda: self.image_label.bind("<Button-2>", lambda e: self.on_open_temp_callback(self.last_image_data, self.url)))
+
+    def load_gif_frames(self, pil_image):
+        frames = []
+        try:
+            for frame in ImageSequence.Iterator(pil_image):
+                frame_copy = frame.copy().convert('RGBA')
+                frame_copy.thumbnail((self.preview_size, self.preview_size), Image.LANCZOS)
+                frames.append(ImageTk.PhotoImage(frame_copy))
+        except EOFError:
+            pass
+        return frames
+
+    def start_animation(self):
+        if self.gif_frames and not self.is_destroyed:
+            self.frame_index = (self.frame_index + 1) % len(self.gif_frames)
+            self.image_label.config(image=self.gif_frames[self.frame_index])
+            delay = self.last_pil_image.info.get('duration', 100)
+            if delay < 20:
+                delay = 100
+            self.animation_id = self.root.after(delay, self.start_animation)
+    
+    def stop_animation(self):
+        if self.animation_id:
+            self.root.after_cancel(self.animation_id)
+            self.animation_id = None
+    
+    def update_image(self):
+        if self.is_destroyed:
+            return
+
+        if self.last_pil_image.format == 'GIF':
+            if self.gif_frames:
+                self.image_label.config(image=self.gif_frames[0], width=self.preview_size, height=self.preview_size)
+                self.start_animation()
+            else:
+                self.show_error_label("GIF動畫載入失敗")
+        else:
+            pil_image_copy = self.last_pil_image.copy()
+            pil_image_copy.thumbnail((self.preview_size, self.preview_size), Image.LANCZOS)
+            self.image = ImageTk.PhotoImage(pil_image_copy)
+            self.image_label.config(image=self.image, width=self.preview_size, height=self.preview_size)
+            
+        self.image_label.config(cursor="hand2")
+        self.progress_bar.stop()
+        self.progress_bar.pack_forget()
+        self.image_label.bind("<Button-1>", lambda e: self.open_in_browser(self.url))
+        self.image_label.bind("<Button-2>", lambda e: self.on_open_temp_callback(self.last_image_data, self.url))
+
+    def show_error_label(self, error_message):
+        if self.is_destroyed:
+            return
+        self.image_label.config(text=f"圖片無法顯示\n(中鍵開啟暫存)",
+                                 image='', width=int(self.preview_size / 10), height=int(self.preview_size / 10),
+                                 borderwidth=1, relief="solid", cursor="hand2")
+        self.progress_bar.stop()
+        self.progress_bar.pack_forget()
+
+    def open_in_browser(self, url):
+        webbrowser.open(url)
+    
+    def destroy(self):
+        self.is_destroyed = True
+        self.stop_animation()
+        super().destroy()
+
+class HtmlTagFilterApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("網頁標籤篩選器 (功能增強版)")
+        self.root.geometry("1200x800")
+        self.message_queue = queue.Queue()
+        self.processing_thread = None
+
+        self.base_url = ""
+        self.preview_mode = tk.BooleanVar(value=False)
+        self.original_soup = None
+        self.tag_vars = {}
+        self.all_tags_list = []
+        self.image_cache = {}
+        self.image_panels = []
+        self.download_thread = None
+        self.image_extensions = ('.jpg', '.jpeg', '.png', '.gif', '.webp')
+        self.progress_bar = None
+        self.preview_size_default = 150
+        self.preview_limit_default = 50
+
+        self.top_frame = tk.Frame(root)
+        self.top_frame.pack(fill="x")
+
+        self.url_frame = tk.Frame(self.top_frame, padx=10, pady=10)
+        self.url_frame.pack(fill="x")
+
+        self.url_label = tk.Label(self.url_frame, text="請輸入網址:", font=("Arial", 12))
+        self.url_label.pack(side="left", padx=(0, 10))
+
+        self.url_entry = tk.Entry(self.url_frame, width=30, font=("Arial", 12))
+        self.url_entry.pack(side="left", fill="x", expand=True)
+
+        self.fetch_button = tk.Button(self.url_frame, text="爬取並讀取", command=self.fetch_and_process)
+        self.fetch_button.pack(side="left", padx=(10, 0))
+
+        self.import_button = tk.Button(self.url_frame, text="匯入 HTML 檔案", command=self.import_file_and_process)
+        self.import_button.pack(side="left", padx=(10, 0))
+
+        self.process_button = tk.Button(self.url_frame, text="處理顯示區內容", command=self.process_display_content)
+        self.process_button.pack(side="left", padx=(10, 0))
+
+        self.preview_mode_button = tk.Button(self.url_frame, text="切換預覽模式", command=self.toggle_preview_mode)
+        self.preview_mode_button.pack(side="right")
+
+        self.preview_setting_frame = tk.Frame(self.top_frame, padx=10, pady=5)
+        self.preview_size_label = tk.Label(self.preview_setting_frame, text="預覽尺寸 (像素):", font=("Arial", 10))
+        self.preview_size_label.pack(side="left")
+        self.preview_size_entry = tk.Entry(self.preview_setting_frame, width=5, font=("Arial", 10))
+        self.preview_size_entry.insert(0, str(self.preview_size_default))
+        self.preview_size_entry.pack(side="left", padx=(5, 10))
+
+        self.preview_limit_label = tk.Label(self.preview_setting_frame, text="顯示數量上限:", font=("Arial", 10))
+        self.preview_limit_label.pack(side="left")
+        self.preview_limit_entry = tk.Entry(self.preview_setting_frame, width=5, font=("Arial", 10))
+        self.preview_limit_entry.insert(0, str(self.preview_limit_default))
+        self.preview_limit_entry.pack(side="left", padx=(5, 10))
+        self.preview_setting_frame.pack_forget()
+
+        self.tag_label_frame = tk.LabelFrame(root, text="篩選網頁標籤", padx=5, pady=5)
+        self.tag_label_frame.pack(fill="x", padx=10, pady=5)
+
+        self.tag_control_frame = tk.Frame(self.tag_label_frame)
+        self.tag_control_frame.pack(fill="x", padx=5, pady=2)
+
+        self.search_label = tk.Label(self.tag_control_frame, text="搜尋:", font=("Arial", 10))
+        self.search_label.pack(side="left", padx=(0, 5))
+
+        self.search_entry = tk.Entry(self.tag_control_frame, font=("Arial", 10), width=15)
+        self.search_entry.pack(side="left", padx=(0, 10))
+        self.search_entry.bind("<KeyRelease>", self.search_tags)
+
+        self.select_all_button = tk.Button(self.tag_control_frame, text="全選", command=lambda: self.set_all_tags_state(True))
+        self.select_all_button.pack(side="left", padx=(0, 5))
+
+        self.unselect_all_button = tk.Button(self.tag_control_frame, text="取消全選", command=lambda: self.set_all_tags_state(False))
+        self.unselect_all_button.pack(side="left")
+        
+        self.cut_and_paste_button = tk.Button(self.tag_control_frame, text="剪下所選標籤", command=self.cut_and_paste_tags)
+        self.cut_and_paste_button.pack(side="left", padx=(10, 0))
+
+        self.auto_select_parent_var = tk.BooleanVar(value=True)
+        self.auto_select_parent_chk = tk.Checkbutton(
+            self.tag_control_frame,
+            text="自動勾選父集",
+            variable=self.auto_select_parent_var
+        )
+        self.auto_select_parent_chk.pack(side="left", padx=(10, 0))
+
+        self.tag_canvas = tk.Canvas(self.tag_label_frame, height=30)
+        self.scrollbar_x = tk.Scrollbar(self.tag_label_frame, orient="horizontal", command=self.tag_canvas.xview)
+        self.tag_canvas.configure(xscrollcommand=self.scrollbar_x.set)
+
+        self.tag_canvas.pack(side="top", fill="x", expand=True)
+        self.scrollbar_x_label = tk.Label(self.tag_label_frame, text="", font=("Arial", 8))
+        self.scrollbar_x_label.pack(side="bottom", fill="x")
+        self.scrollbar_x.pack(side="bottom", fill="x")
+
+        self.tag_frame = tk.Frame(self.tag_canvas)
+        self.tag_canvas.create_window((0, 0), window=self.tag_frame, anchor="nw")
+
+        self.content_label_frame = tk.LabelFrame(root, text="顯示內容", padx=10, pady=5)
+        self.content_label_frame.pack(fill="both", expand=True, padx=10, pady=5)
+        
+        self.progress_container_frame = tk.Frame(self.content_label_frame)
+        self.progress_container_frame.pack(fill="x")
+        
+        self.preview_frame = tk.Frame(self.content_label_frame)
+        self.preview_canvas = tk.Canvas(self.preview_frame)
+        self.preview_canvas_scrollbar_y = tk.Scrollbar(self.preview_frame, orient="vertical", command=self.preview_canvas.yview)
+        self.preview_canvas.configure(yscrollcommand=self.preview_canvas_scrollbar_y.set)
+
+        self.preview_canvas.pack(side="left", fill="both", expand=True)
+        self.preview_canvas_scrollbar_y.pack(side="right", fill="y")
+        self.preview_canvas_frame = tk.Frame(self.preview_canvas)
+        self.preview_canvas.create_window((0, 0), window=self.preview_canvas_frame, anchor="nw")
+        
+        self.preview_canvas_frame.bind("<Configure>", lambda e: self.preview_canvas.configure(scrollregion=self.preview_canvas.bbox("all")))
+        self.preview_canvas.bind_all("<MouseWheel>", self.on_mousewheel)
+        self.preview_canvas.bind_all("<Button-4>", self.on_mousewheel)
+        self.preview_canvas.bind_all("<Button-5>", self.on_mousewheel)
+
+        self.preview_scrollbar_x_container = tk.Frame(self.content_label_frame)
+        self.preview_scrollbar_x_label = tk.Label(self.preview_scrollbar_x_container, text="", font=("Arial", 8))
+        self.preview_scrollbar_x = tk.Scrollbar(self.preview_scrollbar_x_container, orient="horizontal", command=self.preview_canvas.xview)
+        self.preview_canvas.configure(xscrollcommand=self.preview_scrollbar_x.set)
+        
+        self.content_display_frame = tk.Frame(self.content_label_frame)
+        self.content_display_frame.pack(fill="both", expand=True, side="left")
+
+        self.content_scrollbar_y = tk.Scrollbar(self.content_display_frame, orient="vertical")
+        self.content_scrollbar_y.pack(side="right", fill="y")
+
+        self.content_scrollbar_x = tk.Scrollbar(self.content_display_frame, orient="horizontal")
+        self.content_scrollbar_x.pack(side="bottom", fill="x")
+        self.content_scrollbar_x_label = tk.Label(self.content_display_frame, text="", font=("Arial", 8))
+        self.content_scrollbar_x_label.pack(side="bottom", fill="x")
+
+        self.content_display = tk.Text(self.content_display_frame, wrap="none",
+                                         font=("Courier New", 10))
+        self.content_display.pack(side="left", fill="both", expand=True)
+
+        self.content_display.configure(
+            yscrollcommand=self.content_scrollbar_y.set,
+            xscrollcommand=self.content_scrollbar_x.set
+        )
+        self.content_scrollbar_y.config(command=self.content_display.yview)
+        self.content_scrollbar_x.config(command=self.content_display.xview)
+
+        self.preview_frame.pack_forget()
+        self.preview_scrollbar_x_container.pack_forget()
+
+        self.content_display.tag_config('hyperlink', foreground='blue', underline=1)
+        self.content_display.tag_bind('hyperlink', '<Enter>', lambda e: self.content_display.config(cursor='hand2'))
+        self.content_display.tag_bind('hyperlink', '<Leave>', lambda e: self.content_display.config(cursor='arrow'))
+        self.content_display.tag_bind('hyperlink', '<Button-1>', self.open_link)
+        self.root.after(100, self.check_for_messages)
+
+    def on_mousewheel(self, event):
+        if self.preview_mode.get():
+            if event.delta:
+                self.preview_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+            elif event.num == 4:
+                self.preview_canvas.yview_scroll(-1, "units")
+            elif event.num == 5:
+                self.preview_canvas.yview_scroll(1, "units")
+
+    def toggle_preview_mode(self):
+        if self.download_thread and self.download_thread.is_alive():
+            return
+
+        is_preview = not self.preview_mode.get()
+        self.preview_mode.set(is_preview)
+
+        if is_preview:
+            current_content = self.content_display.get("1.0", tk.END).strip()
+            if self.original_soup is None or current_content not in str(self.original_soup):
+                self.process_display_content()
+            
+            self.content_display_frame.pack_forget()
+            self.preview_setting_frame.pack(fill="x")
+            
+            if not self.progress_bar:
+                self.progress_bar = ttk.Progressbar(self.progress_container_frame, orient="horizontal", length=200, mode="determinate")
+                self.progress_bar.pack(pady=5, fill="x")
+            
+            self.preview_frame.pack(fill="both", expand=True)
+            self.preview_scrollbar_x_container.pack_forget()
+            self.preview_canvas.configure(xscrollcommand=None)
+            self.root.title("網頁標籤篩選器 (圖片預覽模式)")
+
+            self.clear_image_panels()
+            self.download_thread = threading.Thread(target=self.display_preview_threaded, daemon=True)
+            self.download_thread.start()
+        else:
+            self.clear_image_panels()
+            self.preview_frame.pack_forget()
+            self.preview_scrollbar_x_container.pack_forget()
+            self.preview_setting_frame.pack_forget()
+            if self.progress_bar:
+                self.progress_bar.stop()
+                self.progress_bar.pack_forget()
+                self.progress_bar = None
+
+            self.content_display_frame.pack(fill="both", expand=True, side="left")
+            self.content_scrollbar_x_label.pack(side="bottom", fill="x")
+            self.root.title("網頁標籤篩選器 (程式碼模式)")
+            self.filter_html()
+
+    def clear_image_panels(self):
+        for panel in self.image_panels:
+            if panel.winfo_exists():
+                panel.destroy()
+        self.image_panels = []
+
+    def display_preview_threaded(self):
+        selected_tags = {tag for tag, var in self.tag_vars.items() if var.get()}
+        if not self.original_soup or not selected_tags:
+            self.message_queue.put("no_images_or_tags")
+            return
+
+        images_to_display = set()
+        url_pattern = re.compile(r'(https?://[^\s\'">)]+\.(?:jpg|jpeg|png|gif|webp))')
+        
+        for tag in selected_tags:
+            for element in self.original_soup.find_all(tag):
+                if element.name == 'img' and 'src' in element.attrs:
+                    images_to_display.add(element['src'])
+                if 'style' in element.attrs:
+                    match = re.search(r'url\((.*?)\)', element['style'])
+                    if match:
+                        img_url = match.group(1).strip("'\"")
+                        if img_url.endswith(self.image_extensions) or url_pattern.search(img_url):
+                            images_to_display.add(img_url)
+
+        image_list = list(images_to_display)
+        total_images = len(image_list)
+
+        if total_images == 0:
+            self.message_queue.put("no_images_found")
+            return
+
+        try:
+            preview_size = int(self.preview_size_entry.get())
+            preview_limit = int(self.preview_limit_entry.get())
+        except ValueError:
+            preview_size = self.preview_size_default
+            preview_limit = self.preview_limit_default
+
+        images_to_load = image_list[:preview_limit]
+        num_images_to_load = len(images_to_load)
+        
+        self.message_queue.put({"type": "update_progress_bar", "maximum": num_images_to_load})
+
+        for i, url in enumerate(images_to_load):
+            panel = ImagePreviewPanel(self.preview_canvas_frame, self.root, self.image_cache, self.base_url, url, preview_size, self.save_and_open_image_temp)
+            self.image_panels.append(panel)
+            panel.pack(side="top", fill="x", pady=5)
+            panel_thread = threading.Thread(target=panel.load_and_display_image)
+            panel_thread.daemon = True
+            panel_thread.start()
+            self.message_queue.put("progress_step")
+        
+        self.message_queue.put("done")
+
+    def check_for_messages(self):
+        try:
+            while True:
+                message = self.message_queue.get_nowait()
+                if isinstance(message, dict) and message.get("type") == "update_progress_bar":
+                    if self.progress_bar:
+                        self.progress_bar.config(maximum=message["maximum"], value=0)
+                elif message == "no_images_or_tags":
+                    label = tk.Label(self.preview_canvas_frame, text="請先載入網頁內容或選擇標籤。", font=("Arial", 12))
+                    label.pack(pady=20)
+                    if self.progress_bar:
+                        self.progress_bar.pack_forget()
+                elif message == "no_images_found":
+                    label = tk.Label(self.preview_canvas_frame, text="未找到符合條件的圖片連結或標籤。", font=("Arial", 12))
+                    label.pack(pady=20)
+                    if self.progress_bar:
+                        self.progress_bar.pack_forget()
+                elif message == "progress_step":
+                    if self.progress_bar:
+                        self.progress_bar.step()
+                    self.preview_canvas_frame.update_idletasks()
+                    self.preview_canvas.configure(scrollregion=self.preview_canvas.bbox("all"))
+                elif message == "done":
+                    if self.progress_bar:
+                        self.progress_bar.pack_forget()
+                    self.preview_canvas_frame.update_idletasks()
+                    self.preview_canvas.configure(scrollregion=self.preview_canvas.bbox("all"))
+        except queue.Empty:
+            pass
+        finally:
+            self.root.after(100, self.check_for_messages)
+
+    def save_and_open_image_temp(self, image_data, url):
+        if not image_data:
+            messagebox.showinfo("提示", "圖片資料不存在，無法開啟。")
+            return
+        
+        pil_image = Image.open(image_data)
+        image_data.seek(0)
+        
+        with tempfile.NamedTemporaryFile(delete=False, suffix=f".{pil_image.format.lower()}") as tmp:
+            tmp.write(image_data.read())
+            temp_filepath = tmp.name
+        
+        try:
+            if platform.system() == 'Darwin':
+                os.system(f'open "{temp_filepath}"')
+            elif platform.system() == 'Windows':
+                os.startfile(temp_filepath)
+            else:
+                os.system(f'xdg-open "{temp_filepath}"')
+        except Exception as e:
+            messagebox.showerror("錯誤", f"無法開啟暫存檔案: {e}")
+        
+    def process_html_content(self, html_content):
+        try:
+            self.image_cache = {}
+            self.original_soup = BeautifulSoup(html_content, 'html.parser')
+
+            all_tags_set = {tag.name for tag in self.original_soup.find_all()}
+            self.all_tags_list = sorted(list(all_tags_set))
+
+            if not self.all_tags_list:
+                messagebox.showinfo("提示", "未在內容中找到任何 HTML 標籤。")
+                self.content_display.insert(tk.END, "\n\n內容：\n" + self.original_soup.prettify())
+                return
+
+            self.create_tag_checkboxes(self.all_tags_list)
+
+            if self.preview_mode.get():
+                self.download_thread = threading.Thread(target=self.display_preview_threaded)
+                self.download_thread.daemon = True
+                self.download_thread.start()
+            else:
+                self.filter_html()
+
+        except Exception as e:
+            messagebox.showerror("處理錯誤", f"處理內容時發生錯誤: {e}")
+            self.content_display.delete("1.0", tk.END)
+
+    def fetch_and_process(self):
+        url = self.url_entry.get().strip()
+        if not url:
+            messagebox.showerror("錯誤", "請輸入一個有效的網址。")
+            return
+
+        if not url.startswith(("http://", "https://")):
+            url = "http://" + url
+        self.base_url = url
+
+        self.clear_tags()
+        self.content_display.delete("1.0", tk.END)
+        self.content_display.insert(tk.END, "正在爬取網頁內容，請稍候...")
+        self.root.update_idletasks()
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'zh-TW,zh;q=0.8,en-US;q=0.5,en;q=0.3',
+            'Referer': url,
+            'DNT': '1',
+            'Connection': 'keep-alive'
+        }
+
+        try:
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            html_content = response.text
+            self.process_html_content(html_content)
+
+        except requests.exceptions.RequestException as e:
+            messagebox.showerror("網路錯誤", f"無法連線到該網址: {e}\n\n可能原因：網站拒絕爬蟲請求，或網址有誤。")
+            self.content_display.delete("1.0", tk.END)
+        
+    def import_file_and_process(self):
+        filepath = filedialog.askopenfilename(
+            filetypes=[("HTML files", "*.html"), ("All files", "*.*")]
+        )
+        if not filepath:
+            return
+
+        self.base_url = f"file://{filepath}"
+
+        self.clear_tags()
+        self.content_display.delete("1.0", tk.END)
+        self.content_display.insert(tk.END, f"正在讀取檔案：{filepath}...")
+        self.root.update_idletasks()
+
+        try:
+            with open(filepath, 'r', encoding='utf-8') as file:
+                html_content = file.read()
+            self.content_display.delete("1.0", tk.END)
+            self.content_display.insert(tk.END, html_content)
+            self.process_html_content(html_content)
+        except Exception as e:
+            messagebox.showerror("檔案錯誤", f"無法讀取檔案: {e}")
+            self.content_display.delete("1.0", tk.END)
+
+    def process_display_content(self):
+        content = self.content_display.get("1.0", tk.END)
+        if not content.strip():
+            messagebox.showerror("錯誤", "顯示區內容為空。")
+            return
+        
+        self.base_url = "about:blank"
+        self.clear_tags()
+        self.process_html_content(content)
+
+    def create_tag_checkboxes(self, tags):
+        if self.tag_frame:
+            self.tag_frame.destroy()
+        self.tag_frame = tk.Frame(self.tag_canvas)
+        self.tag_canvas.create_window((0, 0), window=self.tag_frame, anchor="nw")
+        self.tag_vars.clear()
+
+        # 新增標籤樣式
+        self.content_display.tag_config('tag_highlight', background='', foreground='#E69138')
+
+        for tag in tags:
+            var = tk.BooleanVar(value=True)
+            chk = tk.Checkbutton(
+                self.tag_frame,
+                text=f"<{tag}>",
+                variable=var,
+                command=lambda t=tag, v=var: self.handle_tag_selection(t, v)
+            )
+            chk.pack(side="left", padx=5, pady=2)
+            self.tag_vars.setdefault(tag, var)
+        
+        self.tag_frame.bind("<Configure>", lambda e: self.tag_canvas.configure(
+            scrollregion=self.tag_canvas.bbox("all")
+        ))
+    
+    def handle_tag_selection(self, tag, var):
+        if self.auto_select_parent_var.get() and var.get():
+            parent_tags = self.get_parent_tags(tag)
+            for p_tag in parent_tags:
+                if p_tag in self.tag_vars and not self.tag_vars.get(p_tag).get():
+                    self.tag_vars.get(p_tag).set(True)
+        
+        if self.preview_mode.get():
+            self.clear_image_panels()
+            self.download_thread = threading.Thread(target=self.display_preview_threaded, daemon=True)
+            self.download_thread.start()
+        else:
+            self.filter_html()
+
+    def get_parent_tags(self, tag):
+        parent_tags = set()
+        if self.original_soup:
+            for element in self.original_soup.find_all(tag):
+                for parent in element.parents:
+                    if parent.name:
+                        parent_tags.add(parent.name)
+        return list(parent_tags)
+    
+    def search_tags(self, event=None):
+        query = self.search_entry.get().lower()
+        filtered_tags = [tag for tag in self.all_tags_list if query in tag.lower()]
+        self.create_tag_checkboxes(filtered_tags)
+        
+        if self.preview_mode.get():
+            self.clear_image_panels()
+            self.download_thread = threading.Thread(target=self.display_preview_threaded, daemon=True)
+            self.download_thread.start()
+        else:
+            self.filter_html()
+
+    def set_all_tags_state(self, state):
+        for var in self.tag_vars.values():
+            var.set(state)
+        
+        if self.preview_mode.get():
+            self.clear_image_panels()
+            self.download_thread = threading.Thread(target=self.display_preview_threaded, daemon=True)
+            self.download_thread.start()
+        else:
+            self.filter_html()
+
+    def cut_and_paste_tags(self):
+        if not self.original_soup:
+            messagebox.showerror("錯誤", "請先載入網頁內容。")
+            return
+            
+        selected_tags = {tag for tag, var in self.tag_vars.items() if var.get()}
+        
+        if not selected_tags:
+            messagebox.showinfo("提示", "請至少選擇一個標籤。")
+            return
+        
+        all_selected_tags = []
+        for tag in selected_tags:
+            all_selected_tags.extend(self.original_soup.find_all(tag))
+
+        html_content = ""
+        for tag_soup in all_selected_tags:
+            html_content += str(tag_soup.prettify()) + "\n\n"
+            
+        self.content_display.delete("1.0", tk.END)
+        self.content_display.insert(tk.END, html_content)
+        
+        url_pattern = r'https?://[^\s\'">)]+'
+        for match in re.finditer(url_pattern, html_content):
+            start_index = f"1.0+{match.start()}c"
+            end_index = f"1.0+{match.end()}c"
+            self.content_display.tag_add("hyperlink", start_index, end_index)
+
+    def filter_html(self):
+        if not self.original_soup:
+            return
+        
+        # 顯示所有原始 HTML 內容
+        html_code = self.original_soup.prettify()
+        self.content_display.delete("1.0", tk.END)
+        self.content_display.insert(tk.END, html_code)
+
+        # 移除之前的標記
+        self.content_display.tag_remove('tag_highlight', '1.0', tk.END)
+
+        # 找出已勾選的標籤
+        selected_tags = {tag for tag, var in self.tag_vars.items() if var.get()}
+
+        if not selected_tags:
+            return
+        
+        # 遍歷已勾選的標籤，並標記它們的內容
+        for tag in selected_tags:
+            for element in self.original_soup.find_all(tag):
+                start_str = str(element.prettify())
+                start_pos = self.content_display.search(start_str.strip(), "1.0", tk.END, nocase=1, regexp=False)
+                
+                if start_pos:
+                    end_pos = self.content_display.search(">", start_pos, tk.END, regexp=False)
+                    if end_pos:
+                        end_pos_line, end_pos_char = end_pos.split('.')
+                        end_pos_char = int(end_pos_char) + 1
+                        end_pos = f"{end_pos_line}.{end_pos_char}"
+                        self.content_display.tag_add('tag_highlight', start_pos, end_pos)
+
+                    # 標記整個標籤內容
+                    end_str = f"</{tag}>"
+                    end_content_pos = self.content_display.search(end_str, start_pos, tk.END, nocase=1, regexp=False)
+                    if end_content_pos:
+                        end_content_pos_line, end_content_pos_char = end_content_pos.split('.')
+                        end_content_pos_char = int(end_content_pos_char) + len(end_str)
+                        end_content_pos = f"{end_content_pos_line}.{end_content_pos_char}"
+                        self.content_display.tag_add('tag_highlight', start_pos, end_content_pos)
+
+        url_pattern = r'https?://[^\s\'">)]+'
+        for match in re.finditer(url_pattern, html_code):
+            start_index = f"1.0+{match.start()}c"
+            end_index = f"1.0+{match.end()}c"
+            self.content_display.tag_add("hyperlink", start_index, end_index)
+
+    def open_link(self, event):
+        index = self.content_display.index(f"@{event.x},{event.y}")
+        
+        if "hyperlink" in self.content_display.tag_names(index):
+            tag_range = self.content_display.tag_prevrange("hyperlink", index)
+            start_index, end_index = tag_range
+            
+            url = self.content_display.get(start_index, end_index)
+            
+            webbrowser.open(url)
+
+    def clear_tags(self):
+        if self.tag_frame:
+            self.tag_frame.destroy()
+        self.tag_frame = tk.Frame(self.tag_canvas)
+        self.tag_canvas.create_window((0, 0), window=self.tag_frame, anchor="nw")
+        self.tag_vars.clear()
+        self.all_tags_list = []
+        self.search_entry.delete(0, tk.END)
+        self.image_cache = {}
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = HtmlTagFilterApp(root)
+    root.mainloop()
+</code></pre>    
+    </body>
+</html>

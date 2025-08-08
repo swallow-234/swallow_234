@@ -93,6 +93,7 @@ class SimilarImageApp:
         self.deleted_records_file = ""
         self.similar_pairs_cache_file = ""
         self.all_image_paths_file = ""
+        self.hash_cache_file = "" # 新增哈希快取檔案
         self.marked_for_deletion = set()
         self.last_marked_file = None 
 
@@ -110,6 +111,7 @@ class SimilarImageApp:
         self.deleted_records_file = os.path.join(self.deleted_folder_path, "deleted_records.txt")
         self.similar_pairs_cache_file = os.path.join(folder_path, "similar_pairs_cache.txt")
         self.all_image_paths_file = os.path.join(folder_path, "all_image_paths.txt")
+        self.hash_cache_file = os.path.join(folder_path, "hash_cache.txt") # 設定哈希快取檔案路徑
             
         if not os.path.exists(self.deleted_folder_path):
             os.makedirs(self.deleted_folder_path)
@@ -234,6 +236,8 @@ class SimilarImageApp:
         self.tree.pack(fill=tk.BOTH, expand=True)
 
         self.tree.tag_configure('editable', background='lightyellow')
+        # 新增一個紅色標籤用於不同之處
+        self.tree.tag_configure('different', foreground='red')
         
         self.tree.bind('<Double-1>', self.on_double_click)
         
@@ -259,6 +263,9 @@ class SimilarImageApp:
             os.remove(self.similar_pairs_cache_file)
         if os.path.exists(self.all_image_paths_file):
             os.remove(self.all_image_paths_file)
+        if os.path.exists(self.hash_cache_file): # 清除舊的哈希快取
+            os.remove(self.hash_cache_file)
+
 
         valid_extensions = ('.png', '.jpg', '.jpeg', '.bmp', '.gif','.webp','.jfif')
         all_files = [os.path.join(folder_path, f) for f in os.listdir(folder_path)]
@@ -270,19 +277,8 @@ class SimilarImageApp:
         
         sort_by = self.sort_option.get()
 
-        # 根據排序方式選擇不同的比對邏輯
-        if "哈希" in sort_by:
-            if sort_by == "感知哈希 (pHash)":
-                self.find_similar_by_hash_algorithm(imagehash.phash)
-            elif sort_by == "差值哈希 (dHash)":
-                self.find_similar_by_hash_algorithm(imagehash.dhash)
-            elif sort_by == "平均哈希 (aHash)":
-                self.find_similar_by_hash_algorithm(imagehash.average_hash)
-            return
-        
-        # 依據使用者選擇的方式進行排序 (非哈希模式)
+        # [步驟一] 排序所有檔案路徑並存入文字檔 (不論哪種排序方式)
         sorter = Sorting(folder_path, self.all_image_paths)
-        
         if sort_by == "檔案像素":
             sorter.sort_by_pixel()
         elif sort_by == "檔案大小":
@@ -299,49 +295,104 @@ class SimilarImageApp:
             sorter.sort_by_hue()
         elif sort_by == "隨機":
             sorter.sort_by_random()
-
-        # 檢查快取檔案是否存在，如果存在則直接載入
-        if self.load_similar_pairs_cache():
-            self.show_current_pair()
-            return
-
-        # [步驟一] 將排序後的檔案路徑存入文字檔並釋放暫存記憶體
+        # 哈希排序不需要預先排序，但需要把檔案路徑寫入文件
+        
         with open(self.all_image_paths_file, 'w', encoding='utf-8') as f:
             for path in self.all_image_paths:
                 f.write(f"{path}\n")
         
         self.all_image_paths = [] # 釋放記憶體
-        self.current_batch_index = 0
         
-        # [步驟二] 根據文字檔內的總數計算批次
+        # [步驟二] 檢查快取檔案是否存在，如果存在則直接載入
+        if self.load_similar_pairs_cache():
+            self.show_current_pair()
+            return
+        
+        # [步驟三] 啟動批次處理
+        self.current_batch_index = 0
         with open(self.all_image_paths_file, 'r', encoding='utf-8') as f:
             total_files = len(f.readlines())
         
+        if total_files == 0:
+            self.progress_label['text'] = "資料夾中沒有可用的圖片。"
+            tk.messagebox.showinfo("提示", "資料夾中沒有可用的圖片。")
+            return
+
         self.total_batches = (total_files + self.batch_size - 1) // self.batch_size
-
-        self.root.after(100, self.process_next_batch)
-
-    def find_similar_by_hash_algorithm(self, hash_algorithm):
-        self.progress_label['text'] = f"使用 {self.sort_option.get()} 比對中..."
-        self.root.update_idletasks()
         
-        hashes = {}
-        for i, path in enumerate(self.all_image_paths):
-            try:
-                img = Image.open(path)
-                h = hash_algorithm(img)
-                if h not in hashes:
-                    hashes[h] = []
-                hashes[h].append(os.path.basename(path))
-            except Exception as e:
-                print(f"無法為圖片 {os.path.basename(path)} 計算哈希值: {e}")
-            
-            self.progressbar['value'] = (i + 1) / len(self.all_image_paths) * 100
-            self.progress_label['text'] = f"比對進度: {i + 1}/{len(self.all_image_paths)}"
+        if "哈希" in sort_by:
+            self.progress_label['text'] = "開始計算哈希值..."
             self.root.update_idletasks()
+            self.hash_algorithm_to_use = self.get_hash_algorithm_from_name(sort_by)
+            self.root.after(100, self.process_next_hash_batch)
+        else:
+            self.root.after(100, self.process_next_ssim_batch)
 
+    def get_hash_algorithm_from_name(self, name):
+        if name == "感知哈希 (pHash)":
+            return imagehash.phash
+        elif name == "差值哈希 (dHash)":
+            return imagehash.dhash
+        elif name == "平均哈希 (aHash)":
+            return imagehash.average_hash
+        return None
+
+    def process_next_hash_batch(self):
+        start_index = self.current_batch_index * self.batch_size
+        
+        if self.current_batch_index >= self.total_batches:
+            self.progress_label['text'] = "所有哈希值都已計算完畢。開始比對..."
+            self.root.update_idletasks()
+            self.find_similar_by_hash_algorithm()
+            return
+            
+        current_batch_paths = []
+        with open(self.all_image_paths_file, 'r', encoding='utf-8') as f:
+            for i, line in enumerate(f):
+                if i >= start_index and len(current_batch_paths) < self.batch_size:
+                    current_batch_paths.append(line.strip())
+        
+        hash_algorithm = self.hash_algorithm_to_use
+        
+        with open(self.hash_cache_file, 'a', encoding='utf-8') as f_hash:
+            for i, path in enumerate(current_batch_paths):
+                try:
+                    with Image.open(path) as img:
+                        h = hash_algorithm(img)
+                        f_hash.write(f"{os.path.basename(path)},{str(h)}\n")
+                except Exception as e:
+                    print(f"無法為圖片 {os.path.basename(path)} 計算哈希值: {e}")
+            
+                self.progressbar['value'] = (self.current_batch_index * self.batch_size + i + 1) / (self.total_batches * self.batch_size) * 100
+                self.progress_label['text'] = f"處理批次 {self.current_batch_index + 1}/{self.total_batches}: {i+1}/{len(current_batch_paths)}"
+                self.root.update_idletasks()
+
+        self.current_batch_index += 1
+        self.root.after(100, self.process_next_hash_batch)
+
+    def find_similar_by_hash_algorithm(self):
+        """從快取檔案讀取所有哈希值並分組比對"""
         self.similar_pairs = []
-        for h, filenames in hashes.items():
+        hashes = {}
+        
+        # 讀取所有哈希值
+        if os.path.exists(self.hash_cache_file):
+            with open(self.hash_cache_file, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+                self.progress_label['text'] = f"讀取 {len(lines)} 個哈希值，準備比對..."
+                self.root.update_idletasks()
+
+                for line in lines:
+                    try:
+                        filename, hash_str = line.strip().split(',')
+                        if hash_str not in hashes:
+                            hashes[hash_str] = []
+                        hashes[hash_str].append(filename)
+                    except ValueError:
+                        print(f"無效的哈希快取行: {line.strip()}")
+        
+        # 找到哈希值相同的圖片
+        for hash_str, filenames in hashes.items():
             if len(filenames) > 1:
                 # 將找到的重複圖片組成多個圖片對
                 for i in range(len(filenames) - 1):
@@ -359,14 +410,13 @@ class SimilarImageApp:
             self.progress_label['text'] = "沒有找到任何相似圖片。"
             tk.messagebox.showinfo("完成", "沒有找到任何相似圖片。")
 
-    def process_next_batch(self):
+    def process_next_ssim_batch(self):
         start_index = self.current_batch_index * self.batch_size
         
         if self.current_batch_index >= self.total_batches:
             self.progress_label['text'] = "所有圖片都已處理完畢。"
             tk.messagebox.showinfo("完成", "所有圖片批次都已處理完畢。")
             
-            # 處理完所有批次後，從快取載入所有相似對
             self.load_similar_pairs_cache()
             if self.similar_pairs:
                 self.show_current_pair()
@@ -375,7 +425,6 @@ class SimilarImageApp:
                 self.progress_label['text'] = "沒有找到任何相似圖片。"
             return
 
-        # 從文字檔讀取批次檔案路徑
         current_batch_paths = []
         with open(self.all_image_paths_file, 'r', encoding='utf-8') as f:
             for i, line in enumerate(f):
@@ -389,18 +438,17 @@ class SimilarImageApp:
         if not self.images:
             self.clear_display()
             self.current_batch_index += 1
-            self.root.after(100, self.process_next_batch)
+            self.root.after(100, self.process_next_ssim_batch)
             return
             
         similar_pairs_in_batch = self.find_and_group_similar_images()
         self.append_similar_pairs_cache(similar_pairs_in_batch)
         
-        # [步驟三] 釋放記憶體
         self.images = {}
         self.full_images = {}
         
         self.current_batch_index += 1
-        self.root.after(100, self.process_next_batch)
+        self.root.after(100, self.process_next_ssim_batch)
         
     def load_images_for_batch(self, image_paths):
         self.images = {}
@@ -470,7 +518,7 @@ class SimilarImageApp:
                             if similarity_index > 0.95:
                                 potential_pairs.append((name1, name2))
 
-                    self.progressbar['value'] = progress_count / total_comparisons * 100 if total_comparisons > 0 else 100
+                    self.progressbar['value'] = (self.current_batch_index * self.batch_size + progress_count) / (self.total_batches * self.batch_size * 0.5) * 100 if self.total_batches > 0 else 100
                     self.progress_label['text'] = f"批次 {self.current_batch_index + 1}: 初步篩選中: {progress_count}/{total_comparisons}"
                     self.root.update_idletasks()
 
@@ -586,14 +634,28 @@ class SimilarImageApp:
         for item in self.tree.get_children():
             self.tree.delete(item)
 
-        self.tree.insert("", "end", values=("相似度", f"{similarity:.4f}", f"{similarity:.4f}"))
-        self.tree.insert("", "end", values=("解析度 (像素)", details_a['resolution'], details_b['resolution']))
-        self.tree.insert("", "end", values=("檔案大小", details_a['size'], details_b['size']))
-        self.tree.insert("", "end", values=("檔案類型", details_a['type'], details_b['type']))
-        self.tree.insert("", "end", values=("修改日期", details_a['mod_date'], details_b['mod_date']))
-        self.tree.insert("", "end", values=("建立日期", details_a['creation_date'], details_b['creation_date']))
-        
-        self.tree.insert("", "end", values=("檔案名稱(重新命名)", os.path.basename(file_a), os.path.basename(file_b)), tags=('editable',))
+        # 檢查並插入每一行，如果值不同則使用 'different' 標籤
+        data = [
+            ("相似度", f"{similarity:.4f}", f"{similarity:.4f}"),
+            ("解析度 (像素)", details_a['resolution'], details_b['resolution']),
+            ("檔案大小", details_a['size'], details_b['size']),
+            ("檔案類型", details_a['type'], details_b['type']),
+            ("修改日期", details_a['mod_date'], details_b['mod_date']),
+            ("建立日期", details_a['creation_date'], details_b['creation_date']),
+            ("檔案名稱(重新命名)", os.path.basename(file_a), os.path.basename(file_b))
+        ]
+
+        for detail, value_a, value_b in data:
+            if value_a != value_b:
+                tags = ('different',)
+            else:
+                tags = ()
+            
+            # 特殊處理 '檔案名稱' 欄位，它需要 'editable' 標籤
+            if detail == "檔案名稱(重新命名)":
+                tags = tags + ('editable',)
+
+            self.tree.insert("", "end", values=(detail, value_a, value_b), tags=tags)
     
     def get_file_details(self, file_path):
         details = {
@@ -698,11 +760,8 @@ class SimilarImageApp:
             tk.messagebox.showinfo("完成", "沒有找到任何標記為刪除的檔案，程式將關閉。")
             
             # 關閉程式時刪除快取檔
-            if os.path.exists(self.all_image_paths_file):
-                os.remove(self.all_image_paths_file)
-            if os.path.exists(self.similar_pairs_cache_file):
-                os.remove(self.similar_pairs_cache_file)
-                
+            self.clean_up_cache_files()
+            
             self.root.destroy()
             return
         
@@ -727,12 +786,20 @@ class SimilarImageApp:
         tk.messagebox.showinfo("完成", f"已將 {deleted_count} 個標記為刪除的檔案移動到 _deleted_ 資料夾。")
         
         # 關閉程式時刪除快取檔
-        if os.path.exists(self.all_image_paths_file):
-            os.remove(self.all_image_paths_file)
-        if os.path.exists(self.similar_pairs_cache_file):
-            os.remove(self.similar_pairs_cache_file)
+        self.clean_up_cache_files()
 
         self.root.destroy()
+
+    def clean_up_cache_files(self):
+        """清除所有產生的快取檔案"""
+        cache_files = [
+            self.all_image_paths_file,
+            self.similar_pairs_cache_file,
+            self.hash_cache_file
+        ]
+        for file_path in cache_files:
+            if os.path.exists(file_path):
+                os.remove(file_path)
 
     def clear_display(self):
         self.image_label_A.config(image=None, text="圖片 A")

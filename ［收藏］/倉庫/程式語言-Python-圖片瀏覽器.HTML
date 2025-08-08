@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-Python-圖片瀏覽器》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>Python</h3></p><hr>
+<pre><code>
+import os
+import glob
+import sys
+import random
+import shutil
+from natsort import natsorted, ns
+from datetime import datetime
+from PyQt5.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+    QAction, QToolBar, QLabel, QInputDialog, QMessageBox, QSlider, QSizePolicy,
+    QComboBox, QMenu, QToolButton, QFileDialog
+)
+from PyQt5.QtGui import QPixmap, QImage, QIcon, QFont, QMovie
+from PyQt5.QtCore import Qt, QTimer, QSize, QSettings
+
+# 確保 Pillow 函式庫已經安裝
+try:
+    from PIL import Image
+    from PIL.ExifTags import TAGS
+    from io import BytesIO
+except ImportError:
+    print("需要安裝 Pillow 函式庫。請執行：pip install Pillow")
+    sys.exit(1)
+
+# 請將以下環境變數路徑替換為你的實際路徑，或註解掉此行
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = r'路徑\site-packages\PyQt5\Qt5\plugins'
+
+
+class ImageManager:
+    """
+    負責管理圖片檔案的載入、排序和索引。
+    """
+    def __init__(self, folder_path):
+        self.folder_path = folder_path
+        # 支援的圖片格式
+        self.supported_formats = ('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.webp', '.jfif')
+        self.all_files = []
+        self.current_index = 0
+        self.load_files()
+
+    def load_files(self):
+        """
+        掃描資料夾並載入所有符合格式的圖片檔案。
+        """
+        # 如果資料夾不存在，則清空檔案列表
+        if not os.path.isdir(self.folder_path):
+            self.all_files = []
+            return
+            
+        files = glob.glob(os.path.join(self.folder_path, '*'))
+        # 篩選出支援的圖片檔案
+        self.all_files = [f for f in files if f.lower().endswith(self.supported_formats)]
+        self.sort_files(sort_key='file_name', reverse=False)
+
+    def sort_files(self, sort_key, reverse=False):
+        """
+        根據指定的鍵值和順序排序檔案列表。
+        sort_key: 'access_date', 'file_name', 'file_size', 'file_type', 'random'
+        reverse: True 為遞減, False 為遞增
+        """
+        if not self.all_files:
+            return
+
+        if sort_key == 'file_name':
+            # 使用 natsorted 進行自然排序
+            self.all_files = natsorted(self.all_files, alg=ns.PATH | ns.IGNORECASE)
+            if reverse:
+                self.all_files.reverse()
+        elif sort_key == 'file_size':
+            self.all_files.sort(key=os.path.getsize, reverse=reverse)
+        elif sort_key == 'access_date':
+            self.all_files.sort(key=os.path.getmtime, reverse=reverse)
+        elif sort_key == 'file_type':
+            self.all_files.sort(key=lambda f: os.path.splitext(f)[1], reverse=reverse)
+        elif sort_key == 'random':
+            random.shuffle(self.all_files)
+            
+        # 確保當前索引不會超出新列表範圍
+        if self.current_index >= len(self.all_files):
+            self.current_index = 0
+
+    def get_current_image_path(self):
+        """獲取當前圖片的路徑"""
+        if self.all_files and 0 <= self.current_index < len(self.all_files):
+            return self.all_files[self.current_index]
+        return None
+
+    def next_image(self):
+        """切換到下一張圖片"""
+        if self.all_files:
+            self.current_index = (self.current_index + 1) % len(self.all_files)
+
+    def prev_image(self):
+        """切換到上一張圖片"""
+        if self.all_files:
+            self.current_index = (self.current_index - 1 + len(self.all_files)) % len(self.all_files)
+
+    def move_file_to_category(self, file_path, category_folder):
+        """
+        將檔案移動到指定的分類資料夾。
+        """
+        if os.path.exists(file_path):
+            category_path = os.path.join(self.folder_path, category_folder)
+            if not os.path.exists(category_path):
+                os.makedirs(category_path)
+            try:
+                shutil.move(file_path, category_path)
+                
+                # 圖片移動後，需要重新載入檔案列表
+                self.load_files()
+                
+                print(f"檔案 '{file_path}' 已移動到分類資料夾 '{category_folder}'")
+            except Exception as e:
+                print(f"移動檔案 '{file_path}' 到 '{category_folder}' 失敗: {e}")
+                
+            # 因為檔案已被移動，所以返回 True，讓主程式更新圖片
+            return True
+        return False
+
+
+class ImageViewer(QMainWindow):
+    """
+    圖片瀏覽器的主視窗，包含所有介面操作和功能。
+    """
+    def __init__(self, folder_path):
+        super().__init__()
+        # 使用 QSettings 儲存每個資料夾的分類和圖片索引
+        # 這就是實現「從上次觀看進度開始」功能的關鍵
+        self.settings = QSettings("ImageBrowser", "MySettings")
+        
+        # 儲存當前開啟的資料夾路徑，這是實現「資料夾分類」功能的關鍵
+        self.current_folder_path = folder_path
+        
+        # 載入當前資料夾的分類列表，如果沒有則使用預設值
+        self.categories = self.load_categories(self.current_folder_path)
+        
+        # 載入當前資料夾的圖片索引儲存點
+        initial_index = self.load_checkpoint(self.current_folder_path)
+        
+        self.image_manager = ImageManager(self.current_folder_path)
+        self.image_manager.current_index = initial_index
+
+        self.current_pixmap = None
+        self.original_pixmap = None
+        self.original_dimensions = QSize()
+        self.zoom_level = 1.0
+        self.max_zoom = 10.0
+        self.min_zoom = 0.1
+        self.is_fullscreen = False
+        self.current_movie = None
+        
+        # 預設字體大小
+        self.font_size = 16
+        
+        # 輪播計時器與相關設定
+        self.slideshow_timer = QTimer(self)
+        self.slideshow_timer.timeout.connect(self.next_image_slideshow)
+        self.slideshow_interval = 3  # 預設秒數
+        
+        self.setWindowTitle("Python 圖片瀏覽器")
+        
+        # 設定主視窗的最小尺寸
+        self.setMinimumSize(800, 600)
+        
+        self.set_dark_theme()
+        
+        self.init_ui()
+        self.show_image()
+
+    def init_ui(self):
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        self.main_layout = QVBoxLayout(self.central_widget)
+        
+        # 圖片顯示區域
+        self.image_label = QLabel()
+        self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.setScaledContents(False)
+        self.image_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        
+        self.main_layout.addWidget(self.image_label)
+        
+        # 狀態列
+        self.status_bar = self.statusBar()
+        
+        self.create_toolbars()
+        self.create_actions()
+        
+        # 創建分類按鈕區域並儲存佈局引用
+        bottom_widget = QWidget()
+        self.bottom_layout = QHBoxLayout(bottom_widget)
+        self.main_layout.addWidget(bottom_widget)
+        self.create_category_ui()
+
+    def set_dark_theme(self):
+        # 設置深色模式的樣式和字體
+        self.setStyleSheet(f"""
+            QMainWindow {{ background-color: #121212; }}
+            QToolBar {{ background-color: #212121; border-bottom: 1px solid #333333; }}
+            /* 一般文字顏色 */
+            QLabel, QComboBox, QSlider, QMenu, QMenu::item {{
+                color: #E69138;
+                font-size: {self.font_size}px;
+            }}
+            /* 按鈕樣式 */
+            QPushButton, QToolButton {{ 
+                background-color: #444444; 
+                color: #E69138; 
+                border: 1px solid #666666; 
+                border-radius: 5px;
+                padding: 8px 15px; 
+                font-size: {self.font_size}px;
+            }}
+            QPushButton:hover, QToolButton:hover {{ background-color: #666666; }}
+            QAction {{
+                color: #E69138;
+                font-size: {self.font_size}px;
+            }}
+            QMessageBox {{ background-color: #2e2e2e; }}
+            QComboBox {{ background-color: #333333; border: 1px solid #555555; padding: 5px; color: #E69138; }}
+            QSlider::groove:horizontal {{ border: 1px solid #999; height: 8px; background: #212121; margin: 2px 0; }}
+            QSlider::handle:horizontal {{ background: #555; border: 1px solid #777; width: 18px; margin: -2px 0; border-radius: 3px; }}
+            QSlider::add-page:horizontal {{ background: #444; }}
+            QSlider::sub-page:horizontal {{ background: #888; }}
+        """)
+
+    def create_toolbars(self):
+        # 上方工具列
+        top_toolbar = QToolBar("主要工具列")
+        self.addToolBar(Qt.TopToolBarArea, top_toolbar)
+        
+        # 新增的「開啟資料夾」按鈕
+        open_folder_action = QAction("開啟資料夾", self)
+        open_folder_action.triggered.connect(self.open_folder_dialog)
+        top_toolbar.addAction(open_folder_action)
+        
+        top_toolbar.addSeparator()
+
+        # 按鈕：上一張
+        prev_action = QAction("上一張", self)
+        prev_action.triggered.connect(self.prev_image)
+        top_toolbar.addAction(prev_action)
+        
+        # 按鈕：下一張
+        next_action = QAction("下一張", self)
+        next_action.triggered.connect(self.next_image)
+        top_toolbar.addAction(next_action)
+        
+        top_toolbar.addSeparator()
+        
+        # 下拉選單：瀏覽排序
+        self.sort_combobox = QComboBox(self)
+        sort_options = {
+            "遞增 - 存取日期": ('access_date', False),
+            "遞減 - 存取日期": ('access_date', True),
+            "遞增 - 檔案名稱": ('file_name', False),
+            "遞減 - 檔案名稱": ('file_name', True),
+            "遞增 - 檔案大小": ('file_size', False),
+            "遞減 - 檔案大小": ('file_size', True),
+            "遞增 - 檔案類型": ('file_type', False),
+            "遞減 - 檔案類型": ('file_type', True),
+            "隨機": ('random', False)
+        }
+        self.sort_combobox.addItems(sort_options.keys())
+        self.sort_combobox.activated.connect(
+            lambda index: self.sort_files_by_key(sort_options[self.sort_combobox.currentText()])
+        )
+        top_toolbar.addWidget(self.sort_combobox)
+        
+        top_toolbar.addSeparator()
+
+        # 新增輪播控制項
+        self.slideshow_button = QToolButton(self)
+        self.slideshow_button.setCheckable(True)
+        self.slideshow_button.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        self.slideshow_button.setText("播放輪播")
+        self.slideshow_button.setIcon(QIcon.fromTheme("media-playback-start", QIcon("▶️")))
+        self.slideshow_button.setShortcut("Space")
+        self.slideshow_button.clicked.connect(self.toggle_slideshow)
+        top_toolbar.addWidget(self.slideshow_button)
+
+        # 新增輪播秒數滑動條
+        top_toolbar.addSeparator()
+        top_toolbar.addWidget(QLabel("輪播秒數:"))
+        self.slideshow_slider = QSlider(Qt.Horizontal)
+        self.slideshow_slider.setRange(1, 60)
+        self.slideshow_slider.setValue(self.slideshow_interval)
+        self.slideshow_slider.setTickInterval(5)
+        self.slideshow_slider.setTickPosition(QSlider.TicksBelow)
+        self.slideshow_slider.valueChanged.connect(self.update_slideshow_interval)
+        top_toolbar.addWidget(self.slideshow_slider)
+        
+        self.slideshow_label = QLabel(f"{self.slideshow_interval}s")
+        self.slideshow_label.setMinimumWidth(30)
+        top_toolbar.addWidget(self.slideshow_label)
+        
+        top_toolbar.addSeparator()
+
+        # 按鈕：放大
+        zoom_in_action = QAction("放大 (+)", self)
+        zoom_in_action.triggered.connect(self.zoom_in)
+        top_toolbar.addAction(zoom_in_action)
+        
+        # 按鈕：縮小
+        zoom_out_action = QAction("縮小 (-)", self)
+        zoom_out_action.triggered.connect(self.zoom_out)
+        top_toolbar.addAction(zoom_out_action)
+        
+        # 按鈕：重置縮放
+        reset_zoom_action = QAction("重置縮放 (Ctrl+R)", self)
+        reset_zoom_action.triggered.connect(self.reset_zoom)
+        top_toolbar.addAction(reset_zoom_action)
+        
+        top_toolbar.addSeparator()
+        
+        # 按鈕：全螢幕
+        self.fullscreen_action = QAction("全螢幕 (F11)", self)
+        self.fullscreen_action.triggered.connect(self.toggle_fullscreen)
+        top_toolbar.addAction(self.fullscreen_action)
+
+        # 按鈕：調整字體大小
+        adjust_font_action = QAction("調整字體大小", self)
+        adjust_font_action.triggered.connect(self.adjust_font_size)
+        top_toolbar.addAction(adjust_font_action)
+
+    def create_category_ui(self):
+        """
+        創建下方的分類按鈕介面。
+        """
+        # 新增分類按鈕
+        add_category_btn = QPushButton("新增分類", self)
+        add_category_btn.clicked.connect(self.add_category)
+        self.bottom_layout.addWidget(add_category_btn)
+        
+        # 移除分類按鈕
+        remove_category_btn = QPushButton("移除分類", self)
+        remove_category_btn.clicked.connect(self.remove_category)
+        self.bottom_layout.addWidget(remove_category_btn)
+        
+        self.bottom_layout.addStretch() # 讓按鈕靠左
+        
+        self.category_buttons = {}
+        self.update_category_buttons()
+        
+    def create_category_button(self, idx, category_name, layout):
+        btn = QPushButton(f"{idx+1}. {category_name}", self)
+        btn.setShortcut(f"{idx+1}")
+        btn.clicked.connect(lambda checked, cat_name=category_name: self.classify_image(cat_name))
+        layout.addWidget(btn)
+        self.category_buttons[category_name] = btn
+
+    def create_actions(self):
+        # 創建鍵盤快速鍵
+        self.prev_shortcut = QAction("上一張", self)
+        self.prev_shortcut.setShortcut("Left")
+        self.prev_shortcut.triggered.connect(self.prev_image)
+        self.addAction(self.prev_shortcut)
+        
+        self.next_shortcut = QAction("下一張", self)
+        self.next_shortcut.setShortcut("Right")
+        self.next_shortcut.triggered.connect(self.next_image)
+        self.addAction(self.next_shortcut)
+
+        self.zoom_in_shortcut = QAction("放大", self)
+        self.zoom_in_shortcut.setShortcut("+")
+        self.zoom_in_shortcut.triggered.connect(self.zoom_in)
+        self.addAction(self.zoom_in_shortcut)
+        
+        self.zoom_out_shortcut = QAction("縮小", self)
+        self.zoom_out_shortcut.setShortcut("-")
+        self.zoom_out_shortcut.triggered.connect(self.zoom_out)
+        self.addAction(self.zoom_out_shortcut)
+
+        self.reset_zoom_shortcut = QAction("重置縮放", self)
+        self.reset_zoom_shortcut.setShortcut("Ctrl+R")
+        self.reset_zoom_shortcut.triggered.connect(self.reset_zoom)
+        self.addAction(self.reset_zoom_shortcut)
+
+        self.fullscreen_shortcut = QAction("全螢幕", self)
+        self.fullscreen_shortcut.setShortcut("F11")
+        self.fullscreen_shortcut.triggered.connect(self.toggle_fullscreen)
+        self.addAction(self.fullscreen_shortcut)
+        
+        # 新增「開啟資料夾」快捷鍵
+        self.open_folder_shortcut = QAction("開啟資料夾", self)
+        self.open_folder_shortcut.setShortcut("Ctrl+O")
+        self.open_folder_shortcut.triggered.connect(self.open_folder_dialog)
+        self.addAction(self.open_folder_shortcut)
+
+    def open_folder_dialog(self):
+        """
+        開啟檔案對話框，讓使用者選擇一個新的資料夾。
+        """
+        folder_path = QFileDialog.getExistingDirectory(self, "選擇圖片資料夾")
+        if folder_path and folder_path != self.current_folder_path:
+            self.change_folder(folder_path)
+
+    def change_folder(self, new_folder_path):
+        """
+        更新圖片瀏覽器至新的資料夾。
+        此方法是實現「資料夾分類」和「觀看進度儲存」的核心。
+        """
+        # 1. 儲存舊資料夾的當前圖片索引和分類列表
+        self.save_checkpoint()
+        self.save_categories()
+
+        # 停止任何正在運行的輪播
+        self.stop_slideshow()
+
+        # 2. 更新當前資料夾路徑
+        self.current_folder_path = new_folder_path
+        
+        # 3. 載入新資料夾的儲存點和分類列表
+        new_index = self.load_checkpoint(new_folder_path)
+        self.categories = self.load_categories(new_folder_path)
+
+        # 4. 更新 ImageManager 並重新載入檔案
+        self.image_manager.folder_path = new_folder_path
+        self.image_manager.current_index = new_index
+        self.image_manager.load_files()
+        
+        # 5. 更新 UI
+        self.update_category_buttons()
+        self.show_image()
+
+    def save_checkpoint(self):
+        """
+        將當前資料夾的圖片索引儲存起來。
+        這個函數會在關閉程式或切換資料夾時被呼叫。
+        """
+        if self.current_folder_path:
+            # 使用資料夾路徑作為 QSettings 的鍵值，確保唯一性
+            self.settings.setValue(f"checkpoint/{self.current_folder_path}", self.image_manager.current_index)
+            print(f"已儲存資料夾 '{self.current_folder_path}' 的儲存點: {self.image_manager.current_index}")
+    
+    def load_checkpoint(self, folder_path):
+        """
+        載入指定資料夾的儲存點。如果沒有儲存點，則返回 0。
+        這個函數會在程式啟動或切換資料夾時被呼叫。
+        """
+        if folder_path:
+            # QSettings.value 返回的是字串，需要轉換為整數
+            initial_index = int(self.settings.value(f"checkpoint/{folder_path}", 0))
+            print(f"載入資料夾 '{folder_path}' 的儲存點: {initial_index}")
+            return initial_index
+        return 0
+
+    def save_categories(self):
+        """
+        將當前資料夾的分類列表儲存起來。
+        """
+        if self.current_folder_path:
+            # 使用資料夾路徑作為 QSettings 的鍵值，確保分類與資料夾綁定
+            self.settings.setValue(f"categories/{self.current_folder_path}", self.categories)
+            print(f"已儲存資料夾 '{self.current_folder_path}' 的分類: {self.categories}")
+
+    def load_categories(self, folder_path):
+        """
+        載入指定資料夾的分類列表。如果沒有儲存點，則返回預設值。
+        """
+        if folder_path:
+            # 如果沒有設定，則返回預設分類列表
+            return self.settings.value(f"categories/{folder_path}", ["Category_1", "Category_2", "Category_3"], type=list)
+        return ["Category_1", "Category_2", "Category_3"]
+
+
+    def show_image(self):
+        """
+        載入並顯示當前圖片，並更新狀態列。
+        此方法現在能偵測並播放動態 GIF。
+        """
+        path = self.image_manager.get_current_image_path()
+        if path:
+            # 停止任何正在運行的 QMovie
+            if self.current_movie:
+                self.current_movie.stop()
+                self.current_movie = None
+                self.image_label.setMovie(None)
+            
+            # 每載入一張新圖片，都將縮放等級重置為預設值 1.0
+            self.zoom_level = 1.0
+            # 重置 QLabel 的 setScaledContents 屬性為 False
+            self.image_label.setScaledContents(False)
+
+            if path.lower().endswith('.gif'):
+                self.current_movie = QMovie(path)
+                if self.current_movie.isValid():
+                    self.current_movie.setCacheMode(QMovie.CacheAll)
+                    self.original_dimensions = self.current_movie.currentImage().size()
+                    self.image_label.setMovie(self.current_movie)
+                    self.current_movie.start()
+                    self.original_pixmap = None
+                    self.status_bar.showMessage(f"檔案: {os.path.basename(path)} (動態 GIF)")
+                else:
+                    self.status_bar.showMessage(f"無法載入 GIF 檔案 {path}")
+                    self.image_label.setText(f"無法顯示 GIF：\n{os.path.basename(path)}")
+            else:
+                try:
+                    pil_image = Image.open(path)
+                    
+                    info = ""
+                    try:
+                        if hasattr(pil_image, '_getexif'):
+                            exif_data = pil_image._getexif()
+                            if exif_data:
+                                for tag, value in exif_data.items():
+                                    tag_name = TAGS.get(tag, tag)
+                                    # 簡化 EXIF 訊息顯示，只顯示部分有用的資訊
+                                    if tag_name in ['ImageWidth', 'ImageLength', 'Make', 'Model', 'DateTimeOriginal']:
+                                        info += f"{tag_name}: {value} | "
+                    except Exception:
+                        pass
+
+                    if pil_image.mode == 'P':
+                        pil_image = pil_image.convert('RGB')
+                    if pil_image.mode not in ['RGB', 'RGBA']:
+                        pil_image = pil_image.convert('RGBA')
+
+                    if pil_image.mode == 'RGB':
+                        bytes_per_line = pil_image.width * 3
+                        format = QImage.Format_RGB888
+                    elif pil_image.mode == 'RGBA':
+                        bytes_per_line = pil_image.width * 4
+                        format = QImage.Format_RGBA8888
+                    else:
+                        bytes_per_line = pil_image.width * 3
+                        format = QImage.Format_RGB888
+                        pil_image = pil_image.convert('RGB')
+
+                    qimage = QImage(pil_image.tobytes(), pil_image.width, pil_image.height, bytes_per_line, format)
+                    
+                    if qimage.isNull():
+                        raise ValueError("無法從圖片資料建立 QImage。")
+
+                    self.original_pixmap = QPixmap.fromImage(qimage)
+                    if self.original_pixmap.isNull():
+                        raise ValueError("無法從 QImage 建立 QPixmap。")
+                    
+                    self.original_dimensions = self.original_pixmap.size()
+                    
+                    self.status_bar.showMessage(f"檔案: {os.path.basename(path)} ({pil_image.width}x{pil_image.height}) | {info}")
+                except Exception as e:
+                    self.status_bar.showMessage(f"無法載入圖片 {path}: {e}")
+                    self.image_label.setText(f"無法顯示圖片：\n{os.path.basename(path)}\n錯誤：{e}")
+                    self.original_pixmap = None
+            
+            self.resize_and_display()
+        else:
+            self.image_label.setText("資料夾內沒有圖片。")
+            self.image_label.setPixmap(QPixmap())
+            self.status_bar.showMessage("")
+            self.original_pixmap = None
+            if self.current_movie:
+                self.current_movie.stop()
+                self.image_label.setMovie(None)
+
+    def resize_and_display(self):
+        """
+        根據當前縮放等級和視窗大小調整圖片大小並顯示。
+        此方法現在統一處理靜態圖片和動態 GIF，並確保比例正確。
+        """
+        # 如果沒有原始尺寸或標籤尺寸為空，則退出
+        if self.original_dimensions.isNull() or self.image_label.size().isNull():
+            return
+            
+        # 每次都重新計算「適合視窗」的基準尺寸，以應對視窗大小改變
+        fit_to_window_size = self.original_dimensions.scaled(
+            self.image_label.size(),
+            Qt.KeepAspectRatio
+        )
+        
+        # 根據圖片類型決定如何縮放
+        if self.current_movie:
+            # GIF 圖片：使用 QMovie 的 setScaledSize，並確保維持比例
+            self.current_movie.setScaledSize(fit_to_window_size)
+        
+        elif self.original_pixmap:
+            # 靜態圖片：使用 zoom_level 進行縮放，並維持比例
+            final_width = int(fit_to_window_size.width() * self.zoom_level)
+            final_height = int(fit_to_window_size.height() * self.zoom_level)
+            scaled_pixmap = self.original_pixmap.scaled(
+                final_width,
+                final_height,
+                Qt.KeepAspectRatio,
+                Qt.SmoothTransformation
+            )
+            self.image_label.setPixmap(scaled_pixmap)
+        
+        self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.update()
+
+
+    def resizeEvent(self, event):
+        """
+        視窗大小改變時，重新調整圖片大小。
+        """
+        super().resizeEvent(event)
+        self.resize_and_display()
+
+    # 此函數用於手動切換上一張圖片
+    def prev_image(self):
+        # 手動切換時，停止輪播
+        self.stop_slideshow()
+        self.image_manager.prev_image()
+        self.show_image()
+
+    # 此函數用於手動切換下一張圖片
+    def next_image(self):
+        # 手動切換時，停止輪播
+        self.stop_slideshow()
+        self.image_manager.next_image()
+        self.show_image()
+
+    # 新增一個專門用於輪播的函數，不包含停止輪播的邏輯
+    def next_image_slideshow(self):
+        self.image_manager.next_image()
+        self.show_image()
+
+    def zoom_in(self):
+        """
+        放大圖片，並確保不會超過最大縮放限制。
+        如果當前是 GIF，則不執行任何操作。
+        """
+        if self.current_movie: # 如果是GIF，則忽略縮放
+            return
+        self.zoom_level = min(self.zoom_level * 1.2, self.max_zoom)
+        self.resize_and_display()
+
+    def zoom_out(self):
+        """
+        縮小圖片，並確保不會超過最小縮放限制。
+        如果當前是 GIF，則不執行任何操作。
+        """
+        if self.current_movie: # 如果是GIF，則忽略縮放
+            return
+        self.zoom_level = max(self.zoom_level / 1.2, self.min_zoom)
+        self.resize_and_display()
+
+    def reset_zoom(self):
+        """
+        將圖片縮放等級重置為預設值 1.0。
+        如果當前是 GIF，則不執行任何操作。
+        """
+        if self.current_movie: # 如果是GIF，則忽略縮放
+            return
+        self.zoom_level = 1.0
+        self.resize_and_display()
+            
+    def classify_image(self, category_name):
+        """
+        將當前圖片移動到指定的分類資料夾。
+        """
+        current_path = self.image_manager.get_current_image_path()
+        if current_path:
+            success = self.image_manager.move_file_to_category(current_path, category_name)
+            if success:
+                # 重新載入檔案列表並顯示圖片
+                self.image_manager.load_files()
+                self.show_image()
+            
+    def add_category(self):
+        """
+        新增一個分類資料夾。
+        """
+        text, ok = QInputDialog.getText(self, "新增分類", "請輸入新的分類名稱：")
+        if ok and text:
+            if text not in self.categories:
+                self.categories.append(text)
+                self.save_categories() # 新增：將更新後的分類列表存檔
+                self.update_category_buttons()
+    
+    def remove_category(self):
+        """
+        移除一個分類資料夾。
+        """
+        if not self.categories:
+            return
+        
+        item, ok = QInputDialog.getItem(self, "移除分類", "選擇要移除的分類：", self.categories, 0, False)
+        if ok and item:
+            self.categories.remove(item)
+            self.save_categories() # 新增：將更新後的分類列表存檔
+            self.update_category_buttons()
+
+    def update_category_buttons(self):
+        """
+        更新下方的分類按鈕。
+        """
+        for name, btn in list(self.category_buttons.items()):
+            if self.bottom_layout and btn:
+                self.bottom_layout.removeWidget(btn)
+                btn.deleteLater()
+        
+        self.category_buttons.clear()
+        for idx, category in enumerate(self.categories):
+            self.create_category_button(idx, category, self.bottom_layout)
+            
+    def toggle_fullscreen(self):
+        """
+        切換全螢幕模式。
+        """
+        if self.isFullScreen():
+            self.showNormal()
+            self.is_fullscreen = False
+            self.fullscreen_action.setText("全螢幕 (F11)")
+        else:
+            self.showFullScreen()
+            self.is_fullscreen = True
+            self.fullscreen_action.setText("退出全螢幕 (F11)")
+            
+    def toggle_slideshow(self):
+        """
+        啟動或停止圖片輪播。
+        """
+        if self.slideshow_timer.isActive():
+            self.stop_slideshow()
+        else:
+            # 如果輪播停止，則從當前圖片開始
+            self.slideshow_timer.start(self.slideshow_interval * 1000)
+            self.slideshow_button.setText("暫停輪播")
+            self.slideshow_button.setIcon(QIcon.fromTheme("media-playback-pause", QIcon("⏸️")))
+            print(f"輪播啟動，間隔為 {self.slideshow_interval} 秒。")
+
+    def stop_slideshow(self):
+        """
+        停止圖片輪播。
+        """
+        self.slideshow_timer.stop()
+        self.slideshow_button.setChecked(False)
+        self.slideshow_button.setText("播放輪播")
+        self.slideshow_button.setIcon(QIcon.fromTheme("media-playback-start", QIcon("▶️")))
+        print("輪播已停止。")
+        
+    def update_slideshow_interval(self, value):
+        """
+        更新輪播秒數。
+        """
+        self.slideshow_interval = value
+        self.slideshow_label.setText(f"{value}s")
+        # 如果輪播正在運行，則重新啟動計時器以應用新的間隔
+        if self.slideshow_timer.isActive():
+            self.slideshow_timer.start(self.slideshow_interval * 1000)
+
+    def sort_files_by_key(self, sort_options):
+        """
+        根據鍵值和順序排序檔案。
+        """
+        self.stop_slideshow()
+        sort_key, reverse = sort_options
+        self.image_manager.sort_files(sort_key, reverse)
+        self.show_image()
+
+    def adjust_font_size(self):
+        """
+        調整介面字體大小。
+        """
+        font_size, ok = QInputDialog.getInt(self, "調整字體大小", "請輸入新的字體大小：", self.font_size, 8, 48, 2)
+        if ok:
+            self.font_size = font_size
+            self.set_dark_theme()
+            
+    def closeEvent(self, event):
+        """
+        關閉程式時，儲存當前資料夾的儲存點和分類列表。
+        """
+        self.save_checkpoint()
+        self.save_categories() # 新增：確保在關閉時儲存當前資料夾的分類列表
+        event.accept()
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    # 這裡請替換成你的圖片資料夾路徑，或者程式啟動時會顯示空白
+    viewer = ImageViewer(folder_path=r"")
+    viewer.showMaximized()
+    sys.exit(app.exec_())
+
+
+</code></pre>    
+    </body>
+</html>
