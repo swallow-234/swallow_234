@@ -5,6 +5,7 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
 		<li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B">《燕侍》</a>　　　吟遊雅致，幻境之鄉。</li>\
 		<li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B.html">《永夜暗夜》</a>　國政論是，時事識讀。</li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B.html">《青丘茶館》</a></li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B.html">《啊呆小破棧》</a></li>\
        <p style="text-align: center;">［收藏］</p><hr>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>\
@@ -77,6 +78,7 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
 <li><a href="https://www.geogebra.org/graphing?lang=zh-TW">繪圖計算機 - GeoGebra</a></li>\
 <li><a href="https://efotinis.neocities.org/deskpins/">DeskPins</a></li>\
 <li><a href="https://www.7-zip.org/">7-Zip</a></li>\
+<li><a href="https://www.scribus.net/">Scribus</a></li>\
 	  </ul>\
 <ul>\
     </nav>';
