@@ -1,5 +1,5 @@
  const PAGE_ORDER = [
-    "☯",
+    "",
     "POE流亡暗道",
     "Fate/Grand Order",
     "這是什麼酷酷的東西",
@@ -144,4 +144,5 @@
 
   const app = Vue.createApp({});
   app.component('google-sheet-tabs', GoogleSheetTabs);
+
   app.mount('#app');
