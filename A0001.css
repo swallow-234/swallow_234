@@ -2,36 +2,36 @@
 
 
 html {
-	background-color: #000000;
+  background-color: #000000;
 }
 /*文字顏色*/
 /*
 p {
-	color: #E69138;
+  color: #E69138;
 }
 
 p {
-	color: #8E7CC3;
+  color: #8E7CC3;
 }
 
 p {
-	color: #CC0000;
+  color: #CC0000;
 }
 
 p {
-	color: #F1C232;
+  color: #F1C232;
 }
 
 p {
-	color: #6AA84F;
+  color: #6AA84F;
 }
 
 p {
-	color: #76A5AF;
+  color: #76A5AF;
 }
 
 p {
-	color: #3C78D8;
+  color: #3C78D8;
 }
 p {
   color: #C27BA0;
@@ -47,40 +47,40 @@ ul {color: #E69138}
 li {color: #B7B7B7;}
 details {color: #B7B7B7;}
 ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 h1 li {
-	display: inline;
-	color: #E69138;
-	border-style: double;
+  display: inline;
+  color: #E69138;
+  border-style: double;
 }
 h1 li a {
-	color: #E69138;
+  color: #E69138;
 }
 
 h1 {
-	color: #E69138;
+  color: #E69138;
 }
 
 .container {
-	display: grid;
+  display: grid;
 }
 /*-------------------------*/
 /* 欄位設定 */
 .column {
-	float: left;
-	padding: 10px;
-	border: 1px solid #8E7CC3;
+  float: left;
+  padding: 10px;
+  border: 1px solid #8E7CC3;
 }
 /* 左右邊欄 */
 .column.side {
-	width: 15%;
+  width: 30%;
 }
 /* 中間欄位 */
 .column.middle {
-	width: 80%;
+  width: 98%;
 }
 
 
@@ -127,16 +127,88 @@ a:hover {
 }
 
 
-/*公佈欄*/
-    body { font-family: "Microsoft JhengHei", Arial, sans-serif; background: #000000;}
-    .tabs { flex-wrap: wrap; display: block; overflow-x: auto; white-space: nowrap; margin: 30px auto 0; width: 100%; }
-    .tab { display: inline-block; padding: 12px 32px; background: #333; color: #E69138; border-radius: 8px 8px 0 0; cursor: pointer; margin-right: 4px; margin-bottom: 2px; vertical-align: top; }
-    .tab.active { background: #666666; color: #F1C232; }
-    .tab-content { background: #333; width: 100%; margin: 0 auto; box-shadow: 0 0 20px #76A5AF; border-radius: 0 0 8px 8px; padding-bottom:30px;}
-    .my-custom-table { width: 100%; border-collapse: collapse; margin-top: 0;}
-    .my-custom-table th, .my-custom-table td { border: 1px solid #8E7CC3; padding: 12px 20px; text-align: left;}
-    .my-custom-table th { background: #666666; color: #F1C232; letter-spacing: 2px; }
-    .my-custom-table tr:nth-child(even) { background: #000000; }
-    .my-custom-table tr:hover { background: #8e7cc333; }
-    .link-cell a { color: #E69138; text-decoration: underline; }
-    h2 { text-align: center; color: #F1C232; margin-top: 30px; }
+/*分頁*/
+.tabs {
+      display: flex;
+      border-bottom: 2px solid #E69138;
+    }
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 16px;
+      color: #B7B7B7;
+    }
+    .tab.active {
+      border-bottom: 2px solid #F1C232;
+      color: #F1C232;
+      font-weight: bold;
+    }
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+      color: #B7B7B7;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+/*邊攔*/
+.column.sidenav {
+  height: 100%;
+  width: 300px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 60px;/* 設置頂部間距 */
+  transition: 0.5s; /* 重要的：實現平滑動畫 */
+}
+.content {
+  padding: 20px;
+}
+
+/* 打開/收合按鈕的樣式 */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    position: fixed; /* 固定位置 */
+    top: 15px;
+    left: 15px;
+    z-index: 101; /* 確保按鈕在側邊欄和內容上方 */
+    }
+.openbtn:hover {
+    background-color: #777;
+    }
+
+/* 邊攔收起時的 CSS Class */
+    #mySidenav.collapsed {
+        width: 0; /* 寬度設為 0，實現收起 */
+        padding: 0;
+    }
+/* 主要內容區域的容器樣式 (控制整體內容的左側邊距) */
+    .main-content-wrapper {
+        transition: margin-left .5s; /* 重要的：實現平滑動畫 */
+        margin-left: 300px; /* 初始內容區域向右移動，避開側邊欄寬度 */
+    }
+
+/* 邊攔收起時，主要內容區域移回左邊 */
+    .main-content-wrapper.collapsed-margin {
+        margin-left: 0;
+    }
+
+/* 調整 header 樣式，移除原本的固定 margin-left，讓它跟著 main-content-wrapper 移動 */
+    .main-content-wrapper h1,
+    .main-content-wrapper p {
+        text-align: center;
+        margin-left: 0 !important; /* 覆蓋原始的 inline 樣式 */
+        padding-left: 20px;
+    }
