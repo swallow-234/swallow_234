@@ -8,35 +8,12 @@
     <script src="嵌入網頁.JS"></script>
 </head>
 <body>
+  <button class="openbtn" onclick="toggleNav()">☰</button>
+
 <!-- 導覽列 -->
-<h1 style="text-align: center;"><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">音樂收藏</a></h1>
-<p style="text-align: center;">收藏記錄小工具</p>
-<!-- 左側布局 -->
-<div class="column sidenav">  
-    <h1 style="text-align: center;">《專輯收藏》</h1>
-     <ul><li><a onclick="changeIframe('音樂收藏-範本.html')">收藏項目</a></li></ul>
-<ul><h3 style="text-align: center;">《純音樂》</h3></ul><hr>
-<ul>
-    <li><a onclick="changeIframe('')"></a></li>
-</ul>
-<ul><h3 style="text-align: center;">《原聲帶》</h3></ul><hr>
-<ul>
-    <li><a onclick="changeIframe('https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E5%80%89%E5%BA%AB/%E9%9F%B3%E6%A8%82%E6%94%B6%E8%97%8F-MONOGATARI%20Series.html')">MONOGATARI Series</a></li>
-    <li><a onclick="changeIframe('')"></a></li>
-</ul>
-<ul><h3 style="text-align: center;">《中文》</h3></ul><hr>
-<ul>
-    <li><a onclick="changeIframe('')"></a></li>
-</ul>
-<ul><h3 style="text-align: center;">《日文》</h3></ul><hr>
-<ul>
-    <li><a onclick="changeIframe('')"></a></li>
-</ul>
-<ul><h3 style="text-align: center;">《其他》</h3></ul><hr>
-<ul>
-    <li><a onclick="changeIframe('')"></a></li>
-</ul>
-</div>
+<div class="main-content-wrapper">
+<h1 style="text-align: center; margin-left: 250px;"><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">音樂收藏</a></h1>
+<p style="text-align: center; margin-left: 250px;">收藏記錄小工具</p>
     <!--中間布局-->
     <div class="column middleh">
 <div class="column HHH">
@@ -69,5 +46,53 @@
  <iframe id="myFrame" src="音樂收藏-範本.html"></iframe>
 </div>
 </div>
+</div>
+
+<!-- 左側布局 -->
+<div id="mySidenav" class="column sidenav">  
+    <h1 style="text-align: center;">《專輯收藏》</h1>
+     <ul><li><a onclick="changeIframe('音樂收藏-範本.html')">收藏項目</a></li></ul>
+<ul><h3 style="text-align: center;">《純音樂》</h3></ul><hr>
+<ul>
+    <li><a onclick="changeIframe('')"></a></li>
+</ul>
+<ul><h3 style="text-align: center;">《原聲帶》</h3></ul><hr>
+<ul>
+    <li><a onclick="changeIframe('https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E5%80%89%E5%BA%AB/%E9%9F%B3%E6%A8%82%E6%94%B6%E8%97%8F-MONOGATARI%20Series.html')">MONOGATARI Series</a></li>
+    <li><a onclick="changeIframe('')"></a></li>
+</ul>
+<ul><h3 style="text-align: center;">《中文》</h3></ul><hr>
+<ul>
+    <li><a onclick="changeIframe('')"></a></li>
+</ul>
+<ul><h3 style="text-align: center;">《日文》</h3></ul><hr>
+<ul>
+    <li><a onclick="changeIframe('')"></a></li>
+</ul>
+<ul><h3 style="text-align: center;">《其他》</h3></ul><hr>
+<ul>
+    <li><a onclick="changeIframe('')"></a></li>
+</ul>
+</div>
+
+<script>
+    function toggleNav() {
+        const sidenav = document.getElementById("mySidenav");
+        const mainContent = document.querySelector(".main-content-wrapper"); 
+        
+        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
+        if (sidenav.classList.contains("collapsed")) {
+            // 展開側邊欄
+            sidenav.classList.remove("collapsed");
+            mainContent.classList.remove("collapsed-margin");
+
+        } else {
+            // 收起側邊欄
+            sidenav.classList.add("collapsed");
+            mainContent.classList.add("collapsed-margin");
+        }
+    }
+</script>
+
 </body>
 </html>

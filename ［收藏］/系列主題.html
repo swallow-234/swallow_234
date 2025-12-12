@@ -9,13 +9,12 @@
 
 </head>
 <body>
+  <button class="openbtn" onclick="toggleNav()">☰</button>
     <!-- 導覽列 -->
-<h1 style="text-align: center;">系列主題</h1>
-<p style="text-align: center;">收藏記錄</p>
-<!-- 左側布局 -->
-<div class="column side">
-    <script src="../公佈欄-選單.js"></script>
-    </div>
+<div class="main-content-wrapper">
+<h1 style="text-align: center; margin-left: 250px;">系列主題</h1>
+<p style="text-align: center; margin-left: 250px;">收藏記錄</p>
+
     <!--中間布局-->
     <div class="column middle">
   <div id="app">
@@ -136,8 +135,32 @@
   app.component('google-sheet-multi-keyword-tabs', GoogleSheetMultiKeywordTabs);
   app.mount('#app');
   </script>
+    </div>
 
+<!-- 左側布局 -->
+<div id="mySidenav" class="column sidenav">
+    <script src="../公佈欄-選單.js"></script>
     </div>
 
 </body>
+
+<script>
+    function toggleNav() {
+        const sidenav = document.getElementById("mySidenav");
+        const mainContent = document.querySelector(".main-content-wrapper"); 
+        
+        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
+        if (sidenav.classList.contains("collapsed")) {
+            // 展開側邊欄
+            sidenav.classList.remove("collapsed");
+            mainContent.classList.remove("collapsed-margin");
+
+        } else {
+            // 收起側邊欄
+            sidenav.classList.add("collapsed");
+            mainContent.classList.add("collapsed-margin");
+        }
+    }
+</script>
+
 </html>
