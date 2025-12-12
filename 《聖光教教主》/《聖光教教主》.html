@@ -9,13 +9,25 @@
 
 </head>
 <body>
+  <button class="openbtn" onclick="toggleNav()">☰</button>
+
   <!-- 導覽列 -->
-<h1 style="text-align: center; margin-left: 250px;  padding-left: 20px;"><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">《聖光教教主》</a></h1>
-<p style="text-align: center; margin-left: 250px;  padding-left: 20px;">本人愚笨又平庸，而正因為如此才能[看見]愚者的問題，而得出的道理將是愚笨平庸之人皆可理解。<br>
-[天才]能夠解決大多數問題，但是卻無法回答愚者的問題。</p>
+<div class="main-content-wrapper">
+  <h1 style="text-align: center; margin-left: 250px;"><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">《聖光教教主》</a></h1>
+  <p style="text-align: center; margin-left: 250px;">本人愚笨又平庸，而正因為如此才能[看見]愚者的問題，而得出的道理將是愚笨平庸之人皆可理解。<br>
+  [天才]能夠解決大多數問題，但是卻無法回答愚者的問題。</p>
+
+  <!-- 嵌入網頁區塊 -->
+  <div class="content">
+  <div class="column middle">
+   <iframe id="myFrame" src="範本.html"></iframe>
+  </div>
+  </div>
+</div>
+
 
 <!--左側邊攔-->
-<div class="column sidenav">  
+<div id="mySidenav" class="column sidenav">  
     <h1 style="text-align: center;">《永世今生》</h1>
      <li><a onclick="changeIframe('範本.html')">簡介</a></li>
     </ul>
@@ -25,12 +37,24 @@
 <li><a onclick="changeIframe('網址')">[事件]待更新...</a></li>
       <li><a onclick="changeIframe('')">.</a></li></ul>
 </div>
-<!-- 嵌入網頁區塊 -->
-<div class="content">
-<div class="column middle">
- <iframe id="myFrame" src="範本.html"></iframe>
-</div>
-</div>
+<script>
+    function toggleNav() {
+        const sidenav = document.getElementById("mySidenav");
+        const mainContent = document.querySelector(".main-content-wrapper"); 
+        
+        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
+        if (sidenav.classList.contains("collapsed")) {
+            // 展開側邊欄
+            sidenav.classList.remove("collapsed");
+            mainContent.classList.remove("collapsed-margin");
+
+        } else {
+            // 收起側邊欄
+            sidenav.classList.add("collapsed");
+            mainContent.classList.add("collapsed-margin");
+        }
+    }
+</script>
 
 </body>
 </html>

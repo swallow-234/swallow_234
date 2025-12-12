@@ -5,36 +5,38 @@ html {
   background-color: #000000;
 }
 /*文字顏色*/
-p1 {
+/*
+p {
   color: #E69138;
 }
 
-p2 {
+p {
   color: #8E7CC3;
 }
 
-p3 {
+p {
   color: #CC0000;
 }
 
-p4 {
+p {
   color: #F1C232;
 }
 
-p5 {
+p {
   color: #6AA84F;
 }
 
-p6 {
+p {
   color: #76A5AF;
 }
 
-p7 {
+p {
   color: #3C78D8;
 }
-p8 {
+p {
   color: #C27BA0;
 }
+*/
 /*-------------------------*/
 /* 文字樣式 */
 :root {color-scheme: dark;}
@@ -163,14 +165,56 @@ a:hover {
   left: 0;
   background-color: #111;
   overflow-x: hidden;
+  padding-top: 60px;/* 設置頂部間距 */
+  transition: 0.5s; /* 重要的：實現平滑動畫 */
 }
 .content {
-  margin-left: 250px;
-  padding-left: 20px;
+  padding: 20px;
 }
 
 /*嵌入網頁格式*/
 iframe {
       width: 100%;
       height: 100vw;
+    }
+
+/* 打開/收合按鈕的樣式 */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    position: fixed; /* 固定位置 */
+    top: 15px;
+    left: 15px;
+    z-index: 101; /* 確保按鈕在側邊欄和內容上方 */
+    }
+.openbtn:hover {
+    background-color: #777;
+    }
+
+/* 邊攔收起時的 CSS Class */
+    #mySidenav.collapsed {
+        width: 0; /* 寬度設為 0，實現收起 */
+        padding: 0;
+    }
+/* 主要內容區域的容器樣式 (控制整體內容的左側邊距) */
+    .main-content-wrapper {
+        transition: margin-left .5s; /* 重要的：實現平滑動畫 */
+        margin-left: 250px; /* 初始內容區域向右移動，避開側邊欄寬度 */
+    }
+
+/* 邊攔收起時，主要內容區域移回左邊 */
+    .main-content-wrapper.collapsed-margin {
+        margin-left: 0;
+    }
+
+/* 調整 header 樣式，移除原本的固定 margin-left，讓它跟著 main-content-wrapper 移動 */
+    .main-content-wrapper h1,
+    .main-content-wrapper p {
+        text-align: center;
+        margin-left: 0 !important; /* 覆蓋原始的 inline 樣式 */
+        padding-left: 20px;
     }
