@@ -8,30 +8,16 @@
 
 </head>
 <body>
+  <button class="openbtn" onclick="toggleNav()">☰</button>
+
   <!-- 導覽列 -->
-<h1 style="text-align: center; margin-left: 250px;  padding-left: 20px;"><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">《啊呆小破棧》</a></h1>
-<p style="text-align: center; margin-left: 250px;  padding-left: 20px;">
+<div class="main-content-wrapper">
+<h1 style="text-align: center; margin-left: 250px;"><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">《啊呆小破棧》</a></h1>
+<p style="text-align: center; margin-left: 250px;">
 破棧無人問，金靈臺隱侍歸。<br>
 拙帳異聞帖，燕物居擺築巢。</p>
 
-<!--左側邊攔-->
-<div class="column sidenav">  
-    <h1 style="text-align: center;">《小破帳》</h1>
-    <p><li>玉山銀行(ESUNTWTP)：808</li>
-    <li>戶名：彭楷儒</li>
-    <li>存戶帳號：0691-976-034236</li>
-    <li>外匯存款：0691-958-031587</li><hr>
-  <ul><h3 style="text-align: center;">《書籍》</h3>
-        <li><a>電子書</a></li><hr>
-        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E5%AD%B8%E9%99%A2%E3%80%8B.pdf">《青丘書館》</a></li>
-      </ul>
 
-
-
-
-
-
-</div>
 <!-- 近期更新內容 -->
 <div class="content">
 <div class="column middle">
@@ -43,6 +29,38 @@
 </ul>
 </div>
 </div>
+</div>
+
+<!--左側邊攔-->
+<div id="mySidenav" class="column sidenav">  
+    <h1 style="text-align: center;">《小破帳》</h1>
+    <p><li>玉山銀行(ESUNTWTP)：808</li>
+    <li>戶名：彭楷儒</li>
+    <li>存戶帳號：0691-976-034236</li>
+    <li>外匯存款：0691-958-031587</li><hr>
+  <ul><h3 style="text-align: center;">《書籍》</h3>
+        <li><a>電子書</a></li><hr>
+        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E5%AD%B8%E9%99%A2%E3%80%8B.pdf">《青丘書館》</a></li>
+      </ul>
+</div>
+<script>
+    function toggleNav() {
+        const sidenav = document.getElementById("mySidenav");
+        const mainContent = document.querySelector(".main-content-wrapper"); 
+        
+        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
+        if (sidenav.classList.contains("collapsed")) {
+            // 展開側邊欄
+            sidenav.classList.remove("collapsed");
+            mainContent.classList.remove("collapsed-margin");
+
+        } else {
+            // 收起側邊欄
+            sidenav.classList.add("collapsed");
+            mainContent.classList.add("collapsed-margin");
+        }
+    }
+</script>
 
 </body>
 </html>
