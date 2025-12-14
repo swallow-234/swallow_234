@@ -6,6 +6,7 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
 		<li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B.html">《永夜暗夜》</a>　國政論是，時事識讀。</li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B.html">《青丘茶館》</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B.html">《啊呆小破棧》</a></li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%86%A5%E4%BA%A1%E4%BC%8A%E7%94%B8%E3%80%8B/%E3%80%8A%E5%86%A5%E4%BA%A1%E4%BC%8A%E7%94%B8%E3%80%8B.html">《冥亡伊甸》</a>　《冒險者公會大廳》</li>\
        <p style="text-align: center;">［收藏］</p><hr>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>\
