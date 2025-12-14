@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>《冥亡伊甸》</title>
+  <link href="A0001.css" rel="stylesheet" />
+  <script src="嵌入網頁.JS"></script>
+
+</head>
+<body>
+  <button class="openbtn" onclick="toggleNav()">☰</button>
+
+  <!-- 導覽列 -->
+<div class="main-content-wrapper">
+<h1 style="text-align: center; margin-left: 250px;"><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">《冒險者公會大廳》</a></h1>
+<p style="text-align: center; margin-left: 250px;">本網站為《冥亡伊甸》公會_公佈欄、教戰手冊與任務發布。<br>
+也歡迎各位參考建立起自己的《冒險者公會大廳》</p>
+
+<!-- 嵌入網頁區塊 -->
+<div class="content">
+<div class="column middle">
+ <iframe id="myFrame" src="範本.html"></iframe>
+</div>
+</div>
+</div>
+
+<!--左側邊攔-->
+<div id="mySidenav" class="column sidenav">  
+    <h1 style="text-align: center;">《冥亡伊甸》</h1>
+     <li><a onclick="changeIframe('範本.html')">公佈欄</a></li>
+    </ul>
+
+<ul><h3 style="text-align: center;">《基礎概念》</h3><hr>
+<li>格式範本</li>
+<li>隊伍編制</li>
+<li>流程規劃</li>
+<li>紀錄保存</li>
+<li>基金運作</li>
+  <ul><h3 style="text-align: center;">《任務種類》</h3><hr>
+<li>哨兵任務</li>
+<li>偵查任務</li>
+<li>支援任務</li>
+<li>護衛任務</li>
+<li>救援任務</li>
+<li>討伐任務</li>
+</ul>
+  <ul><h3 style="text-align: center;">《職位單位》</h3><hr>
+<li>紀錄單位</li>
+<li>一般單位</li>
+<li>技術單位</li>
+<li>後勤單位</li>
+<li>運輸單位</li>
+</ul>
+  <ul><h3 style="text-align: center;">《社群分館》</h3><hr>
+<li>Discord</li>
+<li>Facebook</li>
+<li>LINE</li>
+</ul>
+</div>
+
+<script>
+    function toggleNav() {
+        const sidenav = document.getElementById("mySidenav");
+        const mainContent = document.querySelector(".main-content-wrapper"); 
+        
+        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
+        if (sidenav.classList.contains("collapsed")) {
+            // 展開側邊欄
+            sidenav.classList.remove("collapsed");
+            mainContent.classList.remove("collapsed-margin");
+
+        } else {
+            // 收起側邊欄
+            sidenav.classList.add("collapsed");
+            mainContent.classList.add("collapsed-margin");
+        }
+    }
+</script>
+
+</body>
+</html>
