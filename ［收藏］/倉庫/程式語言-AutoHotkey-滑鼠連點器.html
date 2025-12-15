@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-AutoHotkey-滑鼠連點器》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>AutoHotkey</h3></p><hr>
+<pre><code>
+; ------------------------------------
+; 步驟一：設定計時器子程序 (ClickLoop)
+; ------------------------------------
+ClickLoop:
+    Click  ; 執行滑鼠左鍵點擊
+return
+
+; ------------------------------------
+; 步驟二：設定熱鍵 (`) 來控制計時器
+; ------------------------------------
+Toggle := 0 ; 初始狀態為停止 (0)
+
+`::  ; 按下 ` 鍵時執行以下程式碼
+    ; 檢查狀態：如果 Toggle 是 0 (停止)，就啟動
+    if (Toggle = 0)
+    {
+        Toggle := 1  ; 設定狀態為啟動
+        
+        ; 啟動計時器：每 1000 毫秒執行一次 ClickLoop 子程序
+        ; **注意：1000 毫秒 = 1 秒**。
+        ; 如果要每秒點擊 10 次 (100 毫秒)，請改為 SetTimer, ClickLoop, 100
+        SetTimer, ClickLoop, 1
+        
+        ToolTip, 滑鼠連點已啟動 (間隔 1000ms) ; 顯示提示
+    }
+    ; 否則 (Toggle 是 1，啟動中)，就停止
+    else
+    {
+        Toggle := 0  ; 設定狀態為停止
+        
+        ; 關閉計時器
+        SetTimer, ClickLoop, Off
+        
+        ToolTip, 滑鼠連點已停止
+        Sleep, 1000 ; 延遲 1 秒後清除提示
+        ToolTip
+    }
+return
+</code></pre>    
+    </body>
+</html>
