@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-AutoHotkey-圖片下載》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>AutoHotkey</h3></p><hr>
+<pre><code>
+; 只在瀏覽器視窗中生效 (選用)
+#IfWinActive ahk_exe chrome.exe
+NumpadSub::  ; 數字鍵盤的-
+    Click, right     ; 1. 在圖片上點擊右鍵
+    Sleep, 150       ; 等待選單彈出的緩衝時間
+    Send, v          ; 2. 按下 "v" (Chrome 的另存圖片快捷鍵)
+    
+    ; 等待「另存新檔」視窗出現 (最長等待 2 秒)
+    WinWaitActive, 另存新檔,, 2 
+    if ErrorLevel {
+        ; 如果視窗沒出現就跳過，避免誤關分頁
+        return 
+    }
+    
+    Sleep, 300       ; 稍微停頓確認路徑正確
+    Send, {Enter}    ; 3. 按下 Enter 存檔
+    
+    Sleep, 500       ; 4. 等待存檔動作啟動 (避免太快關閉導致下載失敗)
+    Send, ^w         ; 5. 關閉當前分頁 (Ctrl + W)
+return
+
+#IfWinActive
+</code></pre>    
+    </body>
+</html>
