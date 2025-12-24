@@ -11,7 +11,7 @@
 <body>
   <div id="app">
     <h2>《公佈欄》</h2>
-    <google-sheet-multi-keyword-tabs></google-sheet-multi-keyword-tabs>
+    <multi-keyword-tabs></multi-keyword-tabs>
   </div>
 <!--公佈欄-->
 <script>
@@ -24,7 +24,7 @@
     "【二次創作】"
   ];
 
-  const GoogleSheetMultiKeywordTabs = {
+  const 資料庫 = {
     template: `
       <div>
         <div class="tabs" v-if="tabs.length">
@@ -84,7 +84,7 @@
       }
     },
     mounted() {
-      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxjLcZZb3Eutbwp6CLgVjQrJ_c_P6oUqmT53anvtt0miJhIXkqwdPP6dJ6NOxoSnjgrsYRGJ0VHlki/pub?output=csv';
+      const csvUrl = '《燕侍》.csv';
       fetch(csvUrl)
         .then(res => res.text())
         .then(csv => {
@@ -121,13 +121,13 @@
           );
         })
         .catch(err => {
-          console.error('Google Sheets 讀取失敗：', err);
+          console.error('讀取失敗：', err);
         });
     }
   }
 
   const app = Vue.createApp({});
-  app.component('google-sheet-multi-keyword-tabs', GoogleSheetMultiKeywordTabs);
+  app.component('multi-keyword-tabs', 資料庫);
   app.mount('#app');
   </script>
 </body>

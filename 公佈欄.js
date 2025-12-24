@@ -48,7 +48,7 @@
     "台灣民眾黨專區",
   ];
 
-  const GoogleSheetTabs = {
+  const 資料庫 = {
     template: `
       <div>
         <div class="tabs">
@@ -103,7 +103,7 @@
       }
     },
     mounted() {
-      // 你的 Google Sheets "發佈到網路" CSV 連結
+      // 你的"發佈到網路" CSV 連結
       const csvUrl = '【數據】資料庫.csv';
       fetch(csvUrl)
         .then(res => res.text())
@@ -137,11 +137,11 @@
           );
         })
         .catch(err => {
-          console.error('Google Sheets 讀取失敗：', err);
+          console.error('讀取失敗', err);
         });
     }
   }
 
   const app = Vue.createApp({});
-  app.component('google-sheet-tabs', GoogleSheetTabs);
+  app.component('tabs', 資料庫);
   app.mount('#app');

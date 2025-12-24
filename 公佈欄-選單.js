@@ -80,6 +80,7 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
 <li><a href="https://www.7-zip.org/">7-Zip</a></li>\
 <li><a href="https://www.scribus.net/">Scribus</a></li>\
 <li><a href="https://www.autohotkey.com/">AutoHotkey</a></li>\
+<li><a href="https://docs.github.com/en">GitHub Desktop</a></li>\
 	  </ul>\
 <ul>\
 <HR><p><BR><BR><BR></p>\

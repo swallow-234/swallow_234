@@ -13,7 +13,7 @@
         <h1 style="text-align: center;">《程式語言-收藏》</h1>
 <!--內文-->
 <div id="app">
-    <google-sheet-multi-keyword-tabs></google-sheet-multi-keyword-tabs>
+    <multi-keyword-tabs></multi-keyword-tabs>
 </div>
     <script>
   const PAGE_ORDER = [
@@ -24,7 +24,7 @@
     "Python",
   ];
 
-  const GoogleSheetMultiKeywordTabs = {
+  const 資料庫 = {
     template: `
       <div>
         <div class="tabs">
@@ -83,7 +83,7 @@
       }
     },
     mounted() {
-      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYaye4pjVsaq7vZhdi-RRD71pH0sWcjGmAPKRXu8BdpJ6xttrGMFr7XxrT1oQdmSTqis40ONep9hwC/pub?output=csv';
+      const csvUrl = '../【數據】資料庫.csv';
       fetch(csvUrl)
         .then(res => res.text())
         .then(csv => {
@@ -120,13 +120,13 @@
           );
         })
         .catch(err => {
-          console.error('Google Sheets 讀取失敗：', err);
+          console.error('讀取失敗：', err);
         });
     }
   }
 
   const app = Vue.createApp({});
-  app.component('google-sheet-multi-keyword-tabs', GoogleSheetMultiKeywordTabs);
+  app.component('multi-keyword-tabs', 資料庫);
   app.mount('#app');
   </script>
     </body>

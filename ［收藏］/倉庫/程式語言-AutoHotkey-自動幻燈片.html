@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-AutoHotkey-自動幻燈片》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>AutoHotkey</h3></p><hr>
+<pre><code>
+#MaxThreadsPerHotkey 2  ; 允許同一個熱鍵同時啟動多個執行緒（切換開關必備）
+
+`::  ; 設定 ` 為啟動/關閉的熱鍵，你可以改成喜歡的按鍵
+Toggle := !Toggle  ; 切換變數 True/False
+
+if (Toggle) {
+    ToolTip, 自動按鍵已【啟動】  ; 在游標旁顯示提示
+    SetTimer, SendRightArrow, 5000  ; 每 5000 毫秒（5秒）執行一次
+} else {
+    SetTimer, SendRightArrow, Off  ; 關閉定時器
+    ToolTip, 自動按鍵已【關閉】
+    Sleep, 1000
+    ToolTip  ; 清除提示
+}
+return
+
+SendRightArrow:
+    Send, {Right}  ; 模擬按下右方向鍵
+return
+</code></pre>    
+    </body>
+</html>
