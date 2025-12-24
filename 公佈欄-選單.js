@@ -65,7 +65,6 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
 <li><a href="https://krita.org/zh-tw/download_zh-tw/krita-desktop_zh-tw/">Krita</a></li>\
 <li><a href="https://obsidian.md/">Obsidian</a></li>\
 <li><a href="https://zh-tw.libreoffice.org/">LibreOffice</a></li>\
-<li><a href="https://visipics.info/download/">VisiPics</a></li>\
 <li><a href="https://www.sublimetext.com/">Sublime Text</a></li>\
 <li><a href="https://www.python.org/">Python</a></li>\
 <li><a href="https://code.visualstudio.com/">visual studio code</a></li>\

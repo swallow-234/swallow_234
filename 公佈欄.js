@@ -104,7 +104,7 @@
     },
     mounted() {
       // 你的 Google Sheets "發佈到網路" CSV 連結
-      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTYaye4pjVsaq7vZhdi-RRD71pH0sWcjGmAPKRXu8BdpJ6xttrGMFr7XxrT1oQdmSTqis40ONep9hwC/pub?output=csv';
+      const csvUrl = '【數據】資料庫.csv';
       fetch(csvUrl)
         .then(res => res.text())
         .then(csv => {
@@ -144,5 +144,4 @@
 
   const app = Vue.createApp({});
   app.component('google-sheet-tabs', GoogleSheetTabs);
-
   app.mount('#app');
