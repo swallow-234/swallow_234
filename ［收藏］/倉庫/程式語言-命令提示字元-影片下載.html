@@ -12,7 +12,9 @@
 <div class="column ZZZ" style="color:#B7B7B7">
     <p><h3>命令提示字元</h3></p><hr>
 如果您尚未安裝 yt-dlp，請打開您的命令提示字元 (Command Prompt) 或終端機 (Terminal)，然後執行以下命令：<br>
-pip install -U yt-dlp
+pip install -U yt-dlp<br>
+python -m pip install -U yt-dlp<br>
+py -m pip install -U yt-dlp
     <p><h3>命令提示字元</h3></p><hr>
 <pre><code>
 ===基本語法1===
@@ -55,6 +57,22 @@ yt-dlp --no-check-certificates --legacy-server-connect --socket-timeout 60 -o "�
 
 範例：
 yt-dlp --no-check-certificates --legacy-server-connect --socket-timeout 60 -o "路徑\%(title)s.%(ext)s" "網址"
+
+
+音樂下載
+
+關鍵參數解析
+-x (或 --extract-audio)：告知程式只要音軌，不要下載影片。
+--audio-format mp3：指定將提取出的音訊轉換為 MP3 格式。
+--audio-quality 0（選用）：如果你非常在意音質，可以加上這個參數（0 代表最高品質，通常是 320kbps）。
+
+注意事項
+FFmpeg 工具：yt-dlp 下載後需要依靠 FFmpeg 來進行轉檔。如果你的電腦沒安裝 FFmpeg，程式會報錯。
+
+
+yt-dlp --no-check-certificates --legacy-server-connect --socket-timeout 60 -x --audio-format mp3 -o "路徑\%(title)s.%(ext)s" "網址"
+
+yt-dlp --no-check-certificates --legacy-server-connect --socket-timeout 60 -x --audio-quality 0 --audio-format mp3 -o "路徑\%(title)s.%(ext)s" "網址"
 </code></pre>
     </body>
 </html>
