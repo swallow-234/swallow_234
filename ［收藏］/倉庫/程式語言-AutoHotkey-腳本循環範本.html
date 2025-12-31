@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="A0001.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <!--標題-->
+        <h1 style="text-align: center;">《程式語言-AutoHotkey-腳本循環範本》</h1>
+<!--內文-->
+<div class="column ZZZ" style="color:#B7B7B7">
+    <p><h3>AutoHotkey</h3></p><hr>
+<pre><code>
+; 腳本循環範本。
+#MaxThreadsPerHotkey 2  ; 設定為 2，這樣正在循環時按第二次按鍵才有反應
+
+`::
+    ; 這裡的 Toggle 就像是一個開關變數
+    Toggle := !Toggle 
+    
+    ; 只要 Toggle 是「真」(1)，就會一直循環
+    while (Toggle) {
+            ; 此區塊為腳本執行內容。
+
+
+        
+        ; 【關鍵】每次循環結束會回頭檢查 while (Toggle)
+        ; 如果你剛才按了第二次按鍵，Toggle 變成了 0 (假)，循環就會自動停止
+    }
+return
+</code></pre>    
+    </body>
+</html>
