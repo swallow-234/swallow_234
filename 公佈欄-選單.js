@@ -26,7 +26,7 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li>繪圖</li>\
         <li>劇本</li>\
         <li>影片/攝影編輯</li>\
-        <li>人生哲學</li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E4%BA%BA%E7%94%9F%E5%93%B2%E5%AD%B8.html">人生哲學</a></li>\
         <li>社會學</li>\
         <li>開創者</li>\
         <li>戀愛研究院</li>\
