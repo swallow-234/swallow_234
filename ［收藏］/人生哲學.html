@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>人生哲學</title>
+    <link href="A0001.css" rel="stylesheet" />
+    <script src="嵌入網頁.JS"></script>
+</head>
+<body>
+  <button class="openbtn" onclick="toggleNav()">☰</button>
+
+<!-- 導覽列 -->
+<div class="main-content-wrapper">
+<h1 style="text-align: center; margin-left: 250px;">人生哲學</h1>
+<p style="text-align: center; margin-left: 250px;">收藏記錄小工具</p>
+    <!--中間布局-->	
+<div class="content">
+<div class="column middle">
+ <iframe id="myFrame" src="人生哲學-範本.html"></iframe>
+</div>
+</div>
+</div>
+
+<!-- 左側布局 -->
+<div id="mySidenav" class="column sidenav">  
+<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
+<ul><li><a onclick="changeIframe('人生哲學-範本.html')">收藏項目</a></li></ul>
+    <h1 style="text-align: center;">《導師塔》</h1>
+<ul><h3 style="text-align: center;">《YouTube》</h3></ul><hr>
+<ul>
+    <li><a href="https://www.youtube.com/@JRLeeRadio">JR Lee Radio</a></li>
+    <li><a href="https://www.youtube.com/@teacherOya/videos">歐耶老師</a></li>
+    <li><a href="https://www.youtube.com/playlist?list=PLeGq5a9wTGUokN5_JxcQveTkT8uhWuh4a">莊子&蔡璧名老師</a></li>
+    <li><a href="https://www.youtube.com/@readingoutpost">下一本讀什麼？</a></li>
+    <li><a href="https://www.youtube.com/@koob">啟點文化</a></li>
+    <li><a href="https://www.youtube.com/@da.ren.cademy">大人學</a></li>
+    <li><a href="https://www.youtube.com/channel/UCSaNMML9AAXTN4142jD-dxw">Sadhguru 繁體中文</a></li>
+    <li><a href="https://www.youtube.com/channel/UC-qwAKnBVzUlbNwol3UCZIA">Wisdom Bread 智慧麵包</a></li>
+    <li><a href="https://www.youtube.com/playlist?list=PLyYI2fZBFmkJ_BexsbccX0Mq_Boof0DVI">聽天下：天下雜誌Podcast</a></li>
+    <li><a href="https://www.youtube.com/channel/UCPgGtH2PxZ9xR0ehzQ27FHw/videos">文森說書</a></li>
+    <li><a href="網址">.</a></li>
+</ul>
+
+<HR><p><BR><BR><BR></p>
+</div>
+
+<script>
+    function toggleNav() {
+        const sidenav = document.getElementById("mySidenav");
+        const mainContent = document.querySelector(".main-content-wrapper"); 
+        
+        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
+        if (sidenav.classList.contains("collapsed")) {
+            // 展開側邊欄
+            sidenav.classList.remove("collapsed");
+            mainContent.classList.remove("collapsed-margin");
+
+        } else {
+            // 收起側邊欄
+            sidenav.classList.add("collapsed");
+            mainContent.classList.add("collapsed-margin");
+        }
+    }
+</script>
+
+</body>
+</html>
