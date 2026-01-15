@@ -12,9 +12,9 @@
 <!--標題-->
 <h1>《公眾人物》</h1>
 <div class="column middleh">
-<ul><li>出生日期：</li>
-<li>姓名：</li>
-<li><a href="">維基百科</a></li>
+<ul><li>出生日期：1980年12月31日</li>
+<li>姓名：吳怡農｜Enoch Wu</li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%90%B3%E6%80%A1%E8%BE%B2">維基百科</a></li>
 <!-- 良百分比
 ☆☆☆☆☆：00~20%
 ★☆☆☆☆：21~40%
@@ -23,18 +23,20 @@
 ★★★★☆：81~90%
 ★★★★★：91~100%
  -->
-<li>［評價］永夜暗夜：</li>
-<li>［記分板(總數)］良：值(%)｜普：值(%)｜劣：值(%)</li>
-<li>Ⅰ社會貢獻：</li>
-<li>Ⅰ建議方法：</li>
-<li>Ⅰ發現問題：</li>
-<li>Ⅱ未能處理：</li>
-<li>Ⅱ詢問回應：</li>
-<li>Ⅱ宣揚口號：</li>
-<li>Ⅱ政見發表：</li>
-<li>Ⅲ負面方法：</li>
-<li>Ⅲ負面行為：</li>
-<li>Ⅳ破壞民主：</li></ul>
+<li>［評價］永夜暗夜：☆☆☆☆☆</li>
+<li>只有要選舉的時候才會出現，只為了選舉而行動，而非為了人民。</li>
+<li>過於空洞缺乏內涵。</li>
+<li>［記分板(16)］良：1(6.25%)｜普：15(93.75%)｜劣：值(%)</li>
+<li>Ⅰ社會貢獻：0</li>
+<li>Ⅰ建議方法：0</li>
+<li>Ⅰ發現問題：1</li>
+<li>Ⅱ未能處理：0</li>
+<li>Ⅱ詢問回應：9</li>
+<li>Ⅱ宣揚口號：6</li>
+<li>Ⅱ政見發表：0</li>
+<li>Ⅲ負面方法：0</li>
+<li>Ⅲ負面行為：0</li>
+<li>Ⅳ破壞民主：0</li></ul>
 </div>
 <!--內文-->
 <div id="app">
@@ -109,8 +111,9 @@
       filteredRows() {
         if (!this.tabs.length) return [];
         const tab = this.tabs[this.activeTab];
+        // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
         return this.rows.filter(
-          row => (row[this.filterHeader] || '').includes('公眾人物A')
+          row => (row[this.filterHeader] || '').includes('1980年12月31日吳怡農')
              && (row[this.subpageHeader] || '').includes(tab));
       }
     },
@@ -146,7 +149,7 @@
           // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
           this.tabs = PAGE_ORDER.filter(key =>
             rows.some(row => 
-              (row[this.filterHeader] || '').includes('公眾人物A') &&
+              (row[this.filterHeader] || '').includes('1980年12月31日吳怡農') &&
               (row[this.subpageHeader] || '').includes(key)
             )
           );
