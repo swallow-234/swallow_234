@@ -83,21 +83,6 @@ h1 {
   width: 100%;
 }
 
-
-.box {
-  width: 100%;
-  height: 100%;
-  padding: 0px;
-  border: 1px solid #8E7CC3;
-  transition: background 0.3s, transform 0.3s;
-  background: linear-gradient(0deg, #000000, #666666);
-  
-}
-.boxhhh {
-  display: flex;
-  overflow:scroll;
-}
-
 /* 表格 */
 td{
     color: #B7B7B7; 
@@ -116,6 +101,22 @@ a:hover {
   text-decoration: underline; /* 加上底線 */
   background-color: #666666;  /* 背景變淡灰色 */
 }
+
+
+.box {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  border: 1px solid #8E7CC3;
+  transition: background 0.3s, transform 0.3s;
+  background: linear-gradient(0deg, #000000, #666666);
+  
+}
+.boxhhh {
+  display: flex;
+  overflow:scroll;
+}
+
 .box:hover {
   background: #666666;
   transform: scale(1.05);
@@ -180,6 +181,7 @@ a:hover {
     .my-custom-table th { background: #666666; color: #F1C232; letter-spacing: 2px; }
     .my-custom-table tr:nth-child(even) { background: #000000; }
     .my-custom-table tr:hover { background: #8e7cc333; }
+    .my-custom-table {  word-break: break-all;       /* 遇到長英文或網址強制換行 */ }
     .link-cell a { color: #E69138; text-decoration: underline; }
     h2 { text-align: center; color: #F1C232; margin-top: 30px; }
 
