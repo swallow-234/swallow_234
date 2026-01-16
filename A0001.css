@@ -97,6 +97,19 @@ h1 {
   display: flex;
   overflow:scroll;
 }
+
+/* 表格 */
+td{
+    color: #B7B7B7; 
+}
+table, tr, td{
+    color: #B7B7B7;
+  border: 1px solid #B7B7B7;
+  border-collapse: collapse;    
+  text-align: center;
+}
+
+
 /*超連結*/
 a:hover {
   color: #E69138;        /* 滑鼠移上去時文字顏色變橙色 */
