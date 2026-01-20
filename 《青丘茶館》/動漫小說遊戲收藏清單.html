@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" CONTENT="width=100vw" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="A0003.css" />
+    <title>《青丘茶館》-動漫小說遊戲收藏清單</title>
+</head>
+<body>
+
+    <main class="middle-column">
+        <header class="content-header">
+            <h1><li><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">動漫小說遊戲收藏清單</a></li></h1>
+            <div class="filter-controls">
+                <input type="text" id="searchInput" placeholder="搜尋動漫名稱" onkeyup="filterData()">
+                <select id="categoryFilter" onchange="filterData()">
+                    <option value="">全部</option>
+                    <option value="動畫">動畫</option>
+                    <option value="漫畫">漫畫</option>
+                    <option value="小說">小說</option>
+                    <option value="遊戲">遊戲</option>
+                    <option value="歡樂廢萌">笑就對了！</option>
+                    <option value="催淚感傷">萌新入坑？</option>
+                    <option value="熱血戰鬥">太帥了吧！</option>
+                    <option value="哲學深思">不明覺力？</option>
+                    <option value="悠閒自在">我就喜歡～</option>
+                    <option value="驚悚恐怖">孤單寂寞…</option>
+                    <option value="戀愛喜劇">太甜了吧！</option>
+                </select>
+            </div>
+        </header>  
+              
+        <div class="card-container" id="cardContainer">
+<!-- 範本
+            <a href="網址" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="圖片網址" alt="名稱｜作者">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜漫畫｜小說｜遊戲｜歡樂廢萌｜催淚感傷｜熱血戰鬥｜哲學深思｜戀愛喜劇｜驚悚恐怖｜悠閒自在</span>
+                        <h2 class="box-title">名稱｜作者</h2>
+                        <div class="description">敘述簡介</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+-->
+            <a href="https://zh.wikipedia.org/wiki/%E8%BD%89%E7%94%9F%E6%88%90%E8%9C%98%E8%9B%9B%E5%8F%88%E6%80%8E%E6%A8%A3%EF%BC%81" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-1.fna.fbcdn.net/v/t39.30808-6/616399362_1587266645854150_8289799679661291772_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_ohc=ZDIe_g4d0mIQ7kNvwGpcRjk&_nc_oc=AdnOJXh_JBcFZwmz-mgEs9GjcDg98uyp77uD_XO9KIzll5Xd-hYGC3kAbBZuKHt86upDXRAKnqgMW6sT7WxkYH3k&_nc_zt=23&_nc_ht=scontent.ftpe7-1.fna&_nc_gid=3OcBCcA0lLJTlqRDCzCfbg&oh=00_AfpjmfjlmoFkCVHklnM_XXc49IIHtqxfVtDwQ9YFObg1rQ&oe=6975162E" alt="轉生成蜘蛛又怎樣！｜馬場翁">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜漫畫｜小說｜歡樂廢萌｜悠閒自在</span>
+                        <h2 class="box-title">轉生成蜘蛛又怎樣！｜馬場翁</h2>
+                        <div class="description">某處高中教室突然發生爆炸，在場教師和學生們都死於那場爆炸中。主角轉生到了異世界，於大迷宮中變成了蜘蛛魔物，卻不知是精神強韌還是其他原因坦然接受。結果變成蜘蛛魔物的主角在殘酷迷宮中不斷求生，最後突破自我通神。 而在另一方面，其中一名男學生轉生為人族王國的王子，在成為勇者後就要面對人族與魔族的全面戰爭。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/zh-tw/%E9%AD%94%E7%8E%8B%E5%AD%B8%E9%99%A2%E7%9A%84%E4%B8%8D%E9%81%A9%E4%BB%BB%E8%80%85%EF%BD%9E%E5%8F%B2%E4%B8%8A%E6%9C%80%E5%BC%B7%E7%9A%84%E9%AD%94%E7%8E%8B%E5%A7%8B%E7%A5%96%EF%BC%8C%E8%BD%89%E7%94%9F%E5%B0%B1%E8%AE%80%E5%AD%90%E5%AD%AB%E5%80%91%E7%9A%84%E5%AD%B8%E6%A0%A1%EF%BD%9E" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-2.fna.fbcdn.net/v/t39.30808-6/619096864_1587264572521024_3917396127252830033_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=f727a1&_nc_ohc=GHrAjvCUWDkQ7kNvwG605Qv&_nc_oc=AdmHS6LLULslU-JWH7OmWFcQWaOWQrsiCkTsqMPciUmeV-9s9ne8tBDeZDf0p9_v1jUVl5dHncb6bktBqdJSIGVI&_nc_zt=23&_nc_ht=scontent.ftpe7-2.fna&_nc_gid=bdMds1S8Cro-eDdxXyJ7aw&oh=00_Afp197VDeQv_HgBTVa4vmYel5hk1518O-7rRiq--jPaFSA&oe=6974FAE6" alt="魔王學院的不適任者～史上最強的魔王始祖，轉生就讀子孫們的學校～｜秋">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜漫畫｜歡樂廢萌｜熱血戰鬥｜悠閒自在</span>
+                        <h2 class="box-title">魔王學院的不適任者～史上最強的魔王始祖，轉生就讀子孫們的學校～｜秋</h2>
+                        <div class="description">暴虐魔王阿諾斯·波魯迪戈烏多具有能輕易毀滅人類、甚至眾神的力量，他厭倦了鬥爭，刻意讓自己死亡並轉生到兩千年後的世界，進入魔王學院就讀。由於學院無法辨別他的實力，便將他視為不適任者。在這個被眾人鄙視的環境當中，阿諾斯以自己非凡的實力，讓所有人屈服。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/zh-tw/%E5%8C%96%E7%89%A9%E8%AA%9E" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-2.fna.fbcdn.net/v/t39.30808-6/616582568_1587261915854623_8539569578525125994_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_ohc=BIbFaHnW_eQQ7kNvwFnszgD&_nc_oc=AdkaB8IYRzy67PuGk_9hCU6tC9H7BJN_BagiiErqVv-dYFar3MAsFv5rafpMSQvCJmth2BBnIhBoZWHdiFWYfWdL&_nc_zt=23&_nc_ht=scontent.ftpe7-2.fna&_nc_gid=w5ExRvrFk8X35ROVv-ubWw&oh=00_AfoQ-opGS-dYZNVHR4H1rYYwYyMsvrvVpFhh1nLpcuJ8lQ&oe=69750956" alt="化物語｜西尾維新">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜小說｜歡樂廢萌｜熱血戰鬥｜哲學深思｜戀愛喜劇｜悠閒自在</span>
+                        <h2 class="box-title">化物語｜西尾維新</h2>
+                        <div class="description">《化物語》是一部以21世紀初的日本為背景，描述高中生阿良良木曆和一些與「怪異」有關的少女邂逅，並解決怪異事件的故事。全書夾雜不同人物的第一視角與長篇對話，是重要特色。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/zh-tw/%E9%A9%9A%E7%88%86%E5%8D%B1%E6%A9%9F" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-1.fna.fbcdn.net/v/t39.30808-6/618671726_1587260449188103_3406580145419591734_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_ohc=oSW2YVxx1CIQ7kNvwFnSPbi&_nc_oc=AdnxcCova42Xdq--TIizRMTVOPT_Pd0zCagDftZ4iBEQO4KErEYAPY67sZ54wxFUwxKSF6H08V7TERhDUr4aAobH&_nc_zt=23&_nc_ht=scontent.ftpe7-1.fna&_nc_gid=7lvsEhZSV0cR06xUtns5Lw&oh=00_AfrRrEAXx6Bn6JpsjeBmFGnnJt7731TKKmhBTw-7DQN09w&oe=69752A52" alt="驚爆危機 校園篇｜賀東招二">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜歡樂廢萌</span>
+                        <h2 class="box-title">驚爆危機 校園篇｜賀東招二</h2>
+                        <div class="description">故事主要分成軍事篇和校園篇，軍事篇是主線的故事，以相良宗介和米斯里魯的夥伴們在世界各地為了世界和平而秘密行動的故事。校園篇相良宗介和千鳥要的校園故事，內容以短篇為主，主要是戰鬥專家兼生活白痴相良宗介在校園所做出的各種沒常識行為而弄出來的搞笑事件。另外還有Side Arms，以軍事篇的人物為主角的短篇集。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/wiki/%E5%BF%83%E8%B7%B3%E6%96%87%E5%AD%B8%E7%A4%BE" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/617618782_1587252872522194_3138516939047474882_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=f727a1&_nc_ohc=LuvXywJsyS8Q7kNvwE11vMf&_nc_oc=AdlNmaN0dQ5WhYMAGEXVESZ-IDNP2q30oCUFkyL2EEZvl6H2QF4UMzwyD-voNz1b-CR8tI07l3N0y0sNrUKxnPKD&_nc_zt=23&_nc_ht=scontent.ftpe7-4.fna&_nc_gid=NA18hWW9AoFkl3CyZeRXYg&oh=00_AfpnteEVok2LGmNniz8J9XOmnE2BOcYhBbrSe8hgP9FxCw&oe=697503A1" alt="Doki Doki Literature Club!｜Dan Salvato">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">遊戲｜哲學深思｜驚悚恐怖｜悠閒自在</span>
+                        <h2 class="box-title">Doki Doki Literature Club!｜Dan Salvato</h2>
+                        <div class="description">《心跳文學社》是一款視覺小說，因此遊戲大部分是由玩家閱讀遊戲故事，而對劇情方向幾乎沒有什麼影響。<BR><BR>在某些節點上，玩家要做出一些會左右故事進程的決定。同時遊戲在文學部活動部分時還有一個寫詩的機制，玩家可在選單中選擇單詞以組成四位女成員的詩，而她們都有不同的單詞偏好，當玩家選擇到某位女角喜歡的單詞時她會有所反應。<BR><BR>如果詩詞符合女成員的口味且做出正確選擇，系統會給出額外的場景，而每個玩家得到的場景都會影響故事的結局。在遊戲第一次通關（成功完成第一周目後）後，玩家有時候要開啟遊戲的檔案，並刪除特定的檔案以得到進一步的進展。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/zh-tw/Fate/Zero" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-3.fna.fbcdn.net/v/t39.30808-6/618074216_1587249875855827_2899961747705768434_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_ohc=eSynkl_P2VMQ7kNvwGPpB0n&_nc_oc=Adn6Q2s560p_Clu_Kj6eWqAFWaf6N7fWL15uCg09bMivi7IYjHYodWyNOIsuFgtxz3xpMiwqQRWYj5BrYAkq7D53&_nc_zt=23&_nc_ht=scontent.ftpe7-3.fna&_nc_gid=kCJyDd8Iq1vrU_nW9GWoZw&oh=00_AfpbaNfcyqg55iDhlcN_pka8p4HNAKfz50m2dtMgjHaAfQ&oe=69751D77" alt="Fate/Zero｜虛淵玄＆奈須蘑菇">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜熱血戰鬥</span>
+                        <h2 class="box-title">Fate/Zero｜虛淵玄＆奈須蘑菇</h2>
+                        <div class="description">在虛構的日本地方都市・冬木市，有7組魔術師「御主」驅策各自召喚來的傳說中的人物（英靈）做為「從者」，週而復始地進行「聖杯戰爭」。過去歷經三次聖杯戰爭，從未出現能使用聖杯力量的人。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/zh-tw/Ib_(%E9%81%8A%E6%88%B2)" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-1.fna.fbcdn.net/v/t39.30808-6/615933802_1587245445856270_7126066658306419894_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=f727a1&_nc_ohc=ztpKkhmKp1cQ7kNvwHXTPBD&_nc_oc=AdkaX4Vy17C43D0acVACioA0t34hi6cMitijd47NvL1CM3r7uhYJum52yxbzi3o1ZGUcmen4vIWTDSaVTCis3ziQ&_nc_zt=23&_nc_ht=scontent.ftpe7-1.fna&_nc_gid=xwnn5dhCOsnM8No-k0Hl5w&oh=00_Afowz61_TYLcbCcB_W2oIOREepVV_-t5hXn6WgKjzviG7Q&oe=69751499" alt="Ib｜kouri">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">遊戲｜驚悚恐怖｜催淚感傷</span>
+                        <h2 class="box-title">Ib｜kouri</h2>
+                        <div class="description">小女孩伊布和父母一起來到了美術館。伊布正在觀賞各式各樣的作品時，發現身旁的人全都消失了。正當她忙著尋找原來館內的人，美術館突然發生了異變……</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/wiki/K-ON%EF%BC%81%E8%BC%95%E9%9F%B3%E9%83%A8" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-3.fna.fbcdn.net/v/t39.30808-6/616819086_1587242572523224_2699370098993131220_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=f727a1&_nc_ohc=eJhOl20Y9mcQ7kNvwGdevRZ&_nc_oc=AdmIogN8qTxG3ZMV7mJoyjiNQ_5jRIYoR2WLRZVINeKX7huegJu5wEIfio9PrrR7-CDZRcdrM_vWtQMU2MGALNCY&_nc_zt=23&_nc_ht=scontent.ftpe7-3.fna&_nc_gid=zkALZo5PdBUbYQuVoqFBTg&oh=00_Afr1o9KdsFqBNDSweFWCKKRF4htOc7yyg9k7UrX91V0sSg&oe=6974F332" alt="K-ON！輕音部｜kakifly">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜漫畫｜歡樂廢萌</span>
+                        <h2 class="box-title">K-ON！輕音部｜kakifly</h2>
+                        <div class="description">新學年開始，櫻丘高中輕音部因原有部員全部畢業離校而無法達到部員4人的最低人數。輕音部新成員只有秋山澪和田井中律。溫柔可愛的千金大小姐琴吹紬因覺得田井中律及秋山澪的互動很有趣而入社；平澤唯在陰差陽錯的情況下把「輕音」當作「輕鬆的音樂」，又想起小時候玩響板得到老師表揚，所以申請入部。於是，便有了貝斯手秋山澪、吉他手平澤唯、鼓手田井中律及鍵盤手琴吹紬。後來新成員中野梓加入輕音部，成為第二名吉他手。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/wiki/Angel_Beats!" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/617592177_1587240312523450_5533932400205041680_n.webp?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=f727a1&_nc_ohc=pVvZ90HSYF8Q7kNvwGgL7xp&_nc_oc=AdmVqrIHnjqbZ4PF42EojQ953y0JvwmC0WhXYsaaV12vqaqTPZ3ldHooKUxqvzg2bfvQ8Ow0j-_4K6IV2CI2CzRJ&_nc_zt=23&_nc_ht=scontent.ftpe7-4.fna&_nc_gid=JKNKD4UbnsjTlnzmtyMjaw&oh=00_AfqiVMToKnxvSpR0qdaO6LtsnasBxBoihQcU5wz3NYdHcg&oe=69751A8A" alt="Angel Beats!｜麻枝准＆Key＆Aniplex">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜歡樂廢萌｜催淚感傷</span>
+                        <h2 class="box-title">Angel Beats!｜麻枝准＆Key＆Aniplex</h2>
+                        <div class="description">《天使的心跳》故事發生在一所位於只有亡者與亡靈世界的大型高級中學，這個世界的存在目的是為了讓沒能快樂地度過青春的死亡青少年，能在這裏消除他們內心中的負面情緒，進而得以走向來生或者下一場輪迴；而消除負面情緒的方法，則是讓這些青少年們重新體驗高中生活。在這個世界裡人們仍然必須像生前一般，為了維持生命而飲食和作息。儘管受到傷害時會感到疼痛，但不會因此而致死，而且過幾分鐘恢復。同時這個世界有一些雖然不是人類，但是外表與行為都和一般人無異的NPC；包括學校裏的普通學生和老師都是NPC，其存在是爲了讓這所學校能有高中的氛圍。<BR>
+                        <BR>
+                        對此主要角色仲村百合認為這裡是一個由神掌管的「死後世界」，並且她與其他成員一同創立「死後世界戰線」，其目的便是向給予自己人生殘酷命運的「神」做出反抗。另外在故事中，死後世界戰線轄下有兩個部門負責協助作戰。一個是由4名少女組成的「Girls Dead Monster」樂團。這隻樂團表面上看起來像是普通的女子樂團，但是其目的是在死後世界戰線從事其他任務活動時，轉移普通學生、教師以及「天使」的注意力。另外一個團體叫做「公會」，這個部門主要工作是爲死後世界戰線提供與「天使」作戰時所需的武器。其中公會成員可以用收集而來的「土塊」，藉着生前的記憶大量生產武器裝備。<BR>
+                        <BR>
+                        故事主要以音無結弦的視點進行，當他於學校路上甦醒後發現自己來到一個不同的世界，卻也留意到自己疑似喪失過去記憶。此時遇見一名正蹲著拿著狙擊步槍、名叫仲村百合的少女，她一開口就邀請音無加入「死後世界戰線」，並且表示他們敵人即為擔任學生會會長的「天使」。在一次行動成功後讓「天使」失去會長位置，同時也得知「天使」真實姓名為立華奏。接任會長的前副會長直井文人一上任便對死後世界戰線展開大規模的搜捕行動，甚至利用催眠的方式控制NPC角色發動攻勢。最終音無成功阻止衝突並表示承認直井存在，之後直井加入死後世界戰線。在直井催眠協助下音無恢復自己的記憶，想起自己過去的人生以及最後死亡的細節，決定與奏合作以幫助其他死後世界戰線成員滿足生前遺願。在奏重新恢復學生會會長職位後，音無和奏合作幫助成員實現願望。<BR>
+                        <BR>
+                        途中，出現系統bug，造成大量NPC「影化」，這更加堅定音無幫大家離開死後世界的決心。<BR>
+                        <BR>
+                        最後仍留在死後世界的音無、百合、奏、日向以及直井決定舉行畢業典禮並相互感謝對方的支持與幫助。隨著畢業典禮的尾聲直井、百合和日向一一消失，在故事最後音無得知奏的遺憾是未能感謝捐贈給她心臟的人，而那顆心臟便是音無逝世後所捐贈的。奏向音無感謝他的幫助並消失，已愛上奏的音無則不斷地哭泣。動畫最後內容描寫兩人投胎轉世後似乎又再度重逢。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/wiki/CLANNAD" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/616680484_1587236579190490_5660110187350758430_n.webp?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=f727a1&_nc_ohc=fVa4jvOF41gQ7kNvwFk2TeT&_nc_oc=AdmV8Emb0Q0-eUiZ55fElwAi3rI5YuQlOv82jCw1m6N9YZqe5qeut8iUwpRQMrln-XcYKRb_fGyrtFNTmWz4jj6f&_nc_zt=23&_nc_ht=scontent.ftpe7-4.fna&_nc_gid=aih8RgCXxpFoEjn3zQizzQ&oh=00_AfrojjI53tdy9JVueTgg4pBq2Hs1BuFbzG8kelOwt9tS7A&oe=69751AB5" alt="CLANNAD｜Key">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜遊戲｜歡樂廢萌｜催淚感傷</span>
+                        <h2 class="box-title">CLANNAD｜Key</h2>
+                        <div class="description">遊戲開始時間是某年的4月14日。在某個小鎮，主角岡崎朋也因為家庭的因素而喪失了生活在這個地方的希望；與春原陽平為朋友，在光坂高等學校過著潦倒的生活，盼望終有一天能夠離開所在的小鎮。在高三的一個早晨，通往學校的坡道前發現了一個止步不前的女孩，在朋也認識了這個名為「古河渚」的女孩後，他的生活開始有了重大的變化。<BR>
+                        校園篇為主角和女主角們之間所發生的事件，After story為主角在學校畢業之後，以及家庭生活，其中還關聯著「幻想世界」，CLANNAD就是由這三個要素所組成的故事。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/wiki/Little_Busters!" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/615522110_1587233972524084_904320757210542719_n.webp?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=f727a1&_nc_ohc=PCNMW1JILxEQ7kNvwF6CUgO&_nc_oc=Adl_dACg8lOnN26fZjwQ_EQRTFMuJQDu55oHpr4DILz9eIwlE9goR64DDkupN4YUwYMMx32-S8KJMFTeKfrK5BgL&_nc_zt=23&_nc_ht=scontent.ftpe7-4.fna&_nc_gid=k0-QKBGg8x7ysEqo_8ycYg&oh=00_Afp7oTIzRgvv_EVsyZ10tB0ZHSzaPdA2l369CDE6Eb_M4w&oe=697504A8" alt="Little Busters !｜Key">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜遊戲｜歡樂廢萌｜催淚感傷</span>
+                        <h2 class="box-title">Little Busters !｜Key</h2>
+                        <div class="description">故事於2007年5月13日開始。主角直枝理樹與其青梅竹馬的朋友棗恭介、棗鈴、井之原真人、宮澤謙吾一起過著全寄宿制的高中生活。他們曾於小時候結成一個與惡勢力作鬥爭，號稱正義的使者的隊伍，名為「Little Busters」。某日，三年級的恭介從就職活動中回來，並提議要組成一個棒球隊伍，隊名沿用「Little Busters」，想和從前一樣再熱鬧地玩一次。於是理樹他們就開始尋找隊員，揮灑著青春的光彩，理樹也渴望與夥伴們的日子能夠永遠持續下去。不久以後，理樹和鈴在一隻被恭介取名為「藍儂」的貓身上找到一張紙條，上面有這樣的訊息：「請找出這個世界的秘密」…</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/wiki/%E8%92%99%E6%8F%90%C2%B7%E6%AD%90%E4%BC%8D" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-3.fna.fbcdn.net/v/t39.30808-6/615823104_1587229279191220_3277318671371186424_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_ohc=T8_UxNEvR_EQ7kNvwGTIYbu&_nc_oc=AdmEr8gwWinkkT_6TehtUQWRuRq85uK9MSGxbe7aDOp5ewcb7fNnv-T-ZP8QteNRYoYXJ99v53Y5oQEfnpk53Ynj&_nc_zt=23&_nc_ht=scontent.ftpe7-3.fna&_nc_gid=2TCLx2qFOsYBPm3ihhd71A&oh=00_Afqod8isXJvleHx-2M8td8pl8b6XqEJ-G6PwKpeb4OeoXQ&oe=6974FADE" alt="RWBY｜Monty Oum">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">動畫｜熱血戰鬥</span>
+                        <h2 class="box-title">RWBY｜Monty Oum</h2>
+                        <div class="description">本作的背景設定在具有高科技和超自然力量的遺風Remnant世界，此世界觀有四個「王國」以及王國外的無國家地區，角色則為人類和弗納人Faunus，並存在這名為戮獸Grimm的怪獸；遺風的科技主要是以名為塵晶Dust的物質來運作，靈氣Aura與塵晶亦作為人類對抗戮獸的方式，靈氣同樣是本作中絕大多數角色進行戰鬥所必需的能力。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://zh.wikipedia.org/wiki/%E4%BB%8E%E5%89%8D%E6%9C%89%E5%BA%A7%E7%81%B5%E5%89%91%E5%B1%B1" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/616417271_1587174309196717_8204428990135144735_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=f727a1&_nc_ohc=tNjvlzXC5YAQ7kNvwHFM4Sv&_nc_oc=AdlW36IsEUXh8sLdgfj8lnwSgwGgrKjrcwSoX0NDfV58_xWUCBzaNkl2xif1eeRFliqtcpjDlRbKHNcO8RcXxjcT&_nc_zt=23&_nc_ht=scontent.ftpe7-4.fna&_nc_gid=l4Tz4_JljEtcVLdjf9-xFQ&oh=00_AfqDU0LbkHdy5r0kUvKKtzEJUi2l_b5VLxsLIylJn0IeNg&oe=6974F266" alt="從前有座靈劍山｜國王陛下">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">小說｜歡樂廢萌</span>
+                        <h2 class="box-title">從前有座靈劍山｜國王陛下</h2>
+                        <div class="description">
+                            為了尋找隨著彗星而來，被命運選中的孩子，有著悠久歷史的「靈劍派」決定重新開啟門生入門考試。天賜恩澤的男主角王陸擁有被稱為千年難遇的「空靈根」，他朝著「靈劍派」的入門考試發起了挑戰，開始了他獨樹一格的修仙之道。當王陸以靈劍派修仙為目標展開修行已經過了兩年的時光，同他一起進山的弟子被要求進行「降臨下界與俗世接觸」的試煉，並前往自己出生的故鄉，創造智教的故事。
+                        </div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+
+            <a href="https://dsyqt.com/" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent.ftpe7-3.fna.fbcdn.net/v/t39.30808-6/618795497_1587184049195743_2725940160733645385_n.webp?stp=dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_ohc=FVBqdI97NgQQ7kNvwEUzwd6&_nc_oc=Adku7nOMUApKKQ0ewE5ClQP58DgUrtmlpJXs4jGHB84wdcwZNeZKXCCYXYz0SHiyOeS3tvEUhpcuuC2JHhf5-zNM&_nc_zt=23&_nc_ht=scontent.ftpe7-3.fna&_nc_gid=qDcPMorU3o78806DF1Hvyw&oh=00_AfqofV4IYkd4Y2izFsL-RkFenZQq7QtoXBDfkwv1nLmPrQ&oe=6974D710" alt="都市妖｜可蕊">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">小說｜悠閒自在</span>
+                        <h2 class="box-title">都市妖｜可蕊</h2>
+                        <div class="description">城市大了，什麼樣的生物都可能會有……<BR>
+                        人類也許永遠都不會發現，正在和他們分享這個城市的不僅僅是植物、野狗、野貓、鳥雀或者昆蟲而已；還有一些甚至比人類還要聰明的、利用人類外表隱藏在人類社會之中的「生物」。它們或者出於善意，或者出於惡意，居住在這個城市中；為了生存、為了捕食、為了進化……<BR>
+                        地狼、影魅、窫窳、必方……<BR>
+                        古代神話中的妖獸，紛紛現身。</div>
+                        <span class="read-more">詳細閱讀 →</span>
+                    </div>
+                </article>
+            </a>
+        </div>
+    </main>
+
+<script>
+    // 搜尋與篩選邏輯
+    function filterData() {
+        const keyword = document.getElementById('searchInput').value.toLowerCase();
+        const filter = document.getElementById('categoryFilter').value;
+        const cards = document.querySelectorAll('.box-link');
+
+        cards.forEach(card => {
+            const title = card.querySelector('.box-title').innerText.toLowerCase();
+            const category = card.querySelector('.category').innerText;
+
+            const isMatchKeyword = title.includes(keyword);
+            const isMatchFilter = filter === "" || category.includes(filter);
+
+            // 當兩者皆符合時才顯示
+            if (isMatchKeyword && isMatchFilter) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

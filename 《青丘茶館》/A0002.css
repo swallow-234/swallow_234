@@ -67,6 +67,10 @@ h1 {
 .container {
 	display: grid;
 }
+
+
+
+
 /*-------------------------*/
 .box {
   width: 300PX;
@@ -111,6 +115,8 @@ h1 {
   height: 100%;
   overflow-y: hidden;　　/* 完全禁止捲動 */
 }
+
+
 
 a:hover {
   color: #E69138;        /* 滑鼠移上去時文字顏色變橙色 */
