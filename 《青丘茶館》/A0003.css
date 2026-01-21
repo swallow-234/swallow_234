@@ -1,0 +1,182 @@
+/* 直接整合您提供的 A0003.CSS 設定 */
+:root {
+    --primary-color: #E69138;
+    --secondary-color: #8E7CC3;
+    --bg-dark: #000000;
+    --bg-gray: #1a1a1a;
+    --text-gray: #B7B7B7;
+}
+
+* { box-sizing: border-box; }
+
+/* 文字樣式 */
+:root {color-scheme: dark;}
+p {color: #B7B7B7;}
+dt {color: #B7B7B7;}
+dd {color: #B7B7B7;}
+ul {color: #E69138}
+li {color: #B7B7B7;}
+details {color: #B7B7B7;}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+h1 li {
+    display: inline;
+    color: #E69138;
+    border-style: double;
+}
+h1 li a {
+    color: #E69138;
+}
+
+h1 {
+    color: #E69138;
+}
+
+.container {
+    display: grid;
+}
+
+
+
+body, html {
+    margin: 0; padding: 0; height: 100%;
+    background-color: var(--bg-dark);
+    color: var(--text-gray);
+    font-family: "Microsoft JhengHei", sans-serif;
+}
+
+.main-layout { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+
+.side-column {
+    flex: 0 0 15%;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--secondary-color);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.middle-column {
+    flex: 0 0 70%;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 確保高度等於螢幕高度 */
+    border-top: 1px solid var(--secondary-color);
+    overflow: hidden; /* 防止整個欄位一起捲動 */
+}
+
+/* 標題與搜尋區域 */
+.content-header {
+    padding: 20px;
+    background-color: var(--bg-gray);
+    border-bottom: 1px solid var(--secondary-color);
+    flex-shrink: 0; /* 防止 Header 被壓縮 */
+    z-index: 10;    /* 確保在內容之上 */}
+
+.content-header h1 { color: var(--primary-color); margin-top: 0; }
+
+/* 搜尋與篩選列樣式 */
+.filter-controls {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.filter-controls input, .filter-controls select {
+    background: var(--bg-dark);
+    border: 1px solid var(--primary-color);
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.filter-controls input:focus { box-shadow: 0 0 8px var(--primary-color); }
+.filter-controls input { flex: 1; }
+
+/* 卡片設計 */
+.card-container { 
+    padding: 20px;
+    flex-grow: 1;    /* 佔滿剩餘空間 */
+    overflow-y: auto; /* 只有這裡會捲動 */
+ }
+.box-link { text-decoration: none; display: block; margin-bottom: 20px; }
+.box {
+    display: flex;
+    background: linear-gradient(90deg, #1a1a1a, #333333);
+    border: 1px solid var(--secondary-color);
+    height: 200px;
+    transition: 0.3s;
+    overflow: hidden;
+}
+.box:hover { transform: translateX(10px); background: #444444; }
+
+.box-image { flex: 0 0 300px; height: 100%; }
+.box-image img { width: 100%; height: 100%; object-fit: contain; }
+
+.box-content { flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; overflow: hidden;}
+.category { color: var(--secondary-color); font-size: 0.8rem; }
+.box-title { color: var(--primary-color); margin: 5px 0; }
+
+/* 文字捲動條設定 */
+.description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    max-height: 100px; /* 超出此高度則顯示捲動條 */
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* 捲軸美化 */
+.description::-webkit-scrollbar { width: 4px; }
+.description::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 4px; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
+
+.nav-title { color: var(--primary-color); border-bottom: 2px double var(--primary-color); padding-bottom: 10px; }
+.nav-list { list-style: none; padding: 0; }
+.nav-list li { margin: 15px 0; }
+.nav-list a { color: var(--text-gray); text-decoration: none; transition: 0.3s; }
+.nav-list a:hover { color: var(--primary-color); padding-left: 10px; }
+
+
+/* 針對手機等窄螢幕進行優化 (螢幕寬度小於 768px 時觸發) */
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column; /* 側邊欄改為上下排列 */
+    overflow-y: auto;       /* 允許主容器滾動 */
+  }
+
+  .side-column {
+    flex: 0 0 auto;        /* 取消固定 15% 寬度 */
+    width: 100%;
+  }
+
+  .middle-column {
+    flex: 0 0 auto;        /* 取消固定 70% 寬度 */
+    width: 100%;
+    overflow-y: visible;   /* 讓整體頁面統一捲動 */
+  }
+
+  .box {
+    flex-direction: column; /* 關鍵：將圖文從左右排列改為上下排列 */
+    height: auto;           /* 取消固定 200px 高度，讓內容撐開 */
+  }
+
+  .box-image {
+    flex: 0 0 200px;       /* 手機上圖片改為固定高度 */
+    width: 100%;           /* 寬度撐滿 */
+  }
+
+  .box-content {
+    padding: 15px;
+  }
+
+  .description {
+    max-height: none;      /* 在手機上通常建議顯示完整內容，或維持固定高度 */
+  }
+}
