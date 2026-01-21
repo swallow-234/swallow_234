@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" CONTENT="width=100vw" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="A0003.css" />
+    <title>《音樂收藏》-音樂專輯收藏</title>
+</head>
+<body>
+
+    <main class="middle-column">
+        <header class="content-header">
+            <h1><li><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">音樂專輯收藏</a></li></h1>
+            <div class="filter-controls">
+                <input type="text" id="searchInput" placeholder="搜尋專輯名稱" onkeyup="filterData()">
+                <select id="categoryFilter" onchange="filterData()">
+                    <option value="">全部</option>
+                    <option value="MONOGATARI Series">MONOGATARI Series</option>
+                </select>
+            </div>
+        </header>  
+              
+        <div class="card-container" id="cardContainer">
+<!-- 範本
+            <a href="網址" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="圖片網址" alt="名稱">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">專輯</span>
+                        <h3 class="box-title">名稱</h3>
+                        <div class="description">推薦單曲<br></div>
+                        <span class="read-more">更多資訊 →</span>
+                    </div>
+                </article>
+            </a>
+-->
+            <a href="https://www.youtube.com/playlist?list=OLAK5uy_mQKfXH3Z4o6VYocguSbcqLeEadiW8FK8Y" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/616998161_1587465659167582_978387729510554700_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=f727a1&_nc_ohc=ncLZ4G47_z4Q7kNvwHgNenm&_nc_oc=AdkeQc-URA40YJ0KKX_4nO6QSP9iFxLtDofPETbL9tsM_Wei0fv9qijqPnTdb14XpfQb4qaNlnqtJ5qvPEB-PQ8V&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=FeZ4ZkmOJagiQbsWrUqSrg&oh=00_AfqDzPfWuOW8fPoImfIKEgSYpjQBB0aF2m0MW5HQfO-jhA&oe=69757088" alt="Utamonogatari Special Edition (Original Soundtrack)">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">MONOGATARI Series</span>
+                        <h3 class="box-title">Utamonogatari Special Edition (Original Soundtrack)</h3>
+                        <div class="description">推薦單曲<br>Staple Stable<br>Ambivalent World<br>Renai Circulation<br>Sugar Sweet Nightmare<br>supercell - 君の知らない物語<br>Futakotome<br>Platinum Disco<br>Naisho No Hanashi<br>perfect slumbers<br>Mousou Express<br>White Lies<br>fast love</div>
+                        <span class="read-more">更多資訊 →</span>
+                    </div>
+                </article>
+            </a>
+            <a href="https://www.youtube.com/playlist?list=OLAK5uy_nsPPuIW83i-Gdrzinp5Gt1OK6N-WzY_S0" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/616702460_1587467055834109_8428458621602640343_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=f727a1&_nc_ohc=B_uvc6xzSW4Q7kNvwEzY9jh&_nc_oc=Adn1KoeAnnvBZ8X9r-mq7BD4Mcwpb3GDqvTo2feCBdGOv42EKUihZgHBcksbnYIcYmK6njBVMrH_fo8pmvMAXqyg&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=65kRMz3KlTYDEe9pAtDlQQ&oh=00_AfrIvXeQwSy0SYMVjdjp2eSChEHd74hOLheER99F3mLM9w&oe=69755D56" alt="Nekomonogatari (Kuro) Gekihanongakushu (Original Soundtrack)">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">MONOGATARI Series</span>
+                        <h3 class="box-title">Nekomonogatari (Kuro) Gekihanongakushu (Original Soundtrack)</h3>
+                        <div class="description">推薦單曲<br>perfect slumbers<br>Golden Week<br>Yakusoku<br>Nagori<br>Ienaikoto Igainokoto<br>Syousui<br>Usabarashi<br>Futsuno Onnanoko<br>Youtou Kokorowatari<br>Kisyutu Kibotsu<br>Gojitsudan<br>Koi<br>Kieru Daydream</div>
+                        <span class="read-more">更多資訊 →</span>
+                    </div>
+                </article>
+            <a href="https://www.youtube.com/playlist?list=OLAK5uy_kihPiphwnkgshMmvzWi20fIL9vq863mcE" class="box-link">
+                <article class="box">
+                    <div class="box-image">
+                        <img src="https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/615809649_1587468419167306_1815085948916984057_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=f727a1&_nc_ohc=acXsDj45re8Q7kNvwHLn-Ok&_nc_oc=AdlFW3PItiov2K995zeh1oXpAy5D7IMgwQO8lxyqSYz8WT9uP6Ig8jMuGe6mL7OPoAxePHt3SZGjSD8-kuV4Y-L7&_nc_zt=23&_nc_ht=scontent-tpe1-1.xx&_nc_gid=uV83yo76tqsYKa9wXorj0A&oh=00_Afp7U4wiGMGGe2spYrCXwtNgJ75P0QAWfWNkGTooM9KKKw&oe=69757980" alt="Hanamonogatari Gekihanongakushu (Original Soundtrack)">
+                    </div>
+                    <div class="box-content">
+                        <span class="category">MONOGATARI Series</span>
+                        <h3 class="box-title">Hanamonogatari Gekihanongakushu (Original Soundtrack)</h3>
+                        <div class="description">推薦單曲<br>Kanbaru Suruga No Jinsei<br>Imadoki No Kouhai<br>Youki Na Choshi<br>Hitamuki Na Kigai<br>Basket Ball</div>
+                        <span class="read-more">更多資訊 →</span>
+                    </div>
+                </article>
+            </a>
+
+        </div>
+    </main>
+
+<script>
+    // 搜尋與篩選邏輯
+    function filterData() {
+        const keyword = document.getElementById('searchInput').value.toLowerCase();
+        const filter = document.getElementById('categoryFilter').value;
+        const cards = document.querySelectorAll('.box-link');
+
+        cards.forEach(card => {
+            const title = card.querySelector('.box-title').innerText.toLowerCase();
+            const category = card.querySelector('.category').innerText;
+
+            const isMatchKeyword = title.includes(keyword);
+            const isMatchFilter = filter === "" || category.includes(filter);
+
+            // 當兩者皆符合時才顯示
+            if (isMatchKeyword && isMatchFilter) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
