@@ -49,7 +49,7 @@
                 <td>{{ row[dateHeader] }}</td>
                 <td class="link-cell">
                   <a v-if="row[urlHeader] && row[textHeader]" :href="row[urlHeader]" target="_blank" rel="noopener">
-                    {{ row[textHeader] }}
+                    <span v-html="row[textHeader]"></span>
                   </a>
                   <span v-else>無資料</span>
                 </td>

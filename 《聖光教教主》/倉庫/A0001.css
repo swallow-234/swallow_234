@@ -192,7 +192,10 @@ a:hover {
     .my-custom-table th { background: #666666; color: #F1C232; letter-spacing: 2px; }
     .my-custom-table tr:nth-child(even) { background: #000000; }
     .my-custom-table tr:hover { background: #8e7cc333; }
-    .link-cell a { color: #E69138; text-decoration: underline; }
+    .link-cell a { color: #E69138;
+               text-decoration: underline;
+               line-height: 1.5; /* 增加行高讓換行後的文字不擁擠 */
+               display: inline-block; /* 確保行高完整作用 */ }     
     h2 { text-align: center; color: #F1C232; margin-top: 30px; }
 
 
