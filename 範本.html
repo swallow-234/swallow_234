@@ -115,19 +115,7 @@
       filteredRows() {
         if (!this.tabs.length) return [];
         const tab = this.tabs[this.activeTab];
-        //依據日期自動排序
-        // 1. 先過濾出屬於該分頁的資料
-        let results = this.rows.filter(row => (row[this.pageHeader] || '').includes(tab));
-
-        // 2. 進行排序 (由大到小)
-        results.sort((a, b) => {
-          const dateA = new Date(a[this.dateHeader]);
-          const dateB = new Date(b[this.dateHeader]);
-          // 如果日期格式正確，相減即可實現由新到舊排序
-          return dateB - dateA;
-        });
-
-        return results;
+        return this.rows.filter(row => (row[this.pageHeader] || '').includes(tab));
       }
     },
         mounted() {
