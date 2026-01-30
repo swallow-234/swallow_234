@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《專案整理》</title>
+  <link href="A0001.css" rel="stylesheet" />
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>        
+
+    </head>
+    <body>
+<!--標題-->
+<h1>《專案整理》</h1>
+<div class="column middleh">
+<ul>
+<li>［階段］整理中...搶先看！</li>
+<li>［更新］2026/01/30</li>
+<li>［評論］永夜暗夜：還在整理資料中，不過呢～快吐血啦～看得火冒三丈呢~</li>
+</ul>
+<HR>
+<p></p>
+</div>
+<!--內文-->
+<div id="app">
+    <multi-keyword-tabs></multi-keyword-tabs>
+</div>
+    <script>
+  const PAGE_ORDER = [
+    "",
+    "Ⅰ社會貢獻",
+    "Ⅰ建議方法",
+    "Ⅰ發現問題",
+    "Ⅱ未能處理",
+    "Ⅱ詢問回應",
+    "Ⅱ宣揚口號",
+    "Ⅱ政見發表",
+    "Ⅲ負面方法",
+    "Ⅲ負面行為",
+    "Ⅳ破壞民主",
+    "承諾",
+    "敷衍",
+  ];
+
+  const 資料庫 = {
+    template: `
+      <div>
+        <div class="tabs">
+          <div
+            v-for="(tab, i) in tabs"
+            :key="tab"
+            class="tab"
+            :class="{active: activeTab === i}"
+            @click="activeTab = i"
+          >{{ tab }}</div>
+        </div>
+        <div class="tab-content">
+          <table v-if="filteredRows.length > 0" class="my-custom-table">
+            <thead>
+              <tr>
+                <th>主題</th>
+                <th>連結</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(row, idx) in filteredRows" :key="idx">
+                <td>{{ row[dateHeader] }}</td>
+                <td class="link-cell">
+                  <a v-if="row[urlHeader] && row[textHeader]" :href="row[urlHeader]" target="_blank" rel="noopener">
+                    <span v-html="row[textHeader]"></span>
+                  </a>
+                  <span v-else>無資料</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div v-else style="padding:40px 0; text-align:center;">資料載入中...</div>
+        </div>
+      </div>
+    `,
+    data() {
+      return {
+        rows: [],
+        tabs: [],
+        activeTab: 0,
+        dateHeader: "",
+        urlHeader: "",
+        textHeader: "",
+        filterHeader: "", // D
+        subpageHeader: "" // E
+      }
+    },
+    computed: {
+      filteredRows() {
+        if (!this.tabs.length) return [];
+        const tab = this.tabs[this.activeTab];
+        return this.rows.filter(
+          row => (row[this.filterHeader] || '').includes('專案整理A')
+             && (row[this.subpageHeader] || '').includes(tab));
+      }
+    },
+    mounted() {
+      const csvUrl = '../審判日誌-資料庫.csv';
+      fetch(csvUrl)
+        .then(res => res.text())
+        .then(csv => {
+          const lines = csv.trim().split('\n');
+          const headers = lines[0].split(',');
+          // 假設A,B,C,D,E欄依序為「日期,網址,名稱,分類,子分頁」
+          this.dateHeader = headers[0];
+          this.urlHeader = headers[1];
+          this.textHeader = headers[2];
+          this.filterHeader = headers[3]; // D
+          this.subpageHeader = headers[4]; // E
+          const rows = lines.slice(1).map(line => {
+            const values = [];
+            let curr = '', inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+              const char = line[i];
+              if (char === '"' && line[i+1] === '"') { curr += '"'; i++; }
+              else if (char === '"') { inQuotes = !inQuotes; }
+              else if (char === ',' && !inQuotes) { values.push(curr); curr = ''; }
+              else { curr += char; }
+            }
+            values.push(curr);
+            const row = {};
+            headers.forEach((h, i) => row[h] = values[i] || '');
+            return row;
+          });
+          this.rows = rows;
+          // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
+          this.tabs = PAGE_ORDER.filter(key =>
+            rows.some(row => 
+              (row[this.filterHeader] || '').includes('專案整理A') &&
+              (row[this.subpageHeader] || '').includes(key)
+            )
+          );
+        })
+        .catch(err => {
+          console.error('讀取失敗：', err);
+        });
+    }
+  }
+
+  const app = Vue.createApp({});
+  app.component('multi-keyword-tabs', 資料庫);
+  app.mount('#app');
+  </script>
+    </body>
+</html>
