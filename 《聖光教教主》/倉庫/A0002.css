@@ -67,6 +67,20 @@ h1 {
 .container {
     display: grid;
 }
+/*------------發言人文字設定-------------*/
+.aa {
+    color:#8E7CC3;
+}
+.bb {
+    color:#E69138;
+}
+.cc {
+    border-style: solid;
+    border-color: #E69138;
+    border-width: 0.5px;
+    padding: 10px;
+}
+
 /*-------------------------*/
 /* 欄位設定 */
 .column {
