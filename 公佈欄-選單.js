@@ -10,8 +10,8 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
        <p style="text-align: center;">［收藏］</p><hr>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>\
-		<li>pinterest-1</li>\
-		<li>pinterest-2</li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E8%97%9D%E8%A1%93%E5%AD%B8%E9%99%A2.html">藝術學院</a></li>\
+        <li>Unity遊戲引擎</li>\
         <li>這是什麼酷酷的東西</li>\
         <li>休閒牧場</li>\
         <li>ACG同好會</li>\
@@ -22,10 +22,6 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li>吹哨者</li>\
         <li>生活日常</li>\
         <li>裝扮造型風格</li>\
-        <li>blender</li>\
-        <li>繪圖</li>\
-        <li>劇本</li>\
-        <li>影片/攝影編輯</li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E4%BA%BA%E7%94%9F%E5%93%B2%E5%AD%B8.html">人生哲學</a></li>\
         <li>社會學</li>\
         <li>開創者</li>\
@@ -34,16 +30,13 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li>食譜</li>\
         <li>醫學</li>\
         <li>健身|養身|武術</li>\
-        <li>樂理知識</li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E9%9F%B3%E6%A8%82%E6%94%B6%E8%97%8F.html">音樂收藏</a></li>\
-        <li>舞蹈</li>\
         <li>科學</li>\
         <li>科技</li>\
         <li>軍武</li>\
         <li>工匠技藝</li>\
         <li>語言研究院</li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80.html">程式語言</a></li>\
-        <li>Unity遊戲引擎</li>\
         <li>Google相關</li>\
         <li>Windows</li>\
         <li>軟體硬體應用</li>\
