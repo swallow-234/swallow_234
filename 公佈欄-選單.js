@@ -11,13 +11,8 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E8%97%9D%E8%A1%93%E5%AD%B8%E9%99%A2.html">藝術學院</a></li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E4%BC%91%E9%96%92%E7%89%A7%E5%A0%B4.html">休閒牧場</a></li>\
         <li>Unity遊戲引擎</li>\
-        <li>這是什麼酷酷的東西</li>\
-        <li>休閒牧場</li>\
-        <li>ACG同好會</li>\
-        <li>體育運動</li>\
-        <li>棋類技藝</li>\
-        <li>Vtuber/Vup收藏</li>\
         <li>台灣[Taiwan]</li>\
         <li>吹哨者</li>\
         <li>生活日常</li>\
