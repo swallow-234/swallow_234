@@ -12,16 +12,11 @@ AA ='<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E8%97%9D%E8%A1%93%E5%AD%B8%E9%99%A2.html">藝術學院</a></li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E4%BC%91%E9%96%92%E7%89%A7%E5%A0%B4.html">休閒牧場</a></li>\
+        <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E7%A4%BE%E6%9C%83%E5%AD%B8%E9%99%A2.html">社會學院</a></li>\
         <li>Unity遊戲引擎</li>\
-        <li>台灣[Taiwan]</li>\
-        <li>吹哨者</li>\
         <li>生活日常</li>\
         <li>裝扮造型風格</li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E4%BA%BA%E7%94%9F%E5%93%B2%E5%AD%B8.html">人生哲學</a></li>\
-        <li>社會學</li>\
-        <li>開創者</li>\
-        <li>戀愛研究院</li>\
-        <li>法律相關</li>\
         <li>食譜</li>\
         <li>醫學</li>\
         <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E9%9F%B3%E6%A8%82%E6%94%B6%E8%97%8F.html">音樂收藏</a></li>\
