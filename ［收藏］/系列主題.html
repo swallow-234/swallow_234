@@ -1,145 +1,103 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>系列主題</title>
     <link href="A0001.css" rel="stylesheet" />
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
+    <script src="嵌入網頁.JS"></script>
 </head>
 <body>
   <button class="openbtn" onclick="toggleNav()">☰</button>
-    <!-- 導覽列 -->
+
+<!-- 導覽列 -->
 <div class="main-content-wrapper">
 <h1 style="text-align: center; margin-left: 250px;">系列主題</h1>
-<p style="text-align: center; margin-left: 250px;">收藏記錄</p>
-
+<p style="text-align: center; margin-left: 250px;">收藏記錄分享</p>
     <!--中間布局-->
-  <div id="app">
-    <multi-keyword-tabs></multi-keyword-tabs>
-  </div>
-  <script>
-  const PAGE_ORDER = [
-    "",
-    "柯文哲-先行者",
-    "黃國昌-通識課",
-    "陳之漢-義士",
-    "陳椒華-循道者",
-  ];
-
-  const 資料庫 = {
-    template: `
-      <div>
-        <div class="tabs">
-          <div
-            v-for="(tab, i) in tabs"
-            :key="tab"
-            class="tab"
-            :class="{active: activeTab === i}"
-            @click="activeTab = i"
-          >{{ tab }}</div>
-        </div>
-        <div class="tab-content">
-          <table v-if="filteredRows.length > 0" class="my-custom-table">
-            <thead>
-              <tr>
-                <th>日期</th>
-                <th>連結</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(row, idx) in filteredRows" :key="idx">
-                <td>{{ row[dateHeader] }}</td>
-                <td class="link-cell">
-                  <a v-if="row[urlHeader] && row[textHeader]" :href="row[urlHeader]" target="_blank" rel="noopener">
-                    <span v-html="row[textHeader]"></span>
-                  </a>
-                  <span v-else>無資料</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div v-else style="padding:40px 0; text-align:center;">資料載入中...</div>
-        </div>
-      </div>
-    `,
-    data() {
-      return {
-        rows: [],
-        tabs: [],
-        activeTab: 0,
-        dateHeader: "",
-        urlHeader: "",
-        textHeader: "",
-        filterHeader: "", // D
-        subpageHeader: "" // E
-      }
-    },
-    computed: {
-      filteredRows() {
-        if (!this.tabs.length) return [];
-        const tab = this.tabs[this.activeTab];
-        // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
-        return this.rows.filter(
-          row => (row[this.filterHeader] || '').includes('系列主題')
-             && (row[this.subpageHeader] || '').includes(tab));
-      }
-    },
-    mounted() {
-      const csvUrl = '../【數據】資料庫.csv';
-      fetch(csvUrl)
-        .then(res => res.text())
-        .then(csv => {
-          const lines = csv.trim().split('\n');
-          const headers = lines[0].split(',');
-          // 假設A,B,C,D,E欄依序為「日期,網址,名稱,分類,子分頁」
-          this.dateHeader = headers[0];
-          this.urlHeader = headers[1];
-          this.textHeader = headers[2];
-          this.filterHeader = headers[3]; // D
-          this.subpageHeader = headers[4]; // E
-          const rows = lines.slice(1).map(line => {
-            const values = [];
-            let curr = '', inQuotes = false;
-            for (let i = 0; i < line.length; i++) {
-              const char = line[i];
-              if (char === '"' && line[i+1] === '"') { curr += '"'; i++; }
-              else if (char === '"') { inQuotes = !inQuotes; }
-              else if (char === ',' && !inQuotes) { values.push(curr); curr = ''; }
-              else { curr += char; }
-            }
-            values.push(curr);
-            const row = {};
-            headers.forEach((h, i) => row[h] = values[i] || '');
-            return row;
-          });
-          this.rows = rows;
-          // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
-          this.tabs = PAGE_ORDER.filter(key =>
-            rows.some(row => 
-              (row[this.filterHeader] || '').includes('系列主題') &&
-              (row[this.subpageHeader] || '').includes(key)
-            )
-          );
-        })
-        .catch(err => {
-          console.error('讀取失敗：', err);
-        });
-    }
-  }
-
-  const app = Vue.createApp({});
-  app.component('multi-keyword-tabs', 資料庫);
-  app.mount('#app');
-  </script>
+    <div class="column middle">
+<div class="column HHH">
+    <ul><H3>使用軟體</H3></ul>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+</div>
+<div class="column HHH">
+    <ul><h3>工具收藏</h3></ul>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+</div>
+<div class="column HHH">
+    <ul><h3>分類標籤</h3></ul>
+    <li>柯文哲</li>
+    <li>黃國昌</li>
+    <li>陳之漢</li>
+    <li>陳椒華</li>
+</div>
+</div>	
+<div class="content">
+<div class="column middle">
+ <iframe id="myFrame" src="系列主題-範本.html" style="width: 100%; height: 100vh;"></iframe>
+</div>
+</div>
+</div>
 
 <!-- 左側布局 -->
-<div id="mySidenav" class="column sidenav">
-    <script src="../公佈欄-選單.js"></script>
-    </div>
+<div id="mySidenav" class="column sidenav">  
+<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
+    <h1 style="text-align: center;">《導師塔》</h1>
+     <ul><li><a onclick="changeIframe('系列主題-範本.html')">收藏清單</a></li>
+<!--
+<ul><h3 style="text-align: center;">《範本》</h3><hr>
+<details><summary>範本清單</summary>
+<ul>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+<li><a href=""></a></li>
+</ul>
+</details>
+ -->
+<ul><h3 style="text-align: center;">《柯文哲-先行者》</h3><hr>
+<details><summary>柯文哲清單</summary>
+<ul>
+<li><a href="https://www.youtube.com/@Team__KP">YouTube</a></li>
+<li><a href="https://www.facebook.com/DoctorKoWJ/">Facebook</a></li>
+<li><a href="https://www.instagram.com/doctorkowj/">Instagram</a></li>
+<li><a href="https://x.com/KP_Taiwan">Twitter</a></li>
+<li><a href="https://www.threads.com/@doctorkowj">threads</a></li>
+</ul>
+</details>
+<ul><h3 style="text-align: center;">《黃國昌-通識課》</h3><hr>
+<details><summary>黃國昌清單</summary>
+<ul>
+<li><a href="https://www.youtube.com/@KC-Huang/featured">YouTube</a></li>
+<li><a href="https://www.facebook.com/kcfor2016/">Facebook</a></li>
+</ul>
+</details>
+<ul><h3 style="text-align: center;">《陳之漢-義士》</h3><hr>
+<details><summary>陳之漢清單</summary>
+<ul>
+<li><a href="https://www.youtube.com/channel/UCi2GvcaxZCN-61a0co8Smnw/featured">YouTube</a></li>
+<li><a href="https://notorious-2019.com/">惡名昭彰官方網站</a></li>
+<li><a href="https://www.facebook.com/profile.php?id=100044226139684#">飆悍FB粉絲團</a></li>
+<li><a href="https://www.instagram.com/power3067830678/">飆捍IG</a></li>
+<li><a href="https://www.facebook.com/notorious.taiwan">惡名昭彰FB粉絲團</a></li>
+</ul>
+</details>
+<ul><h3 style="text-align: center;">《陳椒華-循道者》</h3><hr>
+<details><summary>陳椒華清單</summary>
+<ul>
+<li><a href="https://www.youtube.com/@%E9%99%B3%E6%A4%92%E8%8F%AF/featured">YouTube</a></li>
+<li><a href="https://www.facebook.com/ironprofessorchan/">Facebook</a></li>
+</ul>
+</details>
 
-</body>
+
+
+
+<HR><p><BR><BR><BR></p>
+</div>
 
 <script>
     function toggleNav() {
@@ -160,4 +118,5 @@
     }
 </script>
 
+</body>
 </html>
