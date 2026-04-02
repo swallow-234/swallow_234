@@ -3,14 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>《學術領域》</title>
+    <title>《☯東方Project》</title>
   <link href="A0001.css" rel="stylesheet" />
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>        
 
     </head>
     <body>
 <!--標題-->
-        <h1 style="text-align: center;">《學術領域-收藏》</h1>
+        <h1 style="text-align: center;">《☯東方Project-收藏》</h1>
 <!--內文-->
 <div id="app">
     <multi-keyword-tabs></multi-keyword-tabs>
@@ -18,15 +18,8 @@
     <script>
   const PAGE_ORDER = [
     "",
-    "醫學",
-    "科學",
-    "科技",
-    "軍武",
-    "工匠技藝",
-    "建築學",
-    "生物學",
-    "軟體硬體應用",
-    "泛科普教育",
+    "原作",
+    "同人",
   ];
 
   const 資料庫 = {
@@ -83,7 +76,7 @@
         const tab = this.tabs[this.activeTab];
         // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
         return this.rows.filter(
-          row => (row[this.filterHeader] || '').includes('學術領域')
+          row => (row[this.filterHeader] || '').includes('☯東方Project')
              && (row[this.subpageHeader] || '').includes(tab));
       }
     },
@@ -119,7 +112,7 @@
           // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
           this.tabs = PAGE_ORDER.filter(key =>
             rows.some(row => 
-              (row[this.filterHeader] || '').includes('學術領域') &&
+              (row[this.filterHeader] || '').includes('☯東方Project') &&
               (row[this.subpageHeader] || '').includes(key)
             )
           );
