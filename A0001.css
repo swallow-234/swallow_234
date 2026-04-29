@@ -1,8 +1,8 @@
 /* 網站模板-首頁 */
-  html {background-color: #000000;}
+  html {background-color: var(--A014);}
   body { 
     font-family: "Microsoft JhengHei", Arial, sans-serif; 
-    background: var(--A013);
+    background: var(--A014);
     margin: 0;
     height: 100vh;
   }
