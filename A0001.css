@@ -30,6 +30,7 @@
   p, dt, dd, li {color: var(--A009);}
   h1 {color: var(--A001);}
   ul {color: var(--A001);
+      list-style-type: none;
       margin: 0;
       padding: 0;
      }
@@ -58,6 +59,12 @@
     padding: 10px;
     border: 1px solid var(--A002);
   }
+
+  .column.middle {
+    width: calc(100% - 20px);
+    overflow-y: auto;
+  }
+
 
 /*捲軸設定*/
   ::-webkit-scrollbar {
