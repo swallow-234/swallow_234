@@ -4,65 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>《啊呆小破棧》</title>
-  <link href="A0001.css" rel="stylesheet" />
-
+  <link href="../A0001.css" rel="stylesheet" />
+  <script src="../左側邊攔.JS"></script>
 </head>
 <body>
-  <button class="openbtn" onclick="toggleNav()">☰</button>
 
-  <!-- 導覽列 -->
-<div class="main-content-wrapper">
-<h1 style="text-align: center; margin-left: 250px;">《啊呆小破棧》</h1>
-<p style="text-align: center; margin-left: 250px;">
-破棧無人問，金靈臺隱侍歸。<br>
-拙帳異聞帖，燕物居擺築巢。</p>
-
-
-<!-- 近期更新內容 -->
-<div class="content">
-<div class="column middle">
-<P><h1>《近期上架商品...》</h1></P>
-<ul>
-  <li><a href="https://www.pubu.com.tw/ebook/625307">2025-10-30_《青丘學院》 | Pubu - 電子書自由閱讀、自由出版</a></li>
-  <li><a href="https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%9D%92%E4%B8%98%E5%AD%B8%E9%99%A2">2025-10-30_《青丘學院》</a></li>
-  <li>2025-10-30_《書籍》_電子書_《青丘書館》</li>
-</ul>
-</div>
-</div>
+<!-- 導覽列 -->
+<div class="main-content-wrapper W250">
+    <h1>《啊呆小破棧》</h1>
+    <p>破棧無人問，金靈臺隱侍歸。<br>
+    拙帳異聞帖，燕物居擺築巢。</p>
+    <!-- 近期更新內容 -->
+    <div class="column middle">
+        <P><h1>〈近期上架商品...〉</h1><hr class="b003"></P>
+        <ul>
+          <li><a href="https://www.pubu.com.tw/ebook/625307">2025-10-30_《青丘學院》 | Pubu - 電子書自由閱讀、自由出版</a></li>
+          <li><a href="https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%9D%92%E4%B8%98%E5%AD%B8%E9%99%A2">2025-10-30_《青丘學院》</a></li>
+          <li>2025-10-30_《書籍》_電子書_《青丘書館》</li>
+        </ul>
+    </div>
 </div>
 
 <!--左側邊攔-->
-<div id="mySidenav" class="column sidenav">  
-<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
+<button class="openbtn" onclick="toggleNav()">☰</button>
+<div id="mySidenav" class="column sidenav W250">  
+    <a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
     <h1 style="text-align: center;">《小破帳》</h1>
-    <p><li>玉山銀行(ESUNTWTP)：808</li>
-    <li>戶名：彭楷儒</li>
-    <li>存戶帳號：0691-976-034236</li>
-    <li>外匯存款：0691-958-031587</li><hr>
-  <ul><h3 style="text-align: center;">《書籍》</h3>
-        <li><a>電子書</a></li><hr>
+    <p><ul>
+        <li>玉山銀行(ESUNTWTP)：808</li>
+        <li>戶名：彭楷儒</li>
+        <li>存戶帳號：0691-976-034236</li><hr class="a001">
+    <h3 style="text-align: center;">《書籍》</h3>
+        <li><a>電子書</a></li><hr class="a001">
         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E5%AD%B8%E9%99%A2%E3%80%8B.pdf">《青丘書館》</a></li>
-      </ul>
-<HR><p><BR><BR><BR></p>
+      <hr class="a001"></ul></p>
 </div>
-<script>
-    function toggleNav() {
-        const sidenav = document.getElementById("mySidenav");
-        const mainContent = document.querySelector(".main-content-wrapper"); 
-        
-        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
-        if (sidenav.classList.contains("collapsed")) {
-            // 展開側邊欄
-            sidenav.classList.remove("collapsed");
-            mainContent.classList.remove("collapsed-margin");
-
-        } else {
-            // 收起側邊欄
-            sidenav.classList.add("collapsed");
-            mainContent.classList.add("collapsed-margin");
-        }
-    }
-</script>
 
 </body>
 </html>
