@@ -2,7 +2,7 @@
 const sidebarContent = `
   <a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
   <ul><h1 style="text-align: center;">《永世今生》<br>審判將至</h1>
-      <li><a onclick="changeIframe('《聖光教教主》-範本.html')">簡介</a></li>
+      <li><a onclick="changeIframe('《聖光教教主》-範本.html')">簡介</a></li><hr class="b005">
       <h3 style="text-align: center;">《監督審查》</h3><hr class="a001">
       <details><summary>手冊</summary>
           <li><a href="https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%81%B8%E8%88%89%E7%AF%87">選舉篇</a></li>

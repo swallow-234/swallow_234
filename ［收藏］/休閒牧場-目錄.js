@@ -1,0 +1,224 @@
+// sidebar.js
+const sidebarContent = `
+<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
+    <h1 style="text-align: center;">《導師塔》</h1>
+<ul><li><a onclick="changeIframe('休閒牧場-範本.html')">收藏清單</a></li>
+    <!--
+    <hr class="a001">
+    <details><summary>《範本》</summary>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    </details>
+     -->
+    <hr class="b005">
+    <details><summary>《欣賞》</summary>
+        <li><a href="https://www.youtube.com/@0minusT/videos">minusT</a></li>
+        <li><a href="https://www.youtube.com/@gensho_yasuda/shorts">安田現象</a></li>
+        <li><a href="https://www.youtube.com/user/SemenixPcgaming">Semenix Gaming</a></li>
+        <li><a href="https://www.youtube.com/@CrashLandingStudio/videos">Crash Landing Studios</a></li>
+        <li><a href="https://www.youtube.com/@EDMForYouMusic/videos">EDM 為您服務</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+
+    <hr class="a001">
+        <details><summary>《休閒牧場》</summary>
+        <li><a href="https://www.youtube.com/@FinalClean0/videos">家简生活</a></li>
+        <li><a href="https://www.youtube.com/@CrazyPolishing/videos">瘋狂拋光</a></li>
+        <li><a href="https://www.youtube.com/@VideolandJapan/videos">緯來日本台</a></li>
+        <li><a href="https://www.youtube.com/@kiwami-japan/videos">kiwami japan</a></li>
+        <li><a href="https://www.youtube.com/@xiatongbaihua/videos">瞎通设计</a></li>
+        <li><a href="https://www.youtube.com/channel/UC_-G4kks5-1ShCYNRRi8YHA/videos">奇幻圖書館</a></li>
+        <li><a href="https://www.youtube.com/@Herostory/videos">英雄說書</a></li>
+        <li><a href="https://www.youtube.com/@Psyman%E5%A1%9E%E9%96%80/videos">Psyman 塞門</a></li>
+        <li><a href="https://www.youtube.com/@Kenislovas/videos">Kenislovas</a></li>
+        <li><a href="https://www.youtube.com/channel/UCkxpL_HvNX6TWxLGz0VZFVA/videos">ActionAdventureClips</a></li>
+        <li><a href="https://www.youtube.com/channel/UCuM_RUD-2-3dyIsBQHNorTA/videos">ActionAdventureTwins</a></li>
+        <li><a href="https://www.youtube.com/c/chuchushoeTW/videos">啾啾鞋</a></li>
+        <li><a href="https://www.youtube.com/c/DcardTaiwan/videos">Dcard</a></li>
+        <li><a href="https://www.youtube.com/@%E8%B6%85%E7%B2%92%E6%96%B9/videos">超粒方</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+
+    <hr class="a001">
+    <details><summary>《ACG同好會》</summary>
+        <li><a href="https://www.youtube.com/@MuseTW/videos">Muse木棉花-TW</a></li>
+        <li><a href="https://www.youtube.com/@AniOneAnime/videos">Ani-One中文官方動畫頻道</a></li>
+        <li><a href="https://www.youtube.com/@%E7%9D%BFX%E6%BC%AB%E7%95%AB/videos">睿X漫畫 Rex Comic</a></li>
+        <li><a href="https://www.youtube.com/@SoBaDRush0101/videos">SoBaDRush</a></li>
+        <li><a href="https://www.youtube.com/@%EC%B9%B4%EB%A6%B0%EC%95%BC/videos">카린야 Calinya</a></li>
+        <li><a href="https://www.youtube.com/@aJackMinecraft/videos">aJackMinecraft</a></li>
+        <li>AMV<a href="https://www.youtube.com/@tovo9808/videos">ToVo</a></li>
+        <li>AMV<a href="https://www.youtube.com/@Quadrv/videos">Quadra</a></li>
+        <li>MMD<a href="https://www.youtube.com/@PizaCG/videos">PizaCG</a></li>
+        <li><a href="https://www.youtube.com/@tolocat/videos">老皮（Opchannel）</a></li>
+        <li><a href="https://www.youtube.com/@ajin/videos">阿津</a></li>
+        <li><a href="https://www.youtube.com/@PikaLu/videos">遊戲皮卡嚕 PikaLu</a></li>
+        <li><a href="https://www.youtube.com/@SONAR606/videos">森纳映画</a></li>
+        <li><a href="https://www.youtube.com/@aFxxkingGamer/videos">我是漂流</a></li>
+        <li><a href="https://www.youtube.com/@river_ytchannel/playlists">RIVER遊戲頻道</a></li>
+        <li><a href="https://www.youtube.com/@%ED%8C%A5%EC%A5%90/shorts">팥쥐</a></li>
+        <li><a href="https://www.youtube.com/@YukisakanaAnime211/videos">Yuki雪魚</a></li>
+        <li><a href="https://www.youtube.com/@animefan/videos">阿泥妹飯</a></li>
+        <li><a href="https://www.youtube.com/@AnimeWarehouse4/videos">四號倉庫</a></li>
+        <li><a href="https://www.youtube.com/@Ciaobao/videos">喬寶 Ciaobao</a></li>
+        <li><a href="https://www.youtube.com/@HashEdits/videos">Hash</a></li>
+        <li><a href="https://www.youtube.com/@%E5%B8%83%E9%94%85%E9%94%85/videos">布锅锅</a></li>
+        <li><a href="https://www.youtube.com/user/SemenixPcgaming">Semenix Gaming</a></li>
+        <li><a href="https://www.youtube.com/@Prizzaa/videos">Prizzaa遊戲頻道</a></li>
+        <li>跑跑卡丁車<a href="https://www.youtube.com/@baogerneal/videos">爆哥Neal</a></li>
+        <li><a href="https://www.youtube.com/@checkmatekuhaku/videos">雀可美特</a></li>
+        <li><a href="https://www.youtube.com/@RTisme/videos0">我是RT</a></li>
+        <li><a href="https://www.youtube.com/@migun030/videos">migun 米柑</a></li>
+        <li><a href="https://www.youtube.com/@kenzx1990/videos">瘋狂老爹</a></li>
+        <li><a href="https://www.youtube.com/@WayneChangAOE/videos">韋恩 Wayne Chang</a></li>
+        <li><a href="https://www.youtube.com/@InokawaHajime/videos">Inokawa Hajime井川一</a></li>
+        <li><a href="https://www.youtube.com/@__xingyouye1013/videos">星有野__xingyouye</a></li>
+        <li>星海爭霸<a href="https://www.youtube.com/@JoeyGame/videos">JoeyGame</a></li>
+        <li><a href="https://www.youtube.com/@otakumsvideo/videos">肥宅MS</a></li>
+        <li><a href="https://www.youtube.com/user/NaThalang/videos">Cosplays NaT</a></li>
+        <li>LOL<a href="https://www.youtube.com/@FriesBroOfficial/videos">英雄俱樂部 FriesBro</a></li>
+        <li>LOL<a href="https://www.youtube.com/@Garen98/videos">挖机牧魂人</a></li>
+        <li>LOL<a href="https://www.youtube.com/@%EC%9D%B4%EB%A0%90%ED%82%B9/videos">이렐킹 IRELKING</a></li>
+        <li>LOL<a href="https://www.youtube.com/@LoLDobby/videos">LoL Dobby</a></li>
+        <li>LOL<a href="https://www.youtube.com/@Rangmal/videos">랑말TV(RangmalTV)</a></li>
+        <li>LOL<a href="https://www.youtube.com/@LolGaSpotlight/videos">Lolga Spotlight</a></li>
+        <li>LOL<a href="https://www.youtube.com/@TheLegendsLOL/videos">The Legends</a></li>
+        <li><a href="https://www.youtube.com/@zhenyechonga/videos">贞叶</a></li>
+        <li><a href="https://www.youtube.com/@%E5%BC%A0%E7%BB%9D%E9%A3%8E/videos">张绝风</a></li>
+        <li>蔚藍檔案<a href="https://www.youtube.com/@BlueSechi/videos">BlueSechi</a></li>
+        <li><a href="https://www.youtube.com/@dogsama/playlists">dogsama</a></li>
+        <li><a href="https://www.youtube.com/@ENvideo/videos">E N</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+
+    <hr class="a001">
+    <details><summary>《Vtuber》</summary>
+        <li>Kobo</li>
+        <li>Neuro-sama</li>
+        <li>茸茸鼠/Comame</li>
+        <li>Filian</li>
+        <li><a href="https://www.youtube.com/@herculesch/shorts">海克莉獅  HercuLes ch</a></li>
+        <li>譯<a href="https://www.youtube.com/@PinkDemonTheClipper/videos">粉紅惡魔【中譯精華】</a></li>
+        <li>譯<a href="https://www.youtube.com/@culto323/videos">文化綠洲【精華剪輯】</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+
+    <hr class="a001">
+    <details><summary>《這是什麼酷酷的東西》</summary>
+        <li><a href="https://www.youtube.com/@%ED%8C%A5%EC%A5%90/shorts">팥쥐</a></li>
+        <li><a href="https://www.youtube.com/@purinharumaki_karameru/videos">からめる</a></li>
+        <li><a href="https://www.youtube.com/@failarmy/videos">FailArmy</a></li>
+        <li><a href="https://www.youtube.com/@HJCnotHelmet/videos">H JC</a></li>
+        <li><a href="https://www.youtube.com/@%E5%85%A8%E5%93%A1%E5%8F%82%E6%88%A6ch/videos">全員参戦ch</a></li>
+        <li><a href="https://www.youtube.com/channel/UCpnkp_D4FLPCiXOmDhoAeYA/videos">UnusualVideos</a></li>
+        <li><a href="https://www.youtube.com/@ejiejidayo/videos">ejiejidayoの気まぐれチャンネル</a></li>
+        <li><a href="https://www.youtube.com/@stevenhechinese/videos">Steven He官方中文頻道</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+
+    <hr class="a001">
+    <details><summary>《健身|養身》</summary>
+        <li>養身<a href="https://www.youtube.com/@sunguts/videos">三個字SunGuts</a></li>
+        <li>健身<a href="https://www.youtube.com/@guy1224/videos">健人蓋伊</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+
+    <hr class="a001">
+    <details><summary>《體育運動》</summary>
+        <li>登山<a href="https://www.youtube.com/@ctvmit/playlists">MIT台灣誌</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+
+    <hr class="a001">
+    <details><summary>《棋類技藝》</summary>
+        <li>圍棋<a href="https://www.youtube.com/@JiaJiaGo/videos">嘉嘉老師GO</a></li>
+        <li>數獨<a href="https://www.youtube.com/@SudokuSwami/videos">Sudoku Swami</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+
+    <hr class="a001">
+    <details><summary>《風水|玄學|靈異|怪異》</summary>
+        <li><a href="https://www.youtube.com/@goldman989/videos">大金人</a></li>
+        <li>工具<a href="https://astrodoor.cc/horoscope.jsp">占星之門</a></li>
+        <li><a href="https://www.youtube.com/@wei-teng/videos">微疼</a></li>
+        <li><a href="https://www.youtube.com/@ghosthunter4768/videos">晴明小站GhostHunter</a></li>
+        <li><a href="https://www.youtube.com/@MrMBB333/videos">MrMBB333</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
+</ul><hr class="a001">
+`;
+
+// 自動填充到頁面中
+document.addEventListener("DOMContentLoaded", function() {
+    const nav = document.getElementById('mySidenav');
+    if (nav) {
+        nav.innerHTML = sidebarContent;
+    }
+});

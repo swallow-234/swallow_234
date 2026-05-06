@@ -2,7 +2,7 @@
 const sidebarContent = `
 <ul>
   <a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
-  <h1 style="text-align: center;">《冥亡伊甸》</h1>
+  <h1 style="text-align: center;">《冥亡伊甸》</h1><hr class="b005">
       <li><a onclick="changeIframe('《冥亡伊甸》-範本.html')">版本更新</a></li>
 
   <h3 style="text-align: center;">《基礎概念》</h3><hr class="a001">

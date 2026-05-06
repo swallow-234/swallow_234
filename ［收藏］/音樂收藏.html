@@ -4,193 +4,53 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>音樂收藏</title>
-    <link href="A0001.css" rel="stylesheet" />
-    <script src="嵌入網頁.JS"></script>
+    <link href="../A0001.css" rel="stylesheet" />
+    <script src="../嵌入網頁.JS"></script>
+    <script src="../左側邊攔.JS"></script>
 </head>
 <body>
-  <button class="openbtn" onclick="toggleNav()">☰</button>
-
 <!-- 導覽列 -->
-<div class="main-content-wrapper">
-<h1 style="text-align: center; margin-left: 250px;">音樂收藏</h1>
-<p style="text-align: center; margin-left: 250px;">收藏記錄小工具</p>
+<div class="main-content-wrapper W250">
+    <h1>音樂收藏</h1>
+    <p>收藏記錄小工具</p>
     <!--中間布局-->
-    <div class="column middle">
-<div class="column HHH">
-    <ul><H3>常用網站</H3></ul>
-    <li><a href="https://www.youtube.com/">YouTube</a></li>
-    <li><a href="https://music.apple.com/tw/new">Music</a></li>
-    <li><a href=""></a></li>
-</div>
-<div class="column HHH">
-    <ul><h3>工具收藏</h3></ul>
-    <li><a href="https://www.aimp.ru/">AIMP</a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-</div>
-<div class="column HHH">
-    <ul><h3>音樂標籤</h3></ul>
-    <li><a href="https://www.youtube.com/playlist?list=PLGAghnB45y_dIvkLqqFQqY8T_gmJcg_FU">我的播放清單</a></li>
-    <li>淺層：說唱、激情</li>
-    <li>中層：抒情、</li>
-    <li>深層：史詩、浩瀚</li>
-    <li>臨界層：空靈感、神性</li>
-    <li>凝界層：沉重、憂愁</li>
-    <li>音樂探討</li>
-    <li>樂理知識</li>
-    <li>音樂資源</li>
-
-</div>
-</div>	
-<div class="content">
-<div class="column middle">
- <iframe id="myFrame" src="音樂收藏-範本.html" style="width: 100%; height: 100vh;"></iframe>
-</div>
-</div>
+    <div class="column middle2">
+        <div class="column HHH">
+            <ul>
+                <H3>常用網站</H3>
+                <li><a href="https://www.youtube.com/">YouTube</a></li>
+                <li><a href="https://music.apple.com/tw/new">Music</a></li>
+                <li><a href=""></a></li>
+                </ul></div>
+        <div class="column HHH">
+            <ul>
+                <h3>工具收藏</h3>
+                <li><a href="https://www.aimp.ru/">AIMP</a></li>
+                <li><a href=""></a></li>
+                <li><a href=""></a></li>
+                <li><a href=""></a></li>
+                <li><a href=""></a></li>
+                </ul></div>
+        <div class="column HHH">
+            <ul>
+                <h3>音樂標籤</h3>
+                <li><a href="https://www.youtube.com/playlist?list=PLGAghnB45y_dIvkLqqFQqY8T_gmJcg_FU">我的播放清單</a></li>
+                <li>淺層：說唱、激情</li>
+                <li>中層：抒情、</li>
+                <li>深層：史詩、浩瀚</li>
+                <li>臨界層：空靈感、神性</li>
+                <li>凝界層：沉重、憂愁</li>
+                <li>音樂探討</li>
+                <li>樂理知識</li>
+                <li>音樂資源</li>
+                </ul></div>
+        </div>	
+        <iframe id="myFrame" src="音樂收藏-範本.html" class="column middle"></iframe>
 </div>
 
 <!-- 左側布局 -->
-<div id="mySidenav" class="column sidenav">  
-<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
-    <h1 style="text-align: center;">《專輯收藏》</h1>
-     <ul><li><a onclick="changeIframe('音樂收藏-範本.html')">單曲收藏</a></li>
-     <li><a onclick="changeIframe('../《青丘茶館》/音樂專輯收藏.html')">專輯收藏</a></li></ul>
-<ul><h3 style="text-align: center;">《導師塔》</h3></ul><hr>
-<ul>
-    <li><a href="https://www.youtube.com/@Hinomu">Hinomu</a></li>
-    <li><a href="https://www.youtube.com/@MilgramOfficial">MILGRAM -ミルグラム-</a></li>
-    <li><a href="https://www.youtube.com/@WindmusicTw/playlists">風潮音樂 Wind Music</a></li>
-    <li><a href="https://www.youtube.com/channel/UCNvmLRL3gdL1SH0tmCMAm5Q">萌樂 ‧ Meng Yue ᴴᴰ</a></li>
-    <li><a href="https://www.youtube.com/@-Kirasa/videos">アリス ‧ Kirasa</a></li>
-    <li><a href="https://www.youtube.com/@ShiaMusic-hm9zr/videos">希亞音樂Shia Fantasy Story Music</a></li>
-    <li><a href="https://www.youtube.com/channel/UCSeJA6az0GrNM4_-pl3HQSQ/videos">Adrian von Ziegler</a></li>
-    <li><a href="https://www.youtube.com/@warriorsbattlejukebox1840/playlists">Warriors Battle Jukebox</a></li>
-    <li><a href="https://www.youtube.com/@NGC314">NGC314 NGC314</a></li>
-    <li><a href="https://www.youtube.com/@TamusicJp">TAMUSIC [Touhou CLASSIC]</a></li>
-    <li><a href="https://www.youtube.com/@UnderGroundK/playlists">UnderGround</a></li>
-    <li><a href="https://www.youtube.com/@izayoisakuya1766/playlists">Izayoi Sakuya</a></li>
-    <li><a href="https://www.youtube.com/@%E3%81%B5%E3%81%83%E3%81%99">ふぃす</a></li>
-    <li><a href="https://www.youtube.com/@touhoumusic7055/playlists">東方Touhou Music</a></li>
-    <li><a href="https://www.youtube.com/@jagmo2023/playlists">JAGMO</a></li>
-    <li><a href="https://www.youtube.com/@katukunazawa5121/videos">katukunazawa</a></li>
-    <li><a href="https://www.youtube.com/@TheLittlePagoda">The Little Pagoda</a></li>
-    <li><a href="https://www.youtube.com/@prismriverorchestra440">Prismriver Orchestra</a></li>
-    <li><a href="https://www.youtube.com/@colourless_c/videos">무색양초</a></li>
-    <li><a href="https://www.youtube.com/@Terraaa">Terra</a></li>
-    <li><a href="https://www.youtube.com/@crystalmemories865/videos">Crystal Memories</a></li>
-    <li><a href="https://www.youtube.com/@SkuddeOuo/playlists">SkuddeOuo</a></li>
-    <li><a href="https://www.youtube.com/@yuuheitube2011/playlists">幽閉サテライト・少女フラクタル・幽閉カタルシス 公式チャンネル</a></li>
-    <li><a href="https://www.youtube.com/@EpreTrollII/playlists">EpreTroll II</a></li>
-    <li><a href="https://www.youtube.com/@ssbbmaster/playlists">ssbbmaster</a></li>
-    <li><a href="https://www.youtube.com/@LowlandsBlossom/playlists">Lowlands Blossom</a></li>
-    <li><a href="https://www.youtube.com/@crystalmemories865/playlists">Crystal Memories</a></li>
-    <li><a href="https://www.youtube.com/@BzB003/playlists">BzB 003</a></li>
-    <li><a href="https://www.youtube.com/c/Quwanti1">Quwanti</a></li>
-    <li><a href="https://www.youtube.com/@mayumin445/playlists">Mayumi Sugihara</a></li>
-    <li><a href="https://www.youtube.com/@melodiastis6876/playlists">Melodiastis</a></li>
-    <li><a href="https://www.youtube.com/@Renko/playlists">Renkoレンコ</a></li>
-    <li><a href="https://www.youtube.com/@incompetech_kmac/playlists">Kevin MacLeod</a></li>
-    <li><a href="https://www.youtube.com/@yunosuke23/playlists">雄之助/Yunosuke</a></li>
-    <li><a href="https://www.youtube.com/@DeadMusicFC/playlists">Naharu</a></li>
-    <li><a href="https://www.youtube.com/@-Rutanbuna/playlists">蘆棠布奈【TMG_Not_Company】</a></li>
-    <li><a href="https://www.youtube.com/@Xefox/playlists">Xefox Music</a></li>
-    <li><a href="https://www.youtube.com/@warnermusicjapan/playlists">Warner Music Japan</a></li>
-    <li><a href="https://www.youtube.com/@VESPERBELL/playlists">VESPERBELL</a></li>
-    <li><a href="https://www.youtube.com/@tfkofficial/playlists">Thousand Foot Krutch</a></li>
-    <li><a href="https://www.youtube.com/@ThoughtsOfASlayer/playlists">Thoughts of a Slayer</a></li>
-    <li><a href="https://www.youtube.com/@TheFatRat/playlists">TheFatRat</a></li>
-    <li><a href="https://www.youtube.com/@TBMOfficial/playlists">The Birthday Massacre</a></li>
-    <li><a href="https://www.youtube.com/@SuicideSheeep/playlists">SuicideSheeep</a></li>
-    <li><a href="https://www.youtube.com/@TaiGekTou/videos">TaiGekTou</a></li>
-    <li><a href="https://www.youtube.com/@ThePrimeCronus/videos">ThePrimeCronus</a></li>
-    <li><a href="https://www.youtube.com/@bluepandoli/playlists">Blue Pandoli</a></li>
-    <li><a href="https://www.youtube.com/@mo2bluearchive/videos">MO2</a></li>
-    <li><a href="https://www.youtube.com/@ruraaraaru/playlists">R2乗</a></li>
-    <li><a href="https://www.youtube.com/@ChillCartoonVibesLAB/videos">Chill Cartoon Vibes</a></li>
-    <li><a href="https://www.youtube.com/@TastyNetwork/playlists">Tasty</a></li>
-    <li><a href="https://www.youtube.com/@TohoPiano/videos">TOUHOU PIANO</a></li>
-    <li><a href="https://www.youtube.com/@SubZero90EpicMusic/playlists">SubZero90EpicMusic</a></li>
-    <li><a href="https://www.youtube.com/@THECHAINSMOKERS/playlists">The Chainsmokers</a></li>
-    <li><a href="https://www.youtube.com/@snowdancemusicchannel632/videos">SnowDance MusicChannel</a></li>
-    <li><a href="https://www.youtube.com/@Sieudiver/playlists">Sieudiver</a></li>
-    <li><a href="https://www.youtube.com/@Shujiki/videos">Shujiki</a></li>
-    <li><a href="https://www.youtube.com/@lisaSMEJ/videos">LiSA Official YouTube</a></li>
-    <li><a href="https://www.youtube.com/channel/UCU5jTBj3ae-kAsdHj3WM5Yw">Shiratori Kotori (CV:Ayasa Ito)</a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-</ul>
-<HR><p><BR><BR><BR></p>
-</div>
-
-<script>
-    function toggleNav() {
-        const sidenav = document.getElementById("mySidenav");
-        const mainContent = document.querySelector(".main-content-wrapper"); 
-        
-        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
-        if (sidenav.classList.contains("collapsed")) {
-            // 展開側邊欄
-            sidenav.classList.remove("collapsed");
-            mainContent.classList.remove("collapsed-margin");
-
-        } else {
-            // 收起側邊欄
-            sidenav.classList.add("collapsed");
-            mainContent.classList.add("collapsed-margin");
-        }
-    }
-</script>
-
+  <button class="openbtn" onclick="toggleNav()">☰</button>
+  <nav id="mySidenav" class="column sidenav W250"></nav>
+  <script src="音樂收藏-目錄.js"></script>
 </body>
 </html>

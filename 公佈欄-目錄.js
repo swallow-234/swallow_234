@@ -1,7 +1,7 @@
 // sidebar.js
 const sidebarContent = `
 <a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
-<p><ul style="text-align: center;"><h3>《青丘之燕》</h3></ul></p><hr class="a001">
+<p><ul style="text-align: center;"><h2>《青丘之燕》</h2></ul></p><hr class="b005">
     <ul>
     <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B">《聖光教教主》</a>永世今生，審判將至。</li>
     <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B">《燕侍》</a>　　　吟遊雅致，幻境之鄉。</li>

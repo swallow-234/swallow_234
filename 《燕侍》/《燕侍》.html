@@ -1,69 +1,52 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>《燕侍》</title>
-    <link href="A0001.css" rel="stylesheet" />
-    <script src="嵌入網頁.JS"></script>
+    <link href="../A0001.css" rel="stylesheet" />
+    <script src="../嵌入網頁.JS"></script>
+    <script src="../左側邊攔.JS"></script>
 </head>
 <body>
-  <button class="openbtn" onclick="toggleNav()">☰</button>
-
 <!-- 導覽列 -->
-<div class="main-content-wrapper">
-<h1 style="text-align: center; margin-left: 250px;">《燕侍》</h1>
-<p style="text-align: center; margin-left: 250px;">創作、臨摹、練習、紀錄</p>
-
-<!-- 嵌入網頁區塊 -->
-<!--中間布局-->
-<div class="content">
-<div class="column middle">
- <iframe id="myFrame" src="公佈欄.html" style="width: 100%; height: 100vh;"></iframe>
-</div>  
-</div>
+<div class="main-content-wrapper W250">
+    <h1>《燕侍》</h1>
+    <p>純屬虛構，切勿當真。</p>
+    <!--中間布局-->
+    <div class="column middle2">
+        <div class="column HHH">
+            <ul><H3>角色簡介</H3>
+            <li><a href="倉庫/角色簡介-初始眾人.html">初始眾人</a></li>
+            <li><a href="倉庫/角色簡介-聖光教教主.html">聖光教教主</a></li>
+            <li><a href="倉庫/角色簡介-燕侍.html">燕侍</a></li>
+            <li><a href="倉庫/角色簡介-永夜暗夜.html">永夜暗夜</a></li>
+            <li><a href="倉庫/角色簡介-田中種島.html">田中種島</a></li>
+            <li><a href="倉庫/角色簡介-蔥尼斯坦.html">蔥尼斯坦</a></li>
+            <li><a href="倉庫/角色簡介-阿呆.html">阿呆</a></li>
+            <li><a href="倉庫/#.html"></a></li>
+            <li><a href="倉庫/#.html"></a></li>
+            <li><a href="倉庫/#.html"></a></li>
+            </ul></div>
+        <div class="column HHH">
+            <ul><h3><a>地域簡介</a></h3>
+            <li><a href="倉庫/#.html"></a></li>
+            <li><a href="倉庫/#.html"></a></li>
+            <li><a href="倉庫/#.html"></a></li>
+            </ul></div>
+        <div class="column HHH">
+            <ul><h3><a>分類標籤</a></h3>
+            <li>休閒日常</li>
+            <li>二次創作</li>
+            <li>練習紀錄</li>
+            </ul></div>
+    </div>	
+    <iframe id="myFrame" src="《燕侍》-近期更新.html" class="column middle"></iframe>
 </div>
 
 <!-- 左側布局 -->
-<div id="mySidenav" class="column sidenav">  
-<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
-    <h1 style="text-align: center;">《冥亡伊甸》</h1>
-    <ul> 
-    <li><a onclick="changeIframe('公佈欄.html')">公佈欄</a></li>
-    </ul>
-
-<ul><h3 style="text-align: center;">《遺跡先遣隊》</h3><hr>
-<ul><h3 style="text-align: center;">《青丘之燕》</h3><hr>
-<ul><h3 style="text-align: center;">《虛擬人生》</h3><hr>
-<ul><h3 style="text-align: center;">【休閒日常】</h3><hr>
-<ul><h3 style="text-align: center;">【二次創作】</h3><hr>
-<li><a onclick="changeIframe('')"></a></li>
-      <li><a onclick="changeIframe('')">.</a></li></ul>
-      <li><a onclick="changeIframe('')">.</a></li></ul>
-      <li><a onclick="changeIframe('')">.</a></li></ul>
-      <li><a onclick="changeIframe('')">.</a></li></ul>
-      <li><a onclick="changeIframe('')">.</a></li></ul>
-<HR><p><BR><BR><BR></p>
-</div>
-
-<script>
-    function toggleNav() {
-        const sidenav = document.getElementById("mySidenav");
-        const mainContent = document.querySelector(".main-content-wrapper"); 
-        
-        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
-        if (sidenav.classList.contains("collapsed")) {
-            // 展開側邊欄
-            sidenav.classList.remove("collapsed");
-            mainContent.classList.remove("collapsed-margin");
-
-        } else {
-            // 收起側邊欄
-            sidenav.classList.add("collapsed");
-            mainContent.classList.add("collapsed-margin");
-        }
-    }
-</script>
-
+  <button class="openbtn" onclick="toggleNav()">☰</button>
+  <nav id="mySidenav" class="column sidenav W250"></nav>
+  <script src="《燕侍》-目錄.js"></script>
 </body>
 </html>

@@ -1,79 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>《青丘茶館》</title>
-  <link href="A0001.css" rel="stylesheet" />
-  <script src="嵌入網頁.JS"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《青丘茶館》</title>
+    <link href="../A0001.css" rel="stylesheet" />
+    <script src="../嵌入網頁.JS"></script>
+    <script src="../左側邊攔.JS"></script>
 </head>
 <body>
-  <button class="openbtn" onclick="toggleNav()">☰</button>
-
   <!-- 導覽列 -->
-<div class="main-content-wrapper">
-<h1 style="text-align: center; margin-left: 250px;">《青丘茶館》</h1>
-<p style="text-align: center; margin-left: 250px;">本網站為個人成長紀錄，日常嘴砲碎碎念抒發情緒抱怨發瘋記錄之地。</p>
-
-<!-- 嵌入網頁區塊 -->
-<div class="content">
-<div class="column middle">
- <iframe id="myFrame" src="範本.html" style="width: 100%; height: 100vh;"></iframe>
-</div>
-</div>
-</div>
+<div class="main-content-wrapper W250">
+    <h1>《青丘茶館》</h1>
+    <p>本網站為個人成長紀錄，日常嘴砲碎碎念抒發情緒抱怨發瘋記錄之地。</p>
+    <!-- 嵌入網頁區塊 -->
+    <iframe id="myFrame" src="《青丘茶館》-範本.html" class="column middle"></iframe>
+    </div>
 
 <!--左側邊攔-->
-<div id="mySidenav" class="column sidenav">  
-<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
-    <h1 style="text-align: center;">《青丘茶館》</h1>
-    <ul><li><a href="每日任務項目.html">《每日任務項目》</a></li>
-     <li><a onclick="changeIframe('關於我.html')">關於我</a></li>
-     <li><a href="https://sites.google.com/view/swallow19970824/%E9%A6%96%E9%A0%81">生活紀錄</a></li>
-     <li><a href="../［收藏］/音樂收藏.html">音樂收藏</a></li>
-     <li><a href="我婆清單.html">我婆清單</a></li>
-     <li><a href="動漫小說遊戲收藏清單.html">動漫小說遊戲收藏清單</a></li>
-     <li><a onclick="changeIframe('語錄收藏.html')">語錄收藏</a></li>
-     <li><a onclick="changeIframe('範本.html')">當前紀錄</a></li>
-    </ul>
-<ul><h3 style="text-align: center;">《2026》</h3><hr>
-<li><a onclick="changeIframe('倉庫/台灣共和國：起源.html')">台灣共和國：起源</a></li>    
-<li><a href="https://gemini.google.com/share/c1062ac5a9ca">善的全面總攻：獨裁政權瓦解的徵兆</a></li></ul>
-<li><a href="https://gemini.google.com/share/d1883d60174f">微光碎星：政治事件的策略性分析</a></li></ul>
-<li><a href="https://gemini.google.com/share/4956047b1815">［個體與組織］歸屬感：定義、來源與重要性</a></li></ul>
-<li><a href="https://gemini.google.com/share/925904c9ec4f">［科技與昇華］EFSA 報告：萊克多巴胺安全性評估</a></li></ul>
-<li><a href="https://gemini.google.com/share/07ba70390903">病毒與音波</a></li></ul>
-<li><a href="https://gemini.google.com/share/b34acd897b6d">彌勒之道-覺察錯誤：從內在價值觀出發</a></li></ul>
-<ul><h3 style="text-align: center;">《2025》</h3><hr>
-<li><a onclick="changeIframe('倉庫/碎碎念-2025年.html')">碎碎念-2025年</a></li>
-<li><a href="https://gemini.google.com/share/39ee3b6b61df">紫薇聖人：預言中的救世主</a></li>
-<li><a onclick="changeIframe('https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E5%80%89%E5%BA%AB/2025-07-09%E7%94%B7%E5%AD%90%E7%90%86%E9%AB%AE-%E4%B8%99%E7%B4%9A-%E5%AD%B8%E7%A7%91.html')">2025-07-09男子理髮-丙級-學科</a></li>
-<li><a onclick="changeIframe('https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E5%80%89%E5%BA%AB/2025-07-09%E7%94%B7%E5%AD%90%E7%90%86%E9%AB%AE-%E4%B8%99%E7%B4%9A-%E5%AD%B8%E7%A7%91-2.html')">2025-07-09男子理髮-丙級-學科-2</a></li>
-  <ul><h3 style="text-align: center;">《2017》</h3><hr>
-<li><a onclick="changeIframe('https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E5%80%89%E5%BA%AB/2017%E5%B9%B403%E6%9C%88%E6%94%B6%E8%97%8F%E8%AA%9E%E9%8C%84-1.html')">2017年03月收藏語錄-1</a></li>
-      <li><a onclick="changeIframe('')">.</a></li></ul>
-<HR><p><BR><BR><BR></p>
-</div>
-
-<script>
-    function toggleNav() {
-        const sidenav = document.getElementById("mySidenav");
-        const mainContent = document.querySelector(".main-content-wrapper"); 
-        
-        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
-        if (sidenav.classList.contains("collapsed")) {
-            // 展開側邊欄
-            sidenav.classList.remove("collapsed");
-            mainContent.classList.remove("collapsed-margin");
-
-        } else {
-            // 收起側邊欄
-            sidenav.classList.add("collapsed");
-            mainContent.classList.add("collapsed-margin");
-        }
-    }
-</script>
-
+  <button class="openbtn" onclick="toggleNav()">☰</button>
+  <nav id="mySidenav" class="column sidenav W250"></nav>
+  <script src="《青丘茶館》-目錄.js"></script>
 </body>
 </html>

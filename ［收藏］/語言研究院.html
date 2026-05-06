@@ -1,121 +1,48 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>語言研究院</title>
-    <link href="A0001.css" rel="stylesheet" />
-    <script src="嵌入網頁.JS"></script>
+    <link href="../A0001.css" rel="stylesheet" />
+    <script src="../嵌入網頁.JS"></script>
+    <script src="../左側邊攔.JS"></script>
 </head>
 <body>
-  <button class="openbtn" onclick="toggleNav()">☰</button>
 
 <!-- 導覽列 -->
-<div class="main-content-wrapper">
-<h1 style="text-align: center; margin-left: 250px;">語言研究院</h1>
-<p style="text-align: center; margin-left: 250px;">收藏記錄分享</p>
+<div class="main-content-wrapper W250">
+    <h1>語言研究院</h1>
+    <p>收藏記錄分享</p>
     <!--中間布局-->
-    <div class="column middle">
-<div class="column HHH">
-    <ul><H3>使用軟體</H3></ul>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-</div>
-<div class="column HHH">
-    <ul><h3>工具收藏</h3></ul>
-    <li>英文<a href="https://dictionary.cambridge.org/zht/">劍橋詞典</a></li>
-    <li>中文<a href="https://dict.revised.moe.edu.tw/search.jsp?">基本檢索 - 教育部《重編國語辭典修訂本》2021</a></li>
-    <li>中文<a href="https://dict.concised.moe.edu.tw/search.jsp?">基本檢索 - 教育部《國語辭典簡編本》2021</a></li>
-    <li><a href=""></a></li>
-    <li><a href=""></a></li>
-</div>
-<div class="column HHH">
-    <ul><h3>分類標籤</h3></ul>
-    <li>中文</li>
-    <li>英文</li>
-    <li>日文</li>
-    <li></li>
-</div>
-</div>	
-<div class="content">
-<div class="column middle">
- <iframe id="myFrame" src="語言研究院-範本.html" style="width: 100%; height: 100vh;"></iframe>
-</div>
-</div>
+    <div class="column middle2">
+        <div class="column HHH">
+            <ul><H3>使用軟體</H3>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+        </ul></div>
+        <div class="column HHH">
+            <ul><h3>工具收藏</h3>
+            <li>英文<a href="https://dictionary.cambridge.org/zht/">劍橋詞典</a></li>
+            <li>中文<a href="https://dict.revised.moe.edu.tw/search.jsp?">基本檢索 - 教育部《重編國語辭典修訂本》2021</a></li>
+            <li>中文<a href="https://dict.concised.moe.edu.tw/search.jsp?">基本檢索 - 教育部《國語辭典簡編本》2021</a></li>
+            <li><a href=""></a></li>
+            <li><a href=""></a></li>
+        </ul></div>
+        <div class="column HHH">
+            <ul><h3>分類標籤</h3>
+            <li>中文</li>
+            <li>英文</li>
+            <li>日文</li>
+            <li></li>
+        </ul></div>
+    </div>	
+    <iframe id="myFrame" src="語言研究院-範本.html" class="column middle"></iframe>
 </div>
 
 <!-- 左側布局 -->
-<div id="mySidenav" class="column sidenav">  
-<a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
-    <h1 style="text-align: center;">《導師塔》</h1>
-     <ul><li><a onclick="changeIframe('語言研究院-範本.html')">收藏清單</a></li>
-<!--
-<ul><h3 style="text-align: center;">《範本》</h3><hr>
-<details><summary>範本清單</summary>
-<ul>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-</ul>
-</details>
- -->
-<ul><h3 style="text-align: center;">《中文》</h3><hr>
-<details><summary>中文清單</summary>
-<ul>
-<li><a href="https://language.moe.gov.tw/index">教育部 語文成果網</a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-</ul>
-</details>
-<ul><h3 style="text-align: center;">《英文》</h3><hr>
-<details><summary>英文清單</summary>
-<ul>
-<li><a href="https://www.youtube.com/@VooksStorybooks/playlists">Vooks - Stories and Read Alouds for Kids</a></li>
-<li><a href="https://www.youtube.com/@ComprehensibleEnglish/playlists">English Comprehensible Input for ESL Beginners</a></li>
-<li><a href="https://www.youtube.com/@BrightlyStorytime">Brightly Storytime</a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-</ul>
-</details>
-<ul><h3 style="text-align: center;">《日文》</h3><hr>
-<details><summary>日文清單</summary>
-<ul>
-<li><a href="https://www.youtube.com/@yesjap568/videos">何必日語</a></li>
-<li><a href=""></a></li>
-<li><a href=""></a></li>
-</ul>
-</details>
-
-
-
-
-<HR><p><BR><BR><BR></p>
-</div>
-
-<script>
-    function toggleNav() {
-        const sidenav = document.getElementById("mySidenav");
-        const mainContent = document.querySelector(".main-content-wrapper"); 
-        
-        // 檢查側邊欄是否處於收起狀態 (以是否有 'collapsed' class 為準)
-        if (sidenav.classList.contains("collapsed")) {
-            // 展開側邊欄
-            sidenav.classList.remove("collapsed");
-            mainContent.classList.remove("collapsed-margin");
-
-        } else {
-            // 收起側邊欄
-            sidenav.classList.add("collapsed");
-            mainContent.classList.add("collapsed-margin");
-        }
-    }
-</script>
-
+    <button class="openbtn" onclick="toggleNav()">☰</button>
+    <nav id="mySidenav" class="column sidenav W250"></nav>
+    <script src="語言研究院-目錄.js"></script>
 </body>
 </html>
