@@ -67,6 +67,7 @@ const sidebarContent = `
     <li><a onclick="changeIframe('倉庫/程式語言-靜態頁面搜尋.html')">靜態頁面搜尋</a></li>
     <li><a onclick="changeIframe('倉庫/程式語言-靜態分頁.html')">靜態分頁</a></li>
     <li><a onclick="changeIframe('倉庫/程式語言-重複選單-物件內容輸出.html')">重複選單/物件內容輸出</a></li>
+    <li><a onclick="changeIframe('倉庫/程式語言-書籤指令-瀏覽器點擊區塊視窗最大化.html')">書籤指令-瀏覽器點擊區塊視窗最大化</a></li>
 </ul><hr class="a001">
 `;
 

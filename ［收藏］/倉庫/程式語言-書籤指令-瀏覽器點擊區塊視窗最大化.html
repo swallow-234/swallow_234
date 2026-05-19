@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>《程式語言》</title>
+  <link href="../../A0001.css" rel="stylesheet" />
+    </head>
+    <body>
+<!--標題-->
+        <h1 style="text-align: center;">《程式語言-書籤指令-瀏覽器點擊區塊視窗最大化》</h1>
+<!--內文-->
+<div style="color:#B7B7B7">
+    <p><h3>書籤指令</h3></p><hr class="a002">
+<pre><code>
+javascript:(function()
+{var el=document.activeElement;if(!el||el===document.body)
+{alert('請先用滑鼠點擊一下網頁中你想放大的區塊，再點此書籤！');return;}var styleId='custom-max-style';var oldStyle=document.getElementById(styleId);if(oldStyle)
+{oldStyle.remove();el.classList.remove('custom-maximized');document.documentElement.classList.remove('custom-maximized-parent');return;}var style=document.createElement('style');style.id=styleId;/* 核心邏輯：除了隱藏其餘區塊，並將底色強制設定為純黑色 #000 */style.appendChild(document.createTextNode('html, body 
+{ overflow: hidden !important; margin: 0 !important; padding: 0 !important; background: #000000 !important; }.custom-maximized 
+{ position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 999999 !important; box-sizing: border-box !important; background: #000000 !important; overflow: auto !important; margin: 0 !important; padding: 0 !important; }body > *:not(.custom-maximized-parent):not(.custom-maximized), .custom-maximized-parent > *:not(.custom-maximized-parent):not(.custom-maximized) 
+{ display: none !important; }'));document.head.appendChild(style);el.classList.add('custom-maximized');var p=el.parentElement;while(p && p!==document.body)
+{p.classList.add('custom-maximized-parent');p=p.parentElement;}window.addEventListener('keydown',function(e)
+{if(e.key==='Escape')
+{var s=document.getElementById(styleId);if(s)s.remove();el.classList.remove('custom-maximized');var parents=document.querySelectorAll('.custom-maximized-parent');parents.forEach(function(curr)
+{curr.classList.remove('custom-maximized-parent');});}},
+{once:true});})();
+</code></pre><hr class="a002">
+<p>
+    第二步：建立小書籤<BR>
+    在瀏覽器的書籤列（網址列下方那排）任意空白處按右鍵 -> 新增網頁（或新增書籤）。<BR>
+<BR>
+    名稱輸入：局部視窗最大化<BR>
+<BR>
+    網址（或 URL）欄位：請把上面那長串 javascript:... <BR>的程式碼完全貼進去，然後點擊儲存。<BR>
+<BR>
+    🚀 如何使用它？<BR>
+    打開你的網頁，用滑鼠先點選一下你想要放大的那個容器（例如你的橫向滾動區塊 <BR>.boxhhh，或任何卡片區域）。<BR>
+<BR>
+    點擊書籤列上的 局部視窗最大化 按鈕。<BR>
+<BR>
+    成果：被點選的區域會瞬間「吃滿」整個瀏覽器視窗。這時你依然可以自由拖曳瀏覽器視窗、<BR>縮放大小，裡面的內容都會自動跟著視窗比例縮放。<BR>
+<BR>
+    如何恢復？：按下鍵盤左上角的 Esc 鍵，網頁就會立刻彈回原本的樣子。<BR>
+</p>
+</cose></pre>
+    </body>
+</html>

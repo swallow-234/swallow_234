@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RWBY</title>
+    <link rel="stylesheet" href="../A0001.css">
+    <script src="../左側邊攔.JS"></script>
+    <script src="RWBY-資料庫.js"></script>
+    <script src="../卡片式-圖卡.js"></script>
+    <script src="../卡片式-圖卡-點擊放大遮罩.js"></script>
+    <script src="../搜尋-卡片式-圖卡2.js"></script>
+</head>
+
+<body>
+<div class="main-content-wrapper W300">
+<div class="main-layout">
+    <main class="middle-column">
+        <!--搜尋樣式-->
+        <header>
+            <div class="filter-bar">
+                <span style="margin-left: 50px;">搜尋：</span>
+                <input type="text" id="searchInput" placeholder="關鍵字..."  onkeyup="filterData()">
+                <select  id="categoryFilter" onchange="filterData()">
+                    <option value="">所有陣營</option>
+                    <option value="《RWBY隊》">RWBY隊</option>
+                    <option value="《JNPR隊》">JNPR隊</option>
+                    <option value="《CRDL隊》">CRDL隊</option>
+                    <option value="《CFVY隊》">CFVY隊</option>
+                    <option value="《SSSN隊》">SSSN隊</option>
+                    <option value="《NDGO隊》">NDGO隊</option>
+                    <option value="《BRNZ隊》">BRNZ隊</option>
+                    <option value="《ABRN隊》">ABRN隊</option>
+                    <option value="烽火學院">烽火學院</option>
+                    <option value="王國">王國</option>
+                    <option value="其他">其他</option>
+                    <option value="酒吧">酒吧</option>
+                    <option value="白牙">白牙</option>
+                    <option value="戮獸">戮獸</option>
+                    <option value="彩蛋">彩蛋</option>
+                    <option value="作者">作者</option>
+                    <option value="地圖">地圖</option>
+                </select>
+                <span>向Monty Oum致敬！</span>
+            </div>
+        </header>
+        <!--圖卡容器-->
+        <div id="grid-container" class="grid-container"></div>
+        <!--圖卡模板-->
+            <template id="card-template">
+                <div class="work-card">
+                    <img src="" alt="">
+                    <span style="display:none;" class="category"></span>
+                    <div class="overlay">點擊放大</div>
+                </div>
+            </template>   
+    </main>
+    <!--右側邊欄-->
+    <aside class="side-column">
+        <h2 class="nav-title">角色資訊</h2>
+        <div id="info-panel" class="info-panel">
+            <p class="info-hint" id="info-hint" >※請點擊左側縮圖查看詳細資訊</p>
+            <div id="detail-box" style="display:none;">
+                <h3 id="p-name" style="color: var(--A001);">名稱</h3>
+                <p><strong>武器：</strong><span id="p-author">XXX</span></p>
+                <p><strong>簡介：</strong></p>
+                <p id="p-desc" class="desc-text">...</p>
+                <p><strong>陣營：</strong><span id="p-date">XXX</span></p>
+                <hr border="1" color="#8E7CC3">
+                <p>攻擊：<span id="p-soft">XXX</span></p>
+                <p>防禦：<span id="p-size">0MB</span></p>
+            </div>
+        </div>
+        <div class="side-footer">R.I.P Monty Oum 2015/02/01
+            <ul><h3>社群連結</h3>
+            <li ><a href="https://www.reddit.com/r/RWBY/">reddit</a></li>
+            <li><a href="https://forum.gamer.com.tw/B.php?bsn=45145">巴哈姆特</a></li>
+            <li><a href="https://rwby.fandom.com/wiki/RWBY_Wiki">wiki</a></li>
+            <hr class="a000">
+            </ul>
+        </div>
+    </aside>
+</div>
+</div>
+<!--放大圖區-->
+<div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="">
+</div>
+<!-- 左側邊欄 -->
+    <button class="openbtn" onclick="toggleNav()">☰</button>
+    <nav id="mySidenav" class="column sidenav W300"></nav>
+    <script src="../公佈欄-目錄.js"></script>
+</body>
+</html>

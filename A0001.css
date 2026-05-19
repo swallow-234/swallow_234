@@ -5,9 +5,8 @@
     background: var(--A014);
     margin: 0;
     flex: 1;  /* 關鍵：自動分配剩餘的所有高度 (height: 100vh);*/
-
-    
   }
+  
 /*顏色 var(--A002)*/
   :root {
       --A001: #E69138;/*橘色*/
@@ -22,8 +21,11 @@
       --A009: #B7B7B7;/*灰色*/
       --A010: #777777;/*灰白色*/
       --A011: #666666;/*淺灰色*/
+      --A021: #444;/*灰色*/
       --A012: #333;/*灰色*/
       --A013: #111;/*深灰色*/
+      --A019: #1a1a1a;/*深灰色2*/
+      --A020: #222;/*深灰色3*/
       --A014: #000000;/*黑色*/
       --A015: #555555;/*黑灰色*/
       --A016: #B76E79;/*經典玫瑰金*/
@@ -40,7 +42,7 @@
       padding: 0;
      }
 
-/* 分隔線樣式 <hr class="a001"> */
+/* 分隔線樣式 <hr class="a000"> */
   hr {/* 隱藏預設並設定基本樣式 */
       border: 0;
       height: 1px;
@@ -190,7 +192,7 @@
     
     /* 符號使用更強烈的玫瑰金漸層 */
     background: var(--A014); /* 這裡請填入你的背景色 */
-    background: radial-gradient(circle, #1a1a1a 40%, transparent 80%); 
+    background: radial-gradient(circle, var(--A019) 40%, transparent 80%); 
     
     /* 文字金屬光澤特效 */
     background: linear-gradient(135deg, var(--A017), var(--A016), var(--A018));
@@ -233,7 +235,6 @@
     text-decoration-color: var(--A011);   /* 設定底線顏色*/
     background-color: var(--A012);  /* 背景變淡灰色 */
   }
-
 
 
 /* 區塊設定 */
@@ -317,7 +318,222 @@
 
 /*專輯收藏*/
 
+/*圖卡收藏|卡片式*/
+    .main-layout {
+      display: flex;
+      height: 100vh;
+    }
 
+    .middle-column {
+      flex: 100 0 70%;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--A002);
+      overflow-y: auto;
+      background: linear-gradient(180deg, var(--A014), var(--A020));
+    }
+
+    /* 圖卡收藏-頂部篩選列 */
+    .filter-bar {
+      padding: 15px;
+      background: rgba(142, 124, 195, 0.1);
+      border-bottom: 1px solid var(--A002);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--A001);
+      height: 20PX;
+    }
+
+    /* 圖卡收藏-作品網格 - 4欄排列 */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 20px;
+    }
+
+    /* 圖卡收藏-作品圖卡 */
+    .work-card {
+      position: relative;
+      aspect-ratio: 4 / 3; /* 保持縮圖比例 */
+      border: 1px solid var(--A021);
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .work-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .work-card:hover {
+      border-color: var(--A001);
+      transform: scale(1.02);
+    }
+    .work-card:hover .overlay {
+      opacity: 1;
+    }
+
+    /* 圖卡收藏-點擊放大提示 */
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(230, 145, 56, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    /* 讓卡片的點擊遮罩帶有玫瑰金質感 */
+    .work-card .overlay {
+        background: linear-gradient(135deg, rgba(224, 191, 184, 0), rgba(183, 110, 121, 0.9));
+        color: white;
+        font-weight: bold;
+    }
+
+    /* 圖卡收藏-右側邊攔 */
+    .side-column {
+      flex: 0 0 15%;
+      border: 1px solid var(--A002);
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      overflow-y: auto;
+    }
+    /* 圖卡收藏-右側邊攔-作品資訊 */
+    .nav-title {
+      color: var(--A001);
+      border-bottom: 2px double var(--A001);
+      margin-bottom: 15px;
+    }
+    .info-panel {
+      flex: 1;
+      padding: 10px;
+    }
+    .info-hint {
+      font-size: 0.85rem;
+      color: var(--A011);
+      text-align: center;
+      margin-top: 10px;
+    }
+    .desc-text {
+      background: var(--A020);
+      padding: 10px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+
+    .action-buttons{
+      text-align: center;
+
+    }
+
+    }
+    /* 圖卡收藏-右側邊攔-下方資訊 */
+    .side-footer {
+      margin-top: auto;
+      font-size: 0.8rem;
+      color: var(--A021);
+      text-align: center;
+      padding-top: 10px;
+    }
+
+    /* 圖卡收藏-點擊放大遮罩 (Lightbox) */
+    #lightbox {
+        display: none;
+        position: fixed; top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: 9999;
+        justify-content: center; align-items: center;
+        cursor: zoom-out;
+    }
+    #lightbox img { max-width: 90%; max-height: 90%; border: 2px solid var(--A002); }
+
+
+/* 針對手機等窄螢幕進行優化 (螢幕寬度小於 768px 時觸發) */
+@media (max-width: 768px) {
+    body, html {
+        overflow-y: auto; /* 允許手機端整頁捲動 */
+    }
+
+    .main-content-wrapper {
+        flex-direction: column; /* 讓中間內容與右側資訊欄上下排列 */
+        height: auto;
+    }
+
+    /* 中間作品區調整 */
+    .middle-column {
+        flex: none;
+        width: 100%;
+        height: auto;
+        overflow-y: visible;
+
+    }
+
+    /* 作品網格從 4 欄改為 1 欄，避免手機縮圖太小 */
+    .grid-container {
+        grid-template-columns: repeat(1, 1fr); 
+        padding: 10px;
+    }
+
+    /* 右側作品資訊欄調整 */
+    .side-column {
+        flex: none;
+        border-left: none;
+        border-top: 1px solid var(--A002);
+        height: 50%;
+        width: 40%;
+        position: fixed; /* 固定位置 */
+        top: 50%;
+        z-index: 10; /* 確保按鈕在側邊欄和內容上方 */
+
+        background: linear-gradient(135deg, rgba(183, 110, 121, 0.9), rgba(224, 191, 184, 0.5));
+        color: white;
+        font-weight: bold;
+    }
+    .side-column p,.side-column h3,.side-column h2 {
+      color: var(--A004);
+      background: linear-gradient(135deg, rgba(60, 60, 60, 0.9), rgba(60, 60, 60, 0.1));
+
+    }
+
+    .main-content-wrapper.W300{
+      overflow-y: auto;
+    }
+    /*捲軸設定*/
+   body::-webkit-scrollbar {
+      width: 5px;
+    }
+   body::-webkit-scrollbar-thumb {
+      background: var(--A002);
+    }
+   .main-content-wrapper.W300::-webkit-scrollbar {
+      width: 5px;
+    }
+   .main-content-wrapper.W300::-webkit-scrollbar-thumb {
+      background: var(--A002);
+    }
+   .side-column::-webkit-scrollbar {
+      width: 5px;
+    }
+   .side-column::-webkit-scrollbar-thumb {
+      background: var(--A017);
+    }
+   .side-column::-webkit-scrollbar-track {
+      background: var(--A016);
+    }
+
+
+
+    /* 調整主要內容區域在手機版時的邊距 */
+    .main-content-wrapper {
+        margin-left: 0 !important;
+    }
+}
+/* ------------------------------------------------ */
 
 
 /* 「滑鼠懸停顯示」（hover effect）*/
