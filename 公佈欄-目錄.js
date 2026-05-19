@@ -12,6 +12,7 @@ const sidebarContent = `
     </ul>
 <p><ul style="text-align: center;"><h3>〈收藏〉</h3></ul></p><hr class="a001">
     <ul>
+    <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/RWBY">RWBY</a></li>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E2%98%AF%E6%9D%B1%E6%96%B9Project.html">☯東方Project</a></li>
