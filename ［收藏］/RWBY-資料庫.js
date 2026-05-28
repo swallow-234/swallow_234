@@ -169,31 +169,32 @@ const workData = [
         category: '烽火學院'
     },
     {
-        title: 'Bartholomew Oobleck',
+        title: 'Glynda Goodwitch',
         author: '短鞭/魔法',
         desc: '',
         date: '烽火學院',
         tool: '普通/揮舞',
         size: '閃避/招架',
-        imgUrl: 'https://raw.githubusercontent.com/swallow-234/collection/refs/heads/main/RWBY/Bartholomew Oobleck.webp',
-        category: '烽火學院'
-    },
-    {
-        title: 'Glynda Goodwitch',
-        author: '戰斧/散彈槍',
-        desc: '',
-        date: '烽火學院',
-        tool: '普/劈砍',
-        size: '閃避/招架',
         imgUrl: 'https://raw.githubusercontent.com/swallow-234/collection/refs/heads/main/RWBY/Glynda Goodwitch.webp',
         category: '烽火學院'
     },
     {
-        title: 'Peter Port',
+        title: 'Bartholomew Oobleck',
         author: '長棍棒/噴火槍',
         desc: '',
         date: '烽火學院',
         tool: '快/劈砍',
+        size: '閃避/招架',
+
+        imgUrl: 'https://raw.githubusercontent.com/swallow-234/collection/refs/heads/main/RWBY/Bartholomew Oobleck.webp',
+        category: '烽火學院'
+    },
+    {
+        title: 'Peter Port',
+        author: '戰斧/散彈槍',
+        desc: '',
+        date: '烽火學院',
+        tool: '普/劈砍',
         size: '閃避/招架',
         imgUrl: 'https://raw.githubusercontent.com/swallow-234/collection/refs/heads/main/RWBY/Peter Port.webp',
         category: '烽火學院'
