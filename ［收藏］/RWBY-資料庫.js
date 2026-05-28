@@ -352,7 +352,7 @@ const workData = [
     {
         title: 'Octavia Ember',
         author: '蛇劍/法仗/魔法',
-        desc: '工三小',
+        desc: '',
         date: '《NDGO隊》',
         tool: '快速/劈砍突刺',
         size: '閃避',
