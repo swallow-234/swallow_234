@@ -511,6 +511,9 @@
     .main-content-wrapper.W300{
       overflow-y: auto;
     }
+    .main-content-wrapper.W250{
+      overflow-y: auto;
+    }
     /*捲軸設定*/
    body::-webkit-scrollbar {
       width: 5px;
@@ -522,6 +525,12 @@
       width: 5px;
     }
    .main-content-wrapper.W300::-webkit-scrollbar-thumb {
+      background: var(--A002);
+    }
+   .main-content-wrapper.W250::-webkit-scrollbar {
+      width: 5px;
+    }
+   .main-content-wrapper.W250::-webkit-scrollbar-thumb {
       background: var(--A002);
     }
    .side-column::-webkit-scrollbar {
