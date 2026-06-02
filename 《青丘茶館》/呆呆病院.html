@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呆呆病院</title>
+    <link rel="stylesheet" href="../A0001.css">
+    <script src="../左側邊攔.JS"></script>
+    <script src="呆呆病院-資料庫.js"></script>
+    <script src="../卡片式-圖卡.js"></script>
+    <script src="../卡片式-圖卡-虛擬列表.js"></script>
+    <script src="../卡片式-圖卡-點擊放大遮罩.js"></script>
+    <script src="../搜尋-卡片式-圖卡2.js"></script>
+</head>
+
+<body>
+<div class="main-content-wrapper W250">
+<div class="main-layout">
+    <main class="middle-column">
+        <!--搜尋樣式-->
+        <header>
+            <div class="filter-bar">
+                <span style="margin-left: 50px;">搜尋：</span>
+                <input type="text" id="searchInput" placeholder="關鍵字..."  onkeyup="filterData()">
+                <select  id="categoryFilter" onchange="filterData()">
+                    <option value="">呆呆考察</option>
+                    <option value="太平山">太平山</option>
+                    <option value="鄒族逐鹿文創園區">逐鹿園區</option>
+                    <option value="竺園莊園">竺園莊園</option>
+                </select>
+                <span>呆呆國家公園</span>
+            </div>
+        </header>
+        <!--圖卡容器-->
+        <div id="grid-container" class="grid-container"></div>
+        <!--圖卡模板-->
+            <template id="card-template">
+                <div class="work-card">
+                    <img src="" loading="lazy" alt="">
+                    <span style="display:none;" class="category"></span>
+                    <div class="overlay">點擊放大</div>
+                </div>
+            </template>   
+    </main>
+    <!--右側邊欄-->
+    <aside class="side-column">
+        <h2 class="nav-title">《呆呆病院》</h2>
+        <div id="info-panel" class="info-panel">
+            <p class="info-hint" id="info-hint" >※請點擊左側縮圖查看詳細資訊</p>
+            <div id="detail-box" style="display:none;">
+                <h3 id="p-name" style="color: var(--A001);">名稱</h3>
+                <p><strong>品種：</strong><span id="p-author">XXX</span></p>
+                <p><strong>簡介：</strong></p>
+                <p id="p-desc" class="desc-text">...</p>
+                <p><strong>呆呆叫：</strong><span id="p-date">XXX</span></p>
+                <hr border="1" color="#8E7CC3">
+                <p>日期：<span id="p-soft">XXX</span></p>
+                <p>地點：<span id="p-size">0MB</span></p>
+            </div>
+        </div>
+        <div class="side-footer">反正是「照騙」嘛～
+            <ul><h3>呆呆公約</h3>
+            <li>[Ｏ]AI生成</li>
+            <li>[Ｏ]色色使用</li>
+            <li>[Ｏ]惡搞使用</li>
+            <li>[Ｏ]二次創作</li>
+            <li>[Ｘ]商業使用</li>
+            <li>[Ｘ]詐騙使用</li>
+            <hr class="a000">
+            </ul>
+        </div>
+    </aside>
+</div>
+</div>
+<!--放大圖區-->
+<div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="">
+</div>
+<!-- 左側邊欄 -->
+    <button class="openbtn" onclick="toggleNav()">☰</button>
+    <nav id="mySidenav" class="column sidenav W250"></nav>
+    <script src="《青丘茶館》-目錄.js"></script>
+</body>
+</html>

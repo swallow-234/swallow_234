@@ -3,8 +3,10 @@ const sidebarContent = `
 <a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
     <h1 style="text-align: center;">《青丘茶館》</h1><hr class="b005">
     <ul>
+         <li><a href="《青丘茶館》.html">公佈欄</a></li>
          <li><a onclick="changeIframe('《青丘茶館》-範本.html')">當前紀錄</a></li>
          <li><a onclick="changeIframe('關於我.html')">關於我</a></li>
+         <li><a href="呆呆病院.html">呆呆病院</a></li>
          <li><a href="https://sites.google.com/view/swallow19970824/%E9%A6%96%E9%A0%81">生活紀錄</a></li>
          <li><a href="../［收藏］/音樂收藏.html">音樂收藏</a></li>
          <li><a href="我婆清單.html">我婆清單</a></li>
@@ -12,6 +14,7 @@ const sidebarContent = `
          <li><a onclick="changeIframe('語錄收藏.html')">語錄收藏</a></li>
         
     <h3 style="text-align: center;">《2026》</h3><hr class="a001">
+        <li><a href="https://www.facebook.com/media/set/?set=a.36582181518046958&type=3">《鄒族逐鹿劇場2026/05/24》</a></li>
         <li><a onclick="changeIframe('倉庫/台灣共和國：起源.html')">台灣共和國：起源</a></li>    
         <li><a href="https://gemini.google.com/share/c1062ac5a9ca">善的全面總攻：獨裁政權瓦解的徵兆</a></li>
         <li><a href="https://gemini.google.com/share/d1883d60174f">微光碎星：政治事件的策略性分析</a></li>

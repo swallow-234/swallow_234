@@ -8,14 +8,18 @@
   }
   
 /*顏色 var(--A002)*/
-  :root {
+  :root {/*~23*/
       --A001: #E69138;/*橘色*/
+      --C001: rgba(230, 145, 56, 0.15);/* 透明橘色 */
+      --C001A: rgba(230, 145, 56, 0.3);/* 透明橘色 */
       --A002: #8E7CC3;/*紫色*/
       --B002: #8e7cc333;/*淺紫色*/      
       --A003: #CC0000;/*紅色*/
       --A004: #F1C232;/*黃色*/
       --A005: #6AA84F;/*綠色*/
       --A006: #76A5AF;/*青色*/
+      --C006: rgba(0, 255, 204, 0.2); /* 透明青 */
+      --B006: #00ffcc;/*青色*/
       --A007: #3C78D8;/*藍色*/
       --A008: #C27BA0;/*粉色*/
       --A009: #B7B7B7;/*灰色*/
@@ -31,6 +35,9 @@
       --A016: #B76E79;/*經典玫瑰金*/
       --A017: #E0BFB8;/*淺亮玫瑰金*/
       --A018: #8D5B5B;/*深霧玫瑰金*/
+      --C018: rgba(183, 110, 121, 0.5);/*透明玫瑰金*/
+      --A022: #15171c;/*微亮藍黑*/
+      --A023: #0d0d0d;/*微亮黑*/
       color-scheme: dark;/*將整個頁面設定為深色主題*/
     }
 /* 文字樣式 */
@@ -201,7 +208,7 @@
     
     font-size: 24px;
     /* 加上微弱的發光感 */
-    filter: drop-shadow(0 0 2px rgba(183, 110, 121, 0.5));
+    filter: drop-shadow(0 0 2px var(--C018));
       } 
 
 
@@ -235,6 +242,7 @@
     text-decoration-color: var(--A011);   /* 設定底線顏色*/
     background-color: var(--A012);  /* 背景變淡灰色 */
   }
+
 
 
 /* 區塊設定 */
@@ -379,7 +387,7 @@
     .overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(230, 145, 56, 0.3);
+      background: var(--C001A);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -494,7 +502,7 @@
         color: white;
         font-weight: bold;
     }
-    .side-column p,.side-column h3,.side-column h2 {
+    .side-column p,h3,h2 {
       color: var(--A004);
       background: linear-gradient(135deg, rgba(60, 60, 60, 0.9), rgba(60, 60, 60, 0.1));
 
@@ -577,15 +585,37 @@
     background: var(--A014);
   }
 
+/* 表格-防暴外框 */
+.table {
+  overflow-x: auto;
+  margin: 20px 0;/*外框間距*/
+  }
+  .table::-webkit-scrollbar {
+    width: 5px;
+    height: 5PX;
+  }
+  .table::-webkit-scrollbar-thumb {
+    background: var(--A018);
+    border-radius: 20px;
+  }
+  .table::-webkit-scrollbar-track {
+    background: var(--A014);
+  }
+
 /* 表格 */
-  table, tr, td{
-    color: var(--A001);
-    border: 1px solid var(--A018);
-    border-collapse: collapse;    
-    text-align: center;
-    }
+table, tr, td {/* <thead>標題 <tbody>內容 */
+  color: var(--A001);
+  background-color: var(--A019);
+  border: 1px solid var(--A018);
+  border-collapse: collapse;    
+  text-align: center;/*left  文字位置*/
+  padding: 12px;
+  width: calc(100vw - 10px);
+  }
 
-
+thead th {/* <thead>標題 */
+  background-color: var(--C001);
+}
 
 /*分頁-公佈欄*/
     .tabs { flex-wrap: wrap; display: block; overflow-x: auto; white-space: nowrap; margin: 15px auto 0; width: 100%; }
@@ -772,5 +802,87 @@
 .zzz {/*將文字置中*/
   text-align: center;
 }
+/*-----------div對話框--------------*/
+/*<div class="ggyy">
+    <div class="ggyy2B">
+      <div>
+        <span>內容A
+        <strong>欄位1*/
+.ggyy {/*div對話框-外框*/
+  display: flex;
+  flex-direction: column;/*div對話框--外框垂直排排站*/
+  gap: 10px;/*div對話框--外框與框間距*/
+  }
+.ggyy div {/*div對話框-外框-行列框間距*/
+  margin-bottom: 8px;
+  }
+.ggyy2 {/*div對話框-內框*/
+  border: 1px solid var(--A010);
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--A013)
+  }
+
+.ggyy2 strong {/*div對話框-內框-標籤*/
+  color: var(--A001);
+  margin-right: 5px;
+  }
+.ggyy2 span {/*div對話框-內框-內文*/
+  color: var(--A009);
+  margin-right: 5px;
+  }
+
+.ggyy2A {/*div對話框-內框*/
+  background: var(--A022); /* 微亮藍黑卡片 background */
+  border: 1px solid var(--A002); /* 邊框線 */
+  padding: 15px; 
+  border-radius: 8px;
+  font-family: sans-serif;
+  }
+.ggyy2A strong {/*div對話框-內框-標籤*/
+  color: var(--A002);
+  margin-right: 5px;
+  }
+.ggyy2A span {/*div對話框-內框-內文*/
+  color: var(--A009);
+  margin-right: 5px;
+  }
+
+.ggyy2B {/*div對話框-內框*/
+  background: var(--A023);
+  border-left: 4px solid var(--A001); /* 左側金屬質感橘黃線 */
+  border-top: 1px solid var(--A020);
+  border-right: 1px solid var(--A020);
+  border-bottom: 1px solid var(--A020);
+  padding: 16px; 
+  border-radius: 4px;
+}
+.ggyy2B strong {/*div對話框-內框-標籤*/
+  background: var(--C001);
+  color: var(--A001);
+  padding: 2px 8px;
+  font-size: 0.8rem; 
+  font-weight: bold; 
+  margin-right: 12px;
+  }
+.ggyy2B span {/*div對話框-內框-內文*/
+  color: var(--A009);
+  margin-right: 5px;
+  }
+.ggyy2C {/*div對話框-內框*/
+  background: rgba(255, 255, 255, 0.02); 
+  border: 1px solid var(--C006); /* 螢光青邊框 */
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.05); /* 微弱霓虹發光 */
+  padding: 16px; 
+  border-radius: 8px;
+}
+.ggyy2C strong {/*div對話框-內框-標籤*/
+  color: var(--B006); 
+  font-size: 0.9rem;
+}
+.ggyy2C span {/*div對話框-內框-內文*/
+  color: var(--A009);
+  margin-left: 8px;
+  }
 
 /*-------------------------*/
