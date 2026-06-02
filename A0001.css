@@ -283,6 +283,12 @@
     overflow-x: auto; /* 允許橫向捲動 */
     overflow-y: hidden;　　/* 嚴格禁止縱向捲動 */
   }
+  .boxhhh::-webkit-scrollbar-thumb {
+      background: var(--A001);
+    }
+  .boxhhh::-webkit-scrollbar {
+      height: 8px;
+    }
 
   .box {/*橫軸框-卡片*/
     width: 300PX;
@@ -478,8 +484,18 @@
         width: 100%;
         height: auto;
         overflow-y: visible;
-
     }
+
+    /* 圖卡收藏-頂部篩選列 */
+    .filter-bar {
+        overflow-x: auto; /* 允許橫向捲動 */
+        overflow-y: hidden;
+}
+
+    .filter-bar span {
+        white-space: nowrap; /* 強制文字不換行，只往左右延伸 */
+    }
+
 
     /* 作品網格從 4 欄改為 1 欄，避免手機縮圖太小 */
     .grid-container {
@@ -508,33 +524,22 @@
 
     }
 
-    .main-content-wrapper.W300{
-      overflow-y: auto;
-    }
+    .main-content-wrapper.W300,
     .main-content-wrapper.W250{
       overflow-y: auto;
     }
     /*捲軸設定*/
-   body::-webkit-scrollbar {
-      width: 5px;
-    }
-   body::-webkit-scrollbar-thumb {
-      background: var(--A002);
-    }
-   .main-content-wrapper.W300::-webkit-scrollbar {
-      width: 5px;
-    }
-   .main-content-wrapper.W300::-webkit-scrollbar-thumb {
-      background: var(--A002);
-    }
-   .main-content-wrapper.W250::-webkit-scrollbar {
-      width: 5px;
-    }
-   .main-content-wrapper.W250::-webkit-scrollbar-thumb {
-      background: var(--A002);
-    }
+   body::-webkit-scrollbar,
+   .main-content-wrapper.W300::-webkit-scrollbar,
+   .main-content-wrapper.W250::-webkit-scrollbar,
    .side-column::-webkit-scrollbar {
       width: 5px;
+    }
+   body::-webkit-scrollbar-thumb,
+   .main-content-wrapper.W300::-webkit-scrollbar-thumb,
+   .main-content-wrapper.W250::-webkit-scrollbar-thumb,
+   .filter-bar::-webkit-scrollbar-thumb {
+      background: var(--A002);
     }
    .side-column::-webkit-scrollbar-thumb {
       background: var(--A017);
@@ -543,7 +548,9 @@
       background: var(--A016);
     }
 
-
+   .filter-bar::-webkit-scrollbar {
+      height: 5px;
+    }
 
     /* 調整主要內容區域在手機版時的邊距 */
     .main-content-wrapper {
