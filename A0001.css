@@ -502,7 +502,7 @@
         color: white;
         font-weight: bold;
     }
-    .side-column p,h3,h2 {
+    .side-column p,.side-column h3,.side-column h2 {
       color: var(--A004);
       background: linear-gradient(135deg, rgba(60, 60, 60, 0.9), rgba(60, 60, 60, 0.1));
 
@@ -603,23 +603,28 @@
   }
 
 /* 表格 */
-table, tr, td {/* <thead>標題 <tbody>內容 */
+.td {
   color: var(--A001);
   background-color: var(--A019);
-  border: 1px solid var(--A018);
   border-collapse: collapse;    
   text-align: center;/*left  文字位置*/
-  padding: 12px;
   width: calc(100vw - 10px);
+}
+
+.td table, .td tr, .td td {/* <thead>標題 <tbody>內容 */
+  background-color: var(--A019);
+  border: 1px solid var(--A018);
+  padding: 12px;
+  width: 100vw;
   }
 
-thead th {/* <thead>標題 */
+.td thead th {/* <thead>標題 */
   background-color: var(--C001);
 }
 
 /*分頁-公佈欄*/
     .tabs { flex-wrap: wrap; display: block; overflow-x: auto; white-space: nowrap; margin: 15px auto 0; width: 100%; }
-    .tab {flex-wrap: wrap; display: inline-block; padding: 12px 15px; background: var(--A012); color: var(--A001); border-radius: 8px 8px 0 0; cursor: pointer; margin-right: 4px; margin-bottom: 2px; vertical-align: top; }
+    .tab {flex-wrap: wrap; display: inline-block; padding: 12px 17px; background: var(--A012); color: var(--A001); border-radius: 8px 8px 0 0; cursor: pointer; margin-right: 4px; margin-bottom: 2px; vertical-align: top; }
     .tab.active { background: var(--A011); color: var(--A004); }
     .tab-content { background: var(--A012); width: 100%; margin: 0 auto; box-shadow: 0 0 20px var(--A006); border-radius: 0 0 8px 8px; padding-bottom:30px;}
     .my-custom-table { width: 100%;  border-collapse: collapse; margin-top: 0;}
