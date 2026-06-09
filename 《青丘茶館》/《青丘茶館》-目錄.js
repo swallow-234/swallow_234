@@ -14,6 +14,7 @@ const sidebarContent = `
          <li><a onclick="changeIframe('語錄收藏.html')">語錄收藏</a></li>
         
     <h3 style="text-align: center;">《2026》</h3><hr class="a001">
+        <li><a href="https://gemini.google.com/share/9f3ec3ba51da">引導式的盲從</a></li>
         <li><a href="https://www.facebook.com/media/set/?vanity=SwallowRWBY&set=a.36644656955132747">《竺園莊園2026/05/24》</a></li>
         <li><a href="https://www.facebook.com/media/set/?set=a.36582181518046958">《鄒族逐鹿劇場2026/05/24》</a></li>
         <li><a onclick="changeIframe('倉庫/台灣共和國：起源.html')">台灣共和國：起源</a></li>    
