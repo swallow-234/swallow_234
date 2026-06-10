@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>《啊呆小破棧》</title>
   <link href="../A0001.css" rel="stylesheet" />
+  <script src="../嵌入網頁.JS"></script>
   <script src="../左側邊攔.JS"></script>
 </head>
 <body>
@@ -14,31 +15,14 @@
     <h1>《啊呆小破棧》</h1>
     <p>破棧無人問，金靈臺隱侍歸。<br>
     拙帳異聞帖，燕物居擺築巢。</p>
-    <!-- 近期更新內容 -->
-    <div class="column middle">
-        <P><h1>〈近期上架商品...〉</h1><hr class="b003"></P>
-        <ul>
-          <li><a href="https://www.pubu.com.tw/ebook/625307">2025-10-30_《青丘學院》 | Pubu - 電子書自由閱讀、自由出版</a></li>
-          <li><a href="https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%9D%92%E4%B8%98%E5%AD%B8%E9%99%A2">2025-10-30_《青丘學院》</a></li>
-          <li>2025-10-30_《書籍》_電子書_《青丘書館》</li>
-        </ul>
+    <!-- 嵌入網頁區塊 -->
+    <iframe id="myFrame" src="《啊呆小破棧》-範本.html" class="column middle"></iframe>
     </div>
 </div>
 
 <!--左側邊攔-->
 <button class="openbtn" onclick="toggleNav()">☰</button>
-<div id="mySidenav" class="column sidenav W250">  
-    <a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
-    <h1 style="text-align: center;">《小破帳》</h1>
-    <p><ul>
-        <li>玉山銀行(ESUNTWTP)：808</li>
-        <li>戶名：彭楷儒</li>
-        <li>存戶帳號：0691-976-034236</li><hr class="b005">
-    <h3 style="text-align: center;">《書籍》</h3>
-        <li><a>電子書</a></li><hr class="a001">
-        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E5%AD%B8%E9%99%A2%E3%80%8B.pdf">《青丘書館》</a></li>
-      <hr class="a001"></ul></p>
-</div>
-
+  <nav id="mySidenav" class="column sidenav W250"></nav>
+  <script src="《啊呆小破棧》-目錄.js"></script>
 </body>
 </html>
