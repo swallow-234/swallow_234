@@ -6,6 +6,7 @@ const sidebarContent = `
          <li><a href="《青丘茶館》.html">公佈欄</a></li>
          <li><a onclick="changeIframe('《青丘茶館》-範本.html')">當前紀錄</a></li>
          <li><a onclick="changeIframe('關於我.html')">關於我</a></li>
+         <li><a onclick="changeIframe('性癖喜好.html')">性癖喜好</a></li>
          <li><a href="呆呆病院.html">呆呆病院</a></li>
          <li><a href="https://sites.google.com/view/swallow19970824/%E9%A6%96%E9%A0%81">生活紀錄</a></li>
          <li><a href="../［收藏］/音樂收藏.html">音樂收藏</a></li>
