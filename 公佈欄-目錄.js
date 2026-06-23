@@ -37,6 +37,7 @@ const sidebarContent = `
     </ul>
 <ul><h3>工具收藏</h3></ul><hr class="a001">
     <ul>
+    <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E5%B7%A5%E5%85%B7-%E6%99%82%E9%96%93%E8%A8%88%E7%AE%97%E6%A9%9F.html">時間計算機</a></li>
     <li><a href="https://www.blender.org/">blender</a></li>
     <li><a href="https://krita.org/zh-tw/download_zh-tw/krita-desktop_zh-tw/">Krita</a></li>
     <li><a href="https://obsidian.md/">Obsidian</a></li>
@@ -59,6 +60,12 @@ const sidebarContent = `
     <li><a href="https://www.autohotkey.com/">AutoHotkey</a></li>
     <li><a href="https://docs.github.com/en">GitHub Desktop</a></li>
     <li><a href="https://www.aimp.ru/">AIMP</a></li>
+    <hr class="a000">
+    <li><a href="https://refractiveindex.info/">折射率數據庫</a></li>
+    <li><a href="https://pixelandpoly.com/ior.html">折射率值（IOR）-物質係數表</a></li>
+    <li><a href="https://checkme.wordgame.cc/">字畫像產生器</a></li>
+    <li><a href="https://tonedear.com/">音感訓練</a></li>
+    <li><a href="https://www.musictheory.net/exercises">musictheory.net - 練習</a></li>
     </ul>
     <hr class="a001">
 `;

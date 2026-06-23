@@ -50,6 +50,15 @@
             font-size: 1.1rem;
             box-sizing: border-box;
         }
+        /* 抓到 time 輸入框裡面的時鐘圖示 */
+        input[type="time"]::-webkit-calendar-picker-indicator {
+            font-size: 1.3rem;   /* 🌟 讓時鐘圖示直接變大 */
+            cursor: pointer;     /* 🌟 滑鼠移上去時，會變成點擊的手指符號 */
+            background-color: #8E7CC3; /* 加上主題色背景 */
+            padding: 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            }
         .btn-group {
             display: flex;
             gap: 10px;
