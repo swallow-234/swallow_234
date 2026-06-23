@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>時間計算機</title>
+    <style>
+        /* 使用你喜歡的暗黑模式高質感風格 */
+        body {
+            background-color: #0d0d0d;
+            color: #dddddd;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .calculator-box {
+            background: #15171c;
+            border: 1px solid #262930;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            color: #E69138; /* 點綴橘黃色 */
+            margin-top: 0;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        /* 時間輸入框樣式 */
+        input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            background: #22252d;
+            border: 1px solid #3a3f4d;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .btn-add {
+            background: #E69138;
+            color: #000;
+        }
+        .btn-add:hover { background: #ffaa4d; }
+        .btn-sub {
+            background: #3a3f4d;
+            color: #fff;
+        }
+        .btn-sub:hover { background: #4e5569; }
+        
+        /* 結果顯示區 */
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(230, 145, 56, 0.1);
+            border-left: 4px solid #E69138;
+            border-radius: 4px;
+            display: none; /* 預設隱藏 */
+        }
+        .result-text {
+            font-size: 1.3rem;
+            color: #fff;
+            margin: 0;
+            font-weight: bold;
+        }
+        .formula-text {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            margin: 5px 0 0 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-box">
+    <h2>時間計算機</h2>
+    <P style="text-align: center;">若為負數，代表跨日前一天。</P>
+    
+    <div class="input-group">
+        <label>第一個時間 (時間 A)</label>
+        <input type="time" id="time1" value="00:00">
+    </div>
+    
+    <div class="input-group">
+        <label>第二個時間 (時間 B)</label>
+        <input type="time" id="time2" value="00:00">
+    </div>
+    
+    <div class="btn-group">
+        <button class="btn-add" onclick="calculateTime('add')">＋ 相加</button>
+        <button class="btn-sub" onclick="calculateTime('sub')">－ 相減</button>
+    </div>
+    
+    <div class="result-box" id="resultBlock">
+        <p class="result-text" id="resultText">00:00</p>
+        <p class="formula-text" id="formulaText">00:00 + 00:00</p>
+    </div>
+</div>
+
+<script>
+// 核心計算功能
+function calculateTime(operator) {
+    // 1. 透過 document 總管抓到使用者輸入的「字串」(格式為 "HH:MM")
+    const t1Value = document.getElementById('time1').value;
+    const t2Value = document.getElementById('time2').value;
+    
+    // 防呆：如果使用者沒填時間就中斷
+    if (!t1Value || !t2Value) {
+        alert('請輸入完整的兩個時間！');
+        return;
+    }
+    
+    // 2. 將 "時:分" 拆開並轉換成「總分鐘數」
+    const minutes1 = timeToMinutes(t1Value);
+    const minutes2 = timeToMinutes(t2Value);
+    
+    // 3. 根據點擊的按鈕（add 或 sub）進行計算
+    let totalMinutes = 0;
+    let operatorSymbol = '';
+    
+    if (operator === 'add') {
+        totalMinutes = minutes1 + minutes2;
+        operatorSymbol = '＋';
+    } else if (operator === 'sub') {
+        totalMinutes = minutes1 - minutes2;
+        operatorSymbol = '－';
+    }
+    
+    // 處理相減變成負數的情況（例如：補滿 24 小時循環，或者允許顯示負號）
+    // 這裡採用標準時差處理：若為負數，代表跨日前一天，加上 24 小時（1440分鐘）
+    if (totalMinutes < 0) {
+        totalMinutes += 1440; 
+    }
+    
+    // 4. 將計算完的「總分鐘數」再換算回 "時:分" 的字串
+    const resultTimeStr = minutesToTime(totalMinutes);
+    
+    // 5. 將結果顯示在網頁畫面上
+    document.getElementById('resultText').innerText = `＝ ${resultTimeStr}`;
+    document.getElementById('formulaText').innerText = `${t1Value} ${operatorSymbol} ${t2Value}`;
+    document.getElementById('resultBlock').style.display = 'block'; // 讓結果區塊顯現
+}
+
+// 工具功能 A：把 "15:30" 變成 15 * 60 + 30 = 930 分鐘
+function timeToMinutes(timeStr) {
+    const splitTime = timeStr.split(':'); // 依照冒號拆成字串陣列 ["15", "30"]
+    const hours = Number(splitTime[0]);   // 轉成 Number 數字
+    const minutes = Number(splitTime[1]); // 轉成 Number 數字
+    return (hours * 60) + minutes;        // 算出總分鐘
+}
+
+// 工具功能 B：把 1290 分鐘 變成 "21:30"
+function minutesToTime(totalMinutes) {
+    // 超過 24 小時（1440 分鐘）的話，用 % 取餘數讓它維持在 24 小時制內
+    const finalMinutes = totalMinutes % 1440;
+    
+    // 使用除法 / 算出小時，並用 Math.floor 去除小數點
+    let hours = Math.floor(finalMinutes / 60);
+    // 使用取餘數 % 算出剩下的小朋友分鐘
+    let minutes = finalMinutes % 60;
+    
+    // 補零修正：如果數字小於 10 (例如 5)，把它變成 "05"，畫面才好看
+    if (hours < 10) hours = '0' + hours;
+    if (minutes < 10) minutes = '0' + minutes;
+    
+    return `${hours}:${minutes}`;
+}
+</script>
+
+</body>
+</html>
