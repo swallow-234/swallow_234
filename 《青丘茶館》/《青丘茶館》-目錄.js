@@ -29,7 +29,10 @@ const sidebarContent = `
         <li><a onclick="changeIframe('倉庫/碎碎念-2025年.html')">碎碎念-2025年</a></li>
         <li><a href="https://gemini.google.com/share/39ee3b6b61df">紫薇聖人：預言中的救世主</a></li>
           <h3 style="text-align: center;">《2017》</h3><hr class="a001">
-        <li><a onclick="changeIframe('https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E5%80%89%E5%BA%AB/2017%E5%B9%B403%E6%9C%88%E6%94%B6%E8%97%8F%E8%AA%9E%E9%8C%84-1.html')">2017年03月收藏語錄-1</a></li>
+        <li><a onclick="changeIframe('倉庫/2017年03月收藏語錄-1.html')">2017年03月收藏語錄-1</a></li>
+          <h3 style="text-align: center;">《過往紀錄》</h3><hr class="a001">
+        <li><a onclick="changeIframe('倉庫/碎碎念-過往紀錄.html')">過往紀錄</a></li>
+        <li><a onclick="changeIframe('倉庫/碎碎念-笨.html')">笨</a></li>
 </ul><hr class="a001">
 `;
 

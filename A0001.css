@@ -10,6 +10,8 @@
 /*顏色 var(--A002)*/
   :root {/*~23*/
       --A001: #E69138;/*橘色*/
+      --A001A: #f0883e;/*橘色*/
+      --A001B: #ef6916;/*深橘色*/
       --C001: rgba(230, 145, 56, 0.15);/* 透明橘色 */
       --C001A: rgba(230, 145, 56, 0.3);/* 透明橘色 */
       --A002: #8E7CC3;/*紫色*/
@@ -17,14 +19,23 @@
       --A003: #CC0000;/*紅色*/
       --A004: #F1C232;/*黃色*/
       --A005: #6AA84F;/*綠色*/
+      --A005A: rgb(124, 179, 118);/*綠色*/
       --A006: #76A5AF;/*青色*/
       --C006: rgba(0, 255, 204, 0.2); /* 透明青 */
       --B006: #00ffcc;/*青色*/
       --A007: #3C78D8;/*藍色*/
+      --B007: #c9d1d9;/*白藍色*/
+      --B007A: #3C78D8;/*亮藍色*/
+      --A007A: #161b22;/*灰藍色*/
+      --A007B: #30363d;/*淺灰藍色*/
+      --A007C: #21262d;/*淺淺灰藍色*/
       --A008: #C27BA0;/*粉色*/
+      --A009A: #e2e8f0;/*灰色*/
       --A009: #B7B7B7;/*灰色*/
+      --A009A: #9d9d9d;/*淡灰色*/
       --A010: #777777;/*灰白色*/
       --A011: #666666;/*淺灰色*/
+      --A021A: #999;/*灰色*/
       --A021: #444;/*灰色*/
       --A012: #333;/*灰色*/
       --A013: #111;/*深灰色*/
@@ -907,3 +918,97 @@
   }
 
 /*-------------------------*/
+
+/* 《呆呆教授》 */
+  .container { /* 留 */
+      max-width: 1200px;
+      margin: 0 auto;
+  }
+  /* 呆呆教授區塊 */
+  .professor-box {
+      background: var(--A007A);
+      border: 1px solid var(--A018);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+  }
+  #professor-status {
+      font-size: 1.5rem;
+      color: var(--A001A);
+      font-weight: bold;
+      margin: 0;
+      transition: color 0.3s;
+  }
+
+  /* 搜尋與篩選列 */
+  .filter-bar1 {
+      background: var(--A007A);
+      border: 1px solid var(--A018);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+  }
+  .filter-bar1 input, .filter-bar1 select {
+      background: var(--A007C);
+      border: 1px solid var(--A007B);
+      color: var(--B007);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+  }
+  .filter-bar1 input:focus, .filter-bar1 select:focus {
+      border-color: var(--B018);
+      outline: none;
+  }
+  .filter-bar1 input { flex: 1; min-width: 150px; }
+
+  /* 表格通用設定 */
+  .table-section {
+      margin-bottom: 10px;
+  }
+  .table-section h3 {
+      color: var(--A016);
+      margin-top: 0;
+      border-left: 4px solid var(--A016);
+      padding-left: 10px;
+  }
+  table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--A007A);
+      border: 1px solid var(--A018);
+  }
+  th, td {
+      padding: 10px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--C001A);
+  }
+  th {
+      background-color: var(--A007C);
+      color: var(--A001A);
+      font-weight: bold;
+  }
+  tr:hover {
+  background-color: var(--C001);
+  }
+
+  /* 超連結樣式 */
+  table a {
+      color: var(--A005A);
+      text-decoration: none;
+  }
+  table a:hover { text-decoration: underline; }
+
+  /* 稀有度標籤顏色 */
+  .rare-傳奇 { color: var(--A001B); font-weight: bold; }
+  .rare-稀有 { color: var(--A004); }
+  .rare-魔法 { color: var(--A007); }
+  .rare-一般 { color: var(--A009A); }
+
+  /* 控制隱藏與顯示的 Class */
+  .hidden { display: none !important; }
