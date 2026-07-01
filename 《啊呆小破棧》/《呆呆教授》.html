@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《呆呆教授》</title>
+    <link href="../A0001.css" rel="stylesheet" />
+    <script src="《呆呆教授》-搜尋.js"></script>
+    <script src="《呆呆教授》-搜尋 -資料庫.js"></script>
+    <style>
+        /* 暗黑高質感風格 */
+        body {
+            padding: 20px; /* 留 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="professor-box">
+        <p id="professor-status">《呆呆教授》經年累月發呆的成果．．．</p>
+    </div>
+
+    <div class="filter-bar1">
+        <input type="text" id="searchInput" placeholder="搜尋" onkeyup="filterData()">
+        
+        <select id="areaFilter" onchange="updateCategories()">
+            <option value="">系列勢力</option>
+            <option value="《永夜暗夜》">《永夜暗夜》</option>
+            <option value="《青丘茶館》">《青丘茶館》</option>
+            <option value="《燕侍》">《燕侍》</option>
+            <option value="《聖光教教主》">《聖光教教主》</option>
+        </select>
+        
+        <select id="catFilter" onchange="filterData()">
+            <option value="">主題</option>
+            <option value="《修道院》修室">《修道院》修室</option>
+            <option value="《修道院》修真">《修道院》修真</option>
+            <option value="《修道院》修道">《修道院》修道</option>
+            <option value="《修道院》修體">《修道院》修體</option>
+            <option value="《劇本-講解》">《劇本-講解》</option>
+            <option value="《商學院》">《商學院》</option>
+            <option value="《建築學》">《建築學》</option>
+            <option value="《戰爭學院》">《戰爭學院》</option>
+            <option value="《法學院》">《法學院》</option>
+            <option value="《社會學院》">《社會學院》</option>
+            <option value="《禁忌》">《禁忌》</option>
+            <option value="《科博館》">《科博館》</option>
+            <option value="《數學館》">《數學館》</option>
+            <option value="《繪圖-講解》">《繪圖-講解》</option>
+            <option value="《語言研究院》">《語言研究院》</option>
+            <option value="《醫學院》">《醫學院》</option>
+            <option value="《青丘事務所》">《青丘事務所》</option>
+            <option value="《青丘書館》">《青丘書館》</option>
+            <option value="《音樂-講解》">《音樂-講解》</option>
+            <option value="吟遊詩章-圓桌會議">吟遊詩章-圓桌會議</option>
+            <option value="《虛擬人生》">《虛擬人生》</option>
+            <option value="《遺跡先遣隊》">《遺跡先遣隊》</option>
+            <option value="《青丘之燕》">《青丘之燕》</option>
+            <option value="簡介">簡介</option>
+            <option value="《2017》">《2017》</option>
+            <option value="《2025》">《2025》</option>
+            <option value="《2026》">《2026》</option>
+            <option value="《過往紀錄》">《過往紀錄》</option>
+        </select>
+        
+        <select id="rarityFilter" onchange="filterData()">
+            <option value="">稀有度</option>
+            <option value="傳奇">傳奇</option>
+            <option value="稀有">稀有</option>
+            <option value="魔法">魔法</option>
+            <option value="一般">一般</option>
+        </select>
+        
+        <select id="prefixFilter" onchange="filterData()">
+            <option value="">前綴</option>
+            <option value=""></option>
+            <option value=""></option>
+        </select>
+        
+        <select id="suffixFilter" onchange="filterData()">
+            <option value="">後綴</option>
+            <option value=""></option>
+            <option value=""></option>
+        </select>
+    </div>
+
+    <div id="section-table2" class="table-section">
+        <h3>《呆呆編年史》：動態更新調整．．．</h3>
+        <table class="tt">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>章節</th>
+                    <th>系列勢力</th>
+                    <th>主題</th>
+                    <th>標題</th>
+                    <th>稀有度</th>
+                    <th>前綴</th>
+                    <th>後綴</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">輿圖</a></td>
+                    <td>《聖光教教主》</td>
+                    <td>基底</td>
+                    <td>裝備</td>
+                    <td class="rare-傳奇">傳奇</td>
+                    <td>關聯性的</td>
+                    <td>之症狀/改善</td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">輿圖</a></td>
+                    <td>《燕侍》</td>
+                    <td>基底</td>
+                    <td>裝備</td>
+                    <td class="rare-魔法">魔法</td>
+                    <td>關聯性的</td>
+                    <td>之症狀/改善</td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">輿圖</a></td>
+                    <td>《永夜暗夜》</td>
+                    <td>基底</td>
+                    <td>裝備</td>
+                    <td class="rare-稀有">稀有</td>
+                    <td>關聯性的</td>
+                    <td>之症狀/改善</td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">輿圖</a></td>
+                    <td>《青丘茶館》</td>
+                    <td>基底</td>
+                    <td>裝備</td>
+                    <td class="rare-一般">一般</td>
+                    <td>關聯性的</td>
+                    <td>之症狀/改善</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="section-search-results" class="table-section hidden">
+        <h3>搜尋結果符合的資料</h3>
+        <table class="tt">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>路徑</th>
+                    <th>系列勢力</th>
+                    <th>主題</th>
+                    <th>標題</th>
+                    <th>稀有度</th>
+                    <th>前綴</th>
+                    <th>後綴</th>
+                </tr>
+            </thead>
+            <tbody id="results-body">
+                </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -977,32 +977,33 @@
       border-left: 4px solid var(--A016);
       padding-left: 10px;
   }
-  table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--A007A);
-      border: 1px solid var(--A018);
-  }
-  th, td {
-      padding: 10px 10px;
-      text-align: left;
-      border-bottom: 1px solid var(--C001A);
-  }
-  th {
-      background-color: var(--A007C);
-      color: var(--A001A);
-      font-weight: bold;
-  }
-  tr:hover {
-  background-color: var(--C001);
-  }
+  .tt {/* table */
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--A007A);
+        border: 1px solid var(--A018);
+        color: var(--B007);
+    th, td {
+        padding: 10px 10px;
+        text-align: left;
+        border-bottom: 1px solid var(--C001A);
+    }
+    th {
+        background-color: var(--A007C);
+        color: var(--A001A);
+        font-weight: bold;
+    }
+    tr:hover {
+    background-color: var(--C001);
+    }
 
-  /* 超連結樣式 */
-  table a {
-      color: var(--A005A);
-      text-decoration: none;
+    /* 超連結樣式 */
+    a {
+        color: var(--A005A);
+        text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
   }
-  table a:hover { text-decoration: underline; }
 
   /* 稀有度標籤顏色 */
   .rare-傳奇 { color: var(--A001B); font-weight: bold; }

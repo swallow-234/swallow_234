@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../A0001.css" rel="stylesheet" />
     <title>時間計算機</title>
     <style>
         /* 使用你喜歡的暗黑模式高質感風格 */
@@ -132,8 +133,11 @@
         <p class="result-text" id="resultText">00:00</p>
         <p class="formula-text" id="formulaText">00:00 + 00:00</p>
     </div>
+<p>時間計算小技巧<br>
+1.先將「時數」轉換成「分數」。ｎ×60<br>
+2.再將「分數」進行總「加減」。<br>
+3.結果 「分數」在÷60= n小時m分鐘。</p>
 </div>
-
 <script>
 // 核心計算功能
 function calculateTime(operator) {
