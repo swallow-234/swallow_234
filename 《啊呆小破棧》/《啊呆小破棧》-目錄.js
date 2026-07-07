@@ -10,7 +10,7 @@ const sidebarContent = `
     <ul>
          <li><a href="《啊呆小破棧》.html">公佈欄</a></li>
          <li><a onclick="changeIframe('《啊呆小破棧》-範本.html')">近期上架</a></li>
-         <li><a onclick="changeIframe('《呆呆教授》.html')">呆呆教授</a>正在發呆中．．．</li>
+         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E5%91%86%E5%91%86%E6%95%99%E6%8E%88%E3%80%8B.html">呆呆教授</a>正在發呆中．．．</li>
          <li><a onclick="changeIframe('《啊呆小破棧》-文字宣傳.html')">呆呆宣傳</a></li>
          <li><a href="https://discord.gg/zVK75Uc2EF">呆呆廣場</a></li>
     <h3 style="text-align: center;">《書籍》</h3>
