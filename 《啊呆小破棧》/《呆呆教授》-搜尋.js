@@ -54,7 +54,7 @@ function filterData() {
         secResults.classList.add('hidden');
     } else {
         // 【搜尋/篩選進行中狀態】
-        profStatus.innerText = "呆呆叫！";
+        profStatus.innerText = "呆呆咆叫！";
         profStatus.style.color = "#ff453a"; // 叫的時候變紅色字！
         
         // 隱藏表格2，顯示結果表格 (表格1 保留或隱藏可依個人喜好，這裡依規範顯示結果表並隱藏表2)
@@ -70,12 +70,12 @@ function filterData() {
                 item.suffix.toLowerCase().includes(keyword) ||
                 item.path.toLowerCase().includes(keyword);
 
-            // 下拉選單精準篩選
-            const matchesArea = (area === "" || item.area === area);
-            const matchesCat = (cat === "" || item.category === cat);
-            const matchesRarity = (rarity === "" || item.rarity === rarity);
-            const matchesPrefix = (prefix === "" || item.prefix === prefix);
-            const matchesSuffix = (suffix === "" || item.suffix === suffix);
+            // 下拉選單/欄位模糊篩選（只要包含關鍵字就顯示）
+            const matchesArea = (area === "" || item.area.toLowerCase().includes(area.toLowerCase()));
+            const matchesCat = (cat === "" || item.category.toLowerCase().includes(cat.toLowerCase()));
+            const matchesRarity = (rarity === "" || item.rarity.toLowerCase().includes(rarity.toLowerCase()));
+            const matchesPrefix = (prefix === "" || item.prefix.toLowerCase().includes(prefix.toLowerCase()));
+            const matchesSuffix = (suffix === "" || item.suffix.toLowerCase().includes(suffix.toLowerCase()));
 
             // 所有條件必須同時滿足 (&&)
             return matchesKeyword && matchesArea && matchesCat && matchesRarity && matchesPrefix && matchesSuffix;
