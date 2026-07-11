@@ -17,7 +17,7 @@ const sidebarContent = `
         <li><a onclick="changeIframe('《呆呆教授》-呆呆宣傳.html')">呆呆宣傳</a></li>
         <li><a href="https://discord.gg/JjeDbxvtSE">呆呆廣場</a></li>
     <hr class="a001"><h3 style="text-align: center;">《鼠鼠戰團》</h3>
-        <li><a href="">就是鼠鼠</a>正在動動鼠．．．</li>
+        <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E9%BC%A0%E9%BC%A0%E6%88%B0%E5%9C%98%E3%80%8B.html">就是鼠鼠</a>正在動動鼠．．．</li>
         <li><a onclick="changeIframe('《鼠鼠戰團》-鼠鼠號令.html')">鼠鼠號令</a></li>
         <li><a href="https://discord.gg/Tg4AVDjc7f">鼠鼠公會</a></li>
     <hr class="a001"><h3 style="text-align: center;">《書籍》</h3>
