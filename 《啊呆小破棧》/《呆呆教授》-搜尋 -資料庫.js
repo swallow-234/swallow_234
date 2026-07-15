@@ -22,6 +22,7 @@ const allCategories = [
 //不屬於上述內容，則為「呆呆叫」。
 //可以複選。
 const workData = [
+    { date: '2026-07-15', path: '⛩︎', pathUrl: 'https://gemini.google.com/share/9712e94b6021', area: ' 《青丘茶館》', category: ' 《2026》', title: ' 呆呆教授', rarity: ' 稀有', prefix: ' 編年史', suffix: ' 呆呆叫/' },
     { date: '2026-07-15', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E6%84%9A%E5%85%AC%E7%A7%BB%E5%B1%B1', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 階級複製', rarity: ' 稀有', prefix: ' 行為模式/教導篇/救世篇/教育篇/', suffix: ' 教育/手機' },
     { date: '2026-07-15', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E6%84%9A%E5%85%AC%E7%A7%BB%E5%B1%B1', area: ' 《永夜暗夜》', category: ' 《戰爭學院》', title: ' 愚公移山', rarity: ' 傳奇', prefix: ' 微光碎星/官商勾結，淘金浪潮/彌勒之道/', suffix: ' 戰鬥/規劃佈局/保護機制' },
     { date: '2026-05-13', path: '⛩︎', pathUrl: 'https://sites.google.com/view/formosa-taiwan/%E5%9C%93%E6%A1%8C%E6%9C%83%E8%AD%B0/%E8%AD%B0%E9%A1%8C%E5%85%A8%E6%B0%91%E5%81%A5%E4%BF%9D%E4%B9%8B%E6%BF%AB%E7%94%A8%E5%95%8F%E9%A1%8C', area: ' 《永夜暗夜》', category: ' 吟遊詩章-圓桌會議', title: ' [議題]全民健保之濫用問題', rarity: ' 魔法', prefix: ' ', suffix: ' 經濟/環境/醫療' },
