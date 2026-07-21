@@ -1,166 +1,177 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>《公佈欄》</title>
-  <link href="A0001.css" rel="stylesheet" />
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>        
+    <link href="A0001.css" rel="stylesheet" />
+    <script src="公佈欄-搜尋.js"></script>
+    <script src="公佈欄-搜尋 -資料庫.js"></script>
+    <style>
+        /* 暗黑高質感風格 */
+        body {
+            padding: 20px; /* 留 */
+        }
+    </style>
+</head>
+<body>
 
-    </head>
-    <body>
-<!--內文-->
-<div id="app">
-    <tabs></tabs>
-</div>
-    <script>
- const PAGE_ORDER = [
-    "",
-    "POE流亡暗道",
-    "Fate/Grand Order",
-    "這是什麼酷酷的東西",
-    "休閒牧場",
-    "ACG同好會",
-    "體育運動",
-    "棋類技藝",
-    "Vtuber/Vup收藏",
-    "台灣[Taiwan]",
-    "吹哨者",
-    "生活日常",
-    "裝扮造型風格",
-    "blender",
-    "繪圖",
-    "劇本",
-    "影片/攝影編輯",
-    "人生哲學",
-    "社會學",
-    "開創者",
-    "戀愛研究院",
-    "法律相關",
-    "食譜",
-    "醫學",
-    "健身|養身|武術",
-    "樂理知識",
-    "音樂收藏",
-    "舞蹈",
-    "科學",
-    "科技",
-    "軍武",
-    "工匠技藝",
-    "語言研究院",
-    "程式語言",
-    "Unity遊戲引擎",
-    "Google相關",
-    "Windows",
-    "軟體硬體應用",
-    "建築學",
-    "風水|玄學|靈異",
-    "生物學",
-    "泛普教育",
-    "防災手冊",
-    "防詐騙宣導",
-    "AI相關",
-    "系列主題",
-    "台灣民眾黨專區",
-  ];
+<div class="container">
+    
+    <div class="professor-box">
+        <p id="professor-status">《公佈欄》</p>
+    </div>
 
-  const 資料庫 = {
-    template: `
-      <div>
-        <div class="tabs">
-          <div
-            v-for="(tab, i) in tabs"
-            :key="tab"
-            class="tab"
-            :class="{active: activeTab === i}"
-            @click="activeTab = i"
-          >{{ tab }}</div>
-        </div>
-        <div class="tab-content">
-          <table v-if="filteredRows.length > 0" class="my-custom-table">
+    <div class="filter-bar1">
+        <input type="text" id="searchInput" placeholder="搜尋" onkeyup="filterData()">
+        
+        <select id="areaFilter" onchange="updateCategories()">
+            <option value=" ">系列勢力</option>
+            <option value=" ">全部</option>
+            <option value="POE流亡暗道">POE流亡暗道</option>
+            <option value="☯東方Project">☯東方Project</option>
+            <option value="藝術學院">藝術學院</option>
+            <option value="休閒牧場">休閒牧場</option>
+            <option value="社會學院">社會學院</option>
+            <option value="人生哲學">人生哲學</option>
+            <option value="生活日常">生活日常</option>
+            <option value="音樂收藏">音樂收藏</option>
+            <option value="程式語言">程式語言</option>
+            <option value="學術領域">學術領域</option>
+            <option value="語言研究院">語言研究院</option>
+            <option value="遊戲製作">遊戲製作</option>
+            <option value="系列主題">系列主題</option>
+            <option value="台灣民眾黨專區">台灣民眾黨專區</option>
+        </select>
+        
+        <select id="catFilter" onchange="filterData()">
+            <option value=" ">主題</option>
+            <option value=" ">全部</option>
+        </select>
+        
+        <select id="rarityFilter" onchange="filterData()">
+            <option value=" ">稀有度</option>
+            <option value=" ">全部</option>
+            <option value="傳奇">傳奇</option>
+            <option value="稀有">稀有</option>
+            <option value="魔法">魔法</option>
+            <option value="一般">一般</option>
+        </select>
+        
+        <select id="prefixFilter" onchange="filterData()">
+            <option value=" ">前綴</option>
+            <option value=" ">全部</option>
+        </select>
+        
+        <select id="suffixFilter" onchange="filterData()">
+            <option value=" ">後綴</option>
+            <option value=" ">全部</option>
+        </select>
+    </div>
+
+    <div id="section-table2" class="table-section">
+        <h3><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84-%E7%AF%84%E6%9C%AC.html">☯</a>《收藏清單》：動態更新調整．．．</h3>
+        <table class="tt">
             <thead>
-              <tr>
-                <th>日期</th>
-                <th>連結</th>
-              </tr>
+                <tr>
+                    <th>更新日期</th>
+                    <th>連結</th>
+                    <th>系列勢力</th>
+                    <th>主題</th>
+                    <th>標題</th>
+                    <th>稀有度</th>
+                    <th>前綴</th>
+                    <th>後綴</th>
+                </tr>
             </thead>
             <tbody>
-              <tr v-for="(row, idx) in filteredRows" :key="idx">
-                <td>{{ row[dateHeader] }}</td>
-                <td class="link-cell">
-                  <a v-if="row[urlHeader] && row[textHeader]" :href="row[urlHeader]" target="_blank" rel="noopener">
-                    <span v-html="row[textHeader]"></span>
-                  </a>
-                  <span v-else>無資料</span>
-                </td>
-              </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B">網址</a></td>
+                    <td>《聖光教教主》</td>
+                    <td>永世今生，</td>
+                    <td>審判將至。</td>
+                    <td class="rare-傳奇">傳奇</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B">網址</a></td>
+                    <td>《燕侍》</td>
+                    <td>吟遊雅致，</td>
+                    <td>幻境之鄉。</td>
+                    <td class="rare-魔法">魔法</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B/%E3%80%8A%E6%B0%B8%E5%A4%9C%E6%9A%97%E5%A4%9C%E3%80%8B.html">網址</a></td>
+                    <td>《永夜暗夜》</td>
+                    <td>國政論是，</td>
+                    <td>時事識讀。</td>
+                    <td class="rare-稀有">稀有</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E8%8C%B6%E9%A4%A8%E3%80%8B.html">網址</a></td>
+                    <td>《青丘茶館》</td>
+                    <td>成長紀錄，</td>
+                    <td>發瘋碎念。</td>
+                    <td class="rare-一般">一般</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B.html">網址</a></td>
+                    <td>《啊呆小破棧》</td>
+                    <td>破棧無人問，金靈臺隱侍歸。</td>
+                    <td>拙帳異聞帖，燕物居擺築巢。</td>
+                    <td class="rare-一般">通貨</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%86%A5%E4%BA%A1%E4%BC%8A%E7%94%B8%E3%80%8B/%E3%80%8A%E5%86%A5%E4%BA%A1%E4%BC%8A%E7%94%B8%E3%80%8B.html">網址</a></td>
+                    <td>《冥亡伊甸》</td>
+                    <td>冒險者，</td>
+                    <td>公會大廳。</td>
+                    <td class="rare-一般">賽季</td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
-          </table>
-          <div v-else style="padding:40px 0; text-align:center;">資料載入中...</div>
-        </div>
-      </div>
-    `,
-    data() {
-      return {
-        rows: [],
-        tabs: [],
-        activeTab: 0,
-        dateHeader: "",
-        urlHeader: "",
-        textHeader: "",
-        pageHeader: ""
-      }
-    },
-    computed: {
-      filteredRows() {
-        if (!this.tabs.length) return [];
-        const tab = this.tabs[this.activeTab];
-        return this.rows.filter(row => (row[this.pageHeader] || '').includes(tab));
-      }
-    },
-        mounted() {
-      // 你的"發佈到網路" CSV 連結
-      const csvUrl = '【數據】資料庫.csv';
-      fetch(csvUrl)
-        .then(res => res.text())
-        .then(csv => {
-          const lines = csv.trim().split('\n');
-          const headers = lines[0].split(',');
-          // 假設A,B,C,D欄依序為「日期,網址,名稱,分頁」
-          this.dateHeader = headers[0];
-          this.urlHeader = headers[1];
-          this.textHeader = headers[2];
-          this.pageHeader = headers[3];
-          const rows = lines.slice(1).map(line => {
-            const values = [];
-            let curr = '', inQuotes = false;
-            for (let i = 0; i < line.length; i++) {
-              const char = line[i];
-              if (char === '"' && line[i+1] === '"') { curr += '"'; i++; }
-              else if (char === '"') { inQuotes = !inQuotes; }
-              else if (char === ',' && !inQuotes) { values.push(curr); curr = ''; }
-              else { curr += char; }
-            }
-            values.push(curr);
-            const row = {};
-            headers.forEach((h, i) => row[h] = values[i] || '');
-            return row;
-          });
-          this.rows = rows;
-          // 只保留有資料的分頁，且用 includes 判斷
-          this.tabs = PAGE_ORDER.filter(page =>
-            rows.some(row => (row[this.pageHeader] || '').includes(page))
-          );
-        })
-        .catch(err => {
-          console.error('讀取失敗', err);
-        });
-    }
-  }
+        </table>
+        <p>公告：無<BR>
+           備註：無<BR>
+        </p>
+    </div>
 
-  const app = Vue.createApp({});
-  app.component('tabs', 資料庫);
-  app.mount('#app');
-  </script>
-    </body>
+    <div id="section-search-results" class="table-section hidden">
+        <h3>搜尋結果符合的《收藏清單》</h3>
+        <table class="tt">
+            <thead>
+                <tr>
+                    <th>更新日期</th>
+                    <th>☯</th>
+                    <th>系列情勢</th>
+                    <th>主題</th>
+                    <th>標題</th>
+                    <th>稀有度</th>
+                    <th>前綴</th>
+                    <th>後綴</th>
+                </tr>
+            </thead>
+            <tbody id="results-body">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
 </html>
