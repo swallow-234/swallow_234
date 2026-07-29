@@ -780,6 +780,9 @@
   .bb {/*發言人、整理標題*/
       color:var(--A001);
   }
+  .dd {/*總結評論*/
+      color:var(--A006);
+  }
   .cc {/*區塊整理*/
       border-style: solid;
       border-color: var(--A001);
@@ -790,7 +793,7 @@
   p[class="cc"] a[class="bb"] {/*討論整理-標題*/
     background: color-mix(in srgb, var(--A006), transparent 90%);
     display: block;
-    width: 100%;
+    width: 99%;
     padding: 5px 10px; 
   }
 

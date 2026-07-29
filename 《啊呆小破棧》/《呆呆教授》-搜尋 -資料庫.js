@@ -22,6 +22,9 @@ const allCategories = [
 //不屬於上述內容，則為「呆呆叫」。
 //可以複選。
 const workData = [
+    { date: '0000-00-00', path: '⛩︎', pathUrl: 'https://sites.google.com/view/formosa-taiwan/%E5%9C%93%E6%A1%8C%E6%9C%83%E8%AD%B0/%E8%AD%B0%E9%A1%8C%E6%95%99%E8%82%B2%E5%AD%B8%E8%B2%BB%E7%9B%B8%E9%97%9C%E8%AD%B0%E9%A1%8C', area: ' 《永夜暗夜》', category: ' 吟遊詩章-圓桌會議', title: ' [議題]教育學費相關議題', rarity: ' 稀有', prefix: ' ', suffix: ' 教育/經濟' },
+    { date: '2026-07-29', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E8%8F%81%E8%8B%B1%E7%AC%A8%E8%9B%8B', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 菁英笨蛋', rarity: ' 傳奇', prefix: ' 行為模式/', suffix: ' 教育/環境/成本' },
+    { date: '2026-07-29', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%9A%94%E5%B1%B1%E6%89%93%E7%89%9B', area: ' 《永夜暗夜》', category: ' 《商學院》', title: ' 隔山打牛', rarity: ' 稀有', prefix: ' 《不明的過往紀錄－轉職技巧》/', suffix: ' 成本/投資' },
     { date: '2026-07-21', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E5%82%B5%E5%8B%99%E7%AE%A1%E7%90%86', area: ' 《永夜暗夜》', category: ' 《法學院》', title: ' 債務管理', rarity: ' 傳奇', prefix: ' ', suffix: ' 法律/經濟/環境/成本/債務' },
     { date: '2026-07-15', path: '⛩︎', pathUrl: 'https://gemini.google.com/share/9712e94b6021', area: ' 《青丘茶館》', category: ' 《2026》', title: ' 呆呆教授', rarity: ' 稀有', prefix: ' 編年史', suffix: ' 呆呆叫/' },
     { date: '2026-07-15', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E6%84%9A%E5%85%AC%E7%A7%BB%E5%B1%B1', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 階級複製', rarity: ' 稀有', prefix: ' 行為模式/教導篇/救世篇/教育篇/', suffix: ' 教育/手機' },
