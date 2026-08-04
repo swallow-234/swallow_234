@@ -15,6 +15,7 @@ const sidebarContent = `
          <li><a onclick="changeIframe('語錄收藏.html')">語錄收藏</a></li>
         
     <h3 style="text-align: center;">《2026》</h3><hr class="a001">
+        <li><a href="https://share.gemini.google/IqlJqQspW0U1">祈許願望：探討生物死亡與自我救贖</a></li>
         <li><a href="https://gemini.google.com/share/9712e94b6021">呆呆教授</a></li>
         <li><a href="https://gemini.google.com/share/9f3ec3ba51da">引導式的盲從</a></li>
         <li><a href="https://www.facebook.com/media/set/?vanity=SwallowRWBY&set=a.36644656955132747">《竺園莊園2026/05/24》</a></li>
