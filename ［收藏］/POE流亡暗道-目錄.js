@@ -7,7 +7,7 @@ const sidebarContent = `
         <li><a onclick="changeIframe('POE流亡暗道-範本.html')">收藏紀錄</a></li>
         <li><a onclick="changeIframe('倉庫/POE流亡暗道-小技巧.html')">小技巧</a></li>
     <hr class="b005">
-    <details><summary>《導師塔》</summary>
+<details><summary>《導師塔》</summary>
         <li><a href="https://www.youtube.com/@%E6%AD%A3%E7%BE%A9%E9%A4%8A%E8%B2%93%E4%B8%AD/playlists">正義養貓中</a></li>
         <li><a href="https://home.gamer.com.tw/creationDetail.php?sn=5461268">不要使用特殊符號字元</a></li>
         <li><a href="https://www.youtube.com/@%E9%98%BF%E8%8D%89/videos">阿草</a></li>
@@ -26,7 +26,11 @@ const sidebarContent = `
         <li><a href="#"></a></li>
         </details>
 
-    <h3 style="text-align: center;">《POE3.28》</h3><hr class="a001">
+<h3 style="text-align: center;">《POE3.29》</h3><hr class="a001">
+        <p>ID：呆呆咆哮<BR>
+        技能：靈體撕裂</p>
+
+<h3 style="text-align: center;">《POE3.28》</h3><hr class="a001">
         <p>ID：遠古披薩<BR>
         技能：奉獻之路</p>
     <h3 style="text-align: center;">《POE3.26》</h3><hr class="a001">

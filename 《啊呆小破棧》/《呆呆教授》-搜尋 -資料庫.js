@@ -22,6 +22,8 @@ const allCategories = [
 //不屬於上述內容，則為「呆呆叫」。
 //可以複選。
 const workData = [
+    { date: '2026-08-12', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E8%81%96%E5%AC%B0%E7%B5%90%E7%B7%A3', area: ' 《永夜暗夜》', category: ' 《科博館》', title: ' 聖嬰結緣', rarity: ' 傳奇', prefix: ' 氣流篇/', suffix: ' 環境/成本' },
+    { date: '2026-08-12', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E7%8A%AF%E7%BD%AA%E7%AF%87', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 犯罪篇', rarity: ' 魔法', prefix: ' 黑道篇/', suffix: ' 教育/' },
     { date: '2026-08-05', path: '⛩︎', pathUrl: 'https://share.gemini.google/IqlJqQspW0U1', area: ' 《青丘茶館》', category: ' 《2026》', title: ' 祈許願望：探討生物死亡與自我救贖', rarity: ' 稀有', prefix: ' 祈許願望/', suffix: ' 教育/' },
     { date: '2026-08-05', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E7%A5%88%E8%A8%B1%E9%A1%98%E6%9C%9B', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 祈許願望', rarity: ' 稀有', prefix: ' 祈許願望：探討生物死亡與自我救贖/', suffix: ' 教育/' },
     { date: '2026-08-05', path: '⛩︎', pathUrl: 'https://sites.google.com/view/formosa-taiwan/%E5%9C%93%E6%A1%8C%E6%9C%83%E8%AD%B0/%E8%AD%B0%E9%A1%8C%E6%B0%91%E7%9C%BE%E5%85%AC%E6%9C%89%E9%A0%98%E5%9F%9F%E8%87%AA%E4%B8%BB%E6%80%A7%E7%B6%AD%E8%AD%B7', area: ' 《永夜暗夜》', category: ' 吟遊詩章-圓桌會議', title: ' [議題]民眾公有領域自主性維護。', rarity: ' 魔法', prefix: ' ', suffix: ' 環境/成本' },
