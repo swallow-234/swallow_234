@@ -22,6 +22,10 @@ const allCategories = [
 //不屬於上述內容，則為「呆呆叫」。
 //可以複選。
 const workData = [
+    { date: '2026-08-19', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%87%91%E8%9E%8D%E7%AF%87', area: ' 《永夜暗夜》', category: ' 《商學院》', title: ' 金融篇', rarity: ' 傳奇', prefix: ' 組合式結構主義篇/', suffix: ' 經濟/教育/文化/' },
+    { date: '2026-08-19', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%81%8A%E6%88%B2%E4%BA%BA%E7%94%9F', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 遊戲人生', rarity: ' 稀有', prefix: ' 比喻篇/動力篇/行為模式/', suffix: ' 教育/' },
+    { date: '2026-08-19', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E8%B2%AC%E4%BB%BB%E5%BF%83', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 責任心', rarity: ' 傳奇', prefix: ' 《2026年08月02日－新手跟老手的思考有什麼差異啊》/', suffix: ' 教育/' },
+    { date: '2026-08-19', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E6%96%87%E5%AD%B8%E7%AF%87', area: ' 《永夜暗夜》', category: ' 《語言研究院》/《青丘書館》', title: ' 文學篇', rarity: ' 稀有', prefix: ' ', suffix: ' 教育/職場' },
     { date: '2026-08-12', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E8%81%96%E5%AC%B0%E7%B5%90%E7%B7%A3', area: ' 《永夜暗夜》', category: ' 《科博館》', title: ' 聖嬰結緣', rarity: ' 傳奇', prefix: ' 氣流篇/', suffix: ' 環境/成本' },
     { date: '2026-08-12', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E7%8A%AF%E7%BD%AA%E7%AF%87', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 犯罪篇', rarity: ' 魔法', prefix: ' 黑道篇/', suffix: ' 教育/' },
     { date: '2026-08-05', path: '⛩︎', pathUrl: 'https://share.gemini.google/IqlJqQspW0U1', area: ' 《青丘茶館》', category: ' 《2026》', title: ' 祈許願望：探討生物死亡與自我救贖', rarity: ' 稀有', prefix: ' 祈許願望/', suffix: ' 教育/' },
