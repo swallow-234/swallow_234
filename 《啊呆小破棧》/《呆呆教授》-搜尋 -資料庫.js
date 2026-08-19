@@ -22,6 +22,7 @@ const allCategories = [
 //不屬於上述內容，則為「呆呆叫」。
 //可以複選。
 const workData = [
+    { date: '2026-08-19', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E8%BF%BD%E6%B1%82%E7%AF%87', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 追求篇', rarity: ' 傳奇', prefix: ' ', suffix: ' 情感/' },
     { date: '2026-08-19', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%87%91%E8%9E%8D%E7%AF%87', area: ' 《永夜暗夜》', category: ' 《商學院》', title: ' 金融篇', rarity: ' 傳奇', prefix: ' 組合式結構主義篇/', suffix: ' 經濟/教育/文化/' },
     { date: '2026-08-19', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E9%81%8A%E6%88%B2%E4%BA%BA%E7%94%9F', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 遊戲人生', rarity: ' 稀有', prefix: ' 比喻篇/動力篇/行為模式/', suffix: ' 教育/' },
     { date: '2026-08-19', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E8%B2%AC%E4%BB%BB%E5%BF%83', area: ' 《永夜暗夜》', category: ' 《青丘書館》', title: ' 責任心', rarity: ' 傳奇', prefix: ' 《2026年08月02日－新手跟老手的思考有什麼差異啊》/', suffix: ' 教育/' },
