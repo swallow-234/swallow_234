@@ -339,8 +339,8 @@ const sidebarContent = `
           </details>
       <h3 style="text-align: center;">《專案整理》</h3><hr class="a001">
           <details><summary>整理清單</summary>
-          <li><a onclick="changeIframe('網址')">[更新日期]專案名稱...</a></li>
-          <li><a onclick="changeIframe('倉庫/清單/專案整理-萊克多巴胺.html')">[2026/01/30]萊克多巴胺</a></li>
+          <li><a onclick="changeIframe('網址')">專案名稱...</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/專案整理-萊克多巴胺.html')">萊克多巴胺</a></li>
           <li><a onclick="changeIframe('')">.</a></li>
           </details>
   </ul><hr class="a001">

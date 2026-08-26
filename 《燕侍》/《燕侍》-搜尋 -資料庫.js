@@ -14,6 +14,8 @@ const allCategories = [
 ];
 
 const workData = [
+    { date: '2026-08-26', path: '⛩︎', pathUrl: 'https://swallow-234.github.io/swallow_234/《燕侍》/倉庫/故事章節-_《鼠托邦》_鳩佔鵲巢.html', area: ' 《鼠托邦》', category: ' 作品展示', title: ' 鳩佔鵲巢', rarity: ' 魔法', prefix: ' 田間一隻鼠', suffix: ' 小說/' },
+    { date: '2026-08-26', path: '⛩︎', pathUrl: 'https://swallow-234.github.io/swallow_234/《燕侍》/倉庫/故事章節-_《鼠托邦》_田間一隻鼠.html', area: ' 《鼠托邦》', category: ' 作品展示', title: ' 田間一隻鼠', rarity: ' 一般', prefix: ' ', suffix: ' 小說/' },
     { date: '2018-11-01', path: '⛩︎', pathUrl: 'https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E5%80%89%E5%BA%AB/%E6%95%85%E4%BA%8B%E7%AB%A0%E7%AF%80-_%E3%80%8A%E8%99%9B%E6%93%AC%E4%BA%BA%E7%94%9F%E3%80%8B_%E5%88%9D%E5%A7%8B.html', area: ' 《虛擬人生》', category: ' 作品展示', title: ' 初始', rarity: ' 一般', prefix: ' ', suffix: ' 動畫/圖文/模型/繪圖' },
     { date: '2022-03-27', path: '⛩︎', pathUrl: 'https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E5%80%89%E5%BA%AB/%E4%BC%91%E9%96%92%E6%97%A5%E5%B8%B8-%E6%95%A3%E6%96%87-2021_11_19.html', area: ' 【其他彙整】', category: ' 休閒日常', title: ' 散文-2021_11_19', rarity: ' 魔法', prefix: ' ', suffix: ' 散文/漫畫' },
     { date: '2023-07-04', path: '⛩︎', pathUrl: 'https://swallow-234.github.io/swallow_234/%E3%80%8A%E7%87%95%E4%BE%8D%E3%80%8B/%E5%80%89%E5%BA%AB/%E4%BC%91%E9%96%92%E6%97%A5%E5%B8%B8-%E8%9A%8A%E5%AD%90.html', area: ' 【其他彙整】', category: ' 休閒日常', title: ' 蚊子', rarity: ' 一般', prefix: ' ', suffix: ' 散文' },

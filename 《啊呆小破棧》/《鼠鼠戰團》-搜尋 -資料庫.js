@@ -1,5 +1,6 @@
 // 1. 【核心對照表】定義哪個勢力擁有哪幾個主題
 const categoryMap = {
+    "《鼠鼠戰團》": ["《審判日誌》", "《公眾人物》", "《主管機關》", "《專案整理》",],
     "《國際》": ["戰爭", "天災", "疫情",],
     "《國內外》": [ "盟邦", "合約", "進出口", "衝突", "賽事", "移工",],
     "《國內》": [ "組織團體","中央政府", "地方政府", "臺北市", "新北市", "桃園市", "臺中市", "臺南市", "高雄市", "基隆市", "新竹市", "嘉義市", "新竹縣", "苗栗縣", "彰化縣", "南投縣", "雲林縣", "嘉義縣", "屏東縣", "宜蘭縣", "花蓮縣", "臺東縣","澎湖縣","金門縣","連江縣",],
@@ -21,6 +22,21 @@ const allCategories = [
 //經過專案整理，則為「動動鼠」。
 //可以複選。
 const workData = [
+    { date: '2024-09-08', path: '⛨', pathUrl: 'https://sites.google.com/view/swallow-tpp/%E5%B0%8D%E6%8A%97%E7%B6%A0%E8%89%B2%E9%BB%A8%E5%9C%8B-%E6%B0%91%E7%9C%BE%E5%85%A8%E5%9C%8B%E9%96%8B%E8%AC%9B20240908%E4%B8%8A%E8%A1%97/%E5%85%AC%E6%B0%91%E6%80%92%E5%90%BC%E7%AC%AC%E4%B8%80%E7%AB%99-%E5%9C%B0%E9%BB%9E%E5%8F%B0%E5%8C%97%E5%B8%82%E4%B8%AD%E6%AD%A3%E5%8D%80%E6%BF%9F%E5%8D%97%E8%B7%AF%E4%B8%8A-%E6%99%82%E9%96%9398-%E6%97%A51800-2030?authuser=0', area: ' 《國內》', category: ' 組織團體/中央政府', title: ' 📍公民怒吼第一站 地點：台北市中正區濟南路上 時間：9/8 （日）18:00 - 20:30', rarity: ' 重度', prefix: ' 就是鼠', suffix: ' 法治與行政/媒體' },
+    { date: '2024-09-13', path: '⛨', pathUrl: 'https://sites.google.com/view/swallow-tpp/justice%E7%82%BA%E5%8F%B8%E6%B3%95%E6%AD%A3%E7%BE%A9%E7%AB%99%E5%87%BA%E4%BE%86%E5%85%A8%E5%8F%B0%E5%A0%B4%E6%AC%A1/%E6%96%B0%E5%8C%97%E6%96%B0%E8%8E%8A%E9%AB%94%E8%82%B2%E9%A4%A8%E5%A4%96-%E6%96%B0%E5%8C%97%E5%B8%82%E6%96%B0%E8%8E%8A%E5%8D%80%E4%B8%AD%E8%8F%AF%E8%B7%AF%E4%B8%80%E6%AE%B5%E5%85%AC%E5%9C%92%E8%B7%AF%E5%8F%A3?authuser=0', area: ' 《國內》', category: ' 組織團體/中央政府', title: ' 新北新莊體育館外(新北市新莊區中華路一段/公園路口)', rarity: ' 重度', prefix: ' 就是鼠', suffix: ' 法治與行政/媒體' },
+    { date: '2024-09-14', path: '⛨', pathUrl: 'https://sites.google.com/view/swallow-tpp/justice%E7%82%BA%E5%8F%B8%E6%B3%95%E6%AD%A3%E7%BE%A9%E7%AB%99%E5%87%BA%E4%BE%86%E5%85%A8%E5%8F%B0%E5%A0%B4%E6%AC%A1/%E5%98%89%E7%BE%A9%E5%B8%82%E5%8D%97%E9%A0%86%E5%AE%AE-%E5%98%89%E7%BE%A9%E5%B8%82%E6%9D%B1%E5%8D%80%E8%88%88%E6%A5%AD%E6%9D%B1%E8%B7%AF399%E8%99%9F?authuser=0', area: ' 《國內》', category: ' 組織團體/中央政府', title: ' 嘉義市南順宮(嘉義市東區興業東路399號)', rarity: ' 重度', prefix: ' 就是鼠', suffix: ' 法治與行政/媒體' },
+    { date: '2024-09-20', path: '⛨', pathUrl: 'https://sites.google.com/view/swallow-tpp/justice%E7%82%BA%E5%8F%B8%E6%B3%95%E6%AD%A3%E7%BE%A9%E7%AB%99%E5%87%BA%E4%BE%86%E5%85%A8%E5%8F%B0%E5%A0%B4%E6%AC%A1/%E9%9B%86%E7%B5%90%E7%82%BA%E5%8F%B8%E6%B3%95%E6%AD%A3%E7%BE%A9%E7%AB%99%E5%87%BA%E4%BE%86%E9%AB%98%E9%9B%84%E5%8F%B0%E5%8D%97%E5%8F%B0%E4%B8%AD%E5%A0%B4%E6%AC%A1%E6%88%B6%E5%A4%96%E9%96%8B%E8%AC%9B?authuser=0', area: ' 《國內》', category: ' 組織團體/中央政府', title: ' 【集結！為司法正義站出來】高雄、台南、台中場次戶外開講', rarity: ' 重度', prefix: ' 就是鼠', suffix: ' 法治與行政/媒體' },
+    { date: '2024-09-08', path: '⛨', pathUrl: 'https://sites.google.com/view/swallow-tpp/%E5%B0%8D%E6%8A%97%E7%B6%A0%E8%89%B2%E9%BB%A8%E5%9C%8B-%E6%B0%91%E7%9C%BE%E5%85%A8%E5%9C%8B%E9%96%8B%E8%AC%9B20240908%E4%B8%8A%E8%A1%97?authuser=0', area: ' 《國內》', category: ' 組織團體/中央政府', title: ' 【對抗綠色黨國 民眾全國開講】上街！！', rarity: ' 重度', prefix: ' 就是鼠', suffix: ' 法治與行政/媒體' },
+    { date: '2024-10-05', path: '⛨', pathUrl: 'https://sites.google.com/view/swallow-tpp/2024%E5%B9%B410%E6%9C%8805%E6%97%A5-%E9%90%B5%E8%8D%89%E9%9B%86%E7%B5%90?authuser=0', area: ' 《國內》', category: ' 組織團體/中央政府', title: ' 鐵草集結', rarity: ' 重度', prefix: ' 就是鼠', suffix: ' 法治與行政/媒體' },
+    { date: '2026-03-29', path: '⛨', pathUrl: 'https://sites.google.com/view/swallow-tpp/%E5%80%89%E5%BA%AB/-%E6%88%B0%E5%87%BA%E4%BE%86', area: ' 《國內》', category: ' 組織團體/中央政府', title: ' 🔥𝟯𝟮𝟵 戰出來！', rarity: ' 重度', prefix: ' 就是鼠', suffix: ' 法治與行政/媒體' },
+    { date: '2026-07-25', path: '⛨', pathUrl: 'https://sites.google.com/view/swallow-tpp/%E5%80%89%E5%BA%AB/725-%E4%B8%8A%E5%87%B1%E9%81%93-%E8%AD%B7%E9%A3%9F%E5%AE%89', area: ' 《國內》', category: ' 組織團體/中央政府', title: ' 725 上凱道 護食安', rarity: ' 重度', prefix: ' 就是鼠', suffix: ' 社會與民生/食安/毒油' },
+    { date: '', path: '', pathUrl: '', area: ' ', category: ' ', title: '食農教育法', rarity: ' ', prefix: ' 買兇/威脅', suffix: ' ' },
+    { date: '2026-07-11', path: '', pathUrl: '', area: ' 《國內》', category: ' 地方政府/台中市', title: '台中重劃會理事長花15萬買兇！乩童當街毒打地政主任　打到鋁棒斷掉', rarity: ' 中度', prefix: ' 買兇/威脅', suffix: ' 環境與基礎建設/法治與行政/長春/自辦重劃區' },
+    { date: '2026-07-11', path: '', pathUrl: '', area: ' 《國內》', category: ' 地方政府/高雄市', title: '巴威颳強風高雄狀況一堆 11870戶停電、大樓磁磚剝落和號誌桿斷裂', rarity: ' 中度', prefix: ' ', suffix: ' 環境與基礎建設' },
+    { date: '2026-07-10', path: '', pathUrl: '', area: ' 《國內》', category: ' 地方政府/臺南市', title: '台南下營一間養雞場昨晚突然停電，價值超過500萬元的4.6萬隻肉雞全部悶死。', rarity: ' 中度', prefix: ' 無證照/未登記', suffix: ' 環境與基礎建設' },
+    { date: '', path: '', pathUrl: '', area: ' ', category: ' ', title: '基因改造大豆', rarity: ' ', prefix: ' ', suffix: ' ' },
+    { date: '', path: '', pathUrl: '', area: ' ', category: ' ', title: '「特部他林」用於氣喘，孕婦用藥進入到胎兒的腦部裡面，引起神經毒性，造成神經發展與行為問題、精神疾病、認知與運動功能影響、學校表現比較差。', rarity: ' ', prefix: ' ', suffix: ' ' },
+    { date: '', path: '', pathUrl: '', area: ' ', category: ' ', title: '軍方採購單價120元長效期戰備飲水', rarity: ' ', prefix: ' ', suffix: ' ' },
     { date: '', path: '', pathUrl: '', area: ' ', category: ' ', title: '蘇姓前行政院院長祖父向日本人告密有人造反，結果500多人被日本人處死？', rarity: ' ', prefix: ' ', suffix: ' ' },
     { date: '2026-03-27', path: '', pathUrl: '', area: ' 《國內外》', category: ' 移工', title: '印度男高雄街頭「打野食」 「偽娘」遭闖空門強逼口交', rarity: ' 中度', prefix: ' ', suffix: ' 社會與民生' },
     { date: '', path: '', pathUrl: '', area: ' ', category: ' ', title: '三立高鐵照片附註未成年、露三點、道歉、野外露', rarity: ' ', prefix: ' ', suffix: ' ' },
@@ -128,7 +144,7 @@ const workData = [
     { date: '2026-06-05', path: '', pathUrl: '', area: ' 《國內》', category: ' 地方政府/高雄市', title: '國小老師被小四學生戳肛門，反被逼離職', rarity: ' 一般', prefix: ' ', suffix: ' 教育與文化/法治與行政' },
     { date: '2026-06-06', path: '', pathUrl: '', area: ' 《國內》', category: ' 中央政府/地方政府', title: '不是淹水，是積水！', rarity: ' 一般', prefix: ' 自訂義', suffix: ' 環境與基礎建設' },
     { date: '2026-05-14', path: '', pathUrl: '', area: ' 《國內》', category: ' 中央政府/地方政府', title: '經濟部能源署、水利署、環境部、高雄市政府，網址被駭，變外送茶網頁！', rarity: ' 一般', prefix: ' 數位中介法', suffix: ' 法治與行政/自導自演' },
-    { date: '2026-01-30', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B/%E5%80%89%E5%BA%AB/%E6%B8%85%E5%96%AE/%E5%B0%88%E6%A1%88%E6%95%B4%E7%90%86-%E8%90%8A%E5%85%8B%E5%A4%9A%E5%B7%B4%E8%83%BA.html', area: ' 《國內外》', category: ' 進出口', title: ' 萊克多巴胺', rarity: ' 重度', prefix: ' 動動鼠', suffix: ' 社會與民生/食安/豬肉/牛肉' },
+    { date: '2026-07-24', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/%E3%80%8A%E8%81%96%E5%85%89%E6%95%99%E6%95%99%E4%B8%BB%E3%80%8B/%E5%80%89%E5%BA%AB/%E6%B8%85%E5%96%AE/%E5%B0%88%E6%A1%88%E6%95%B4%E7%90%86-%E8%90%8A%E5%85%8B%E5%A4%9A%E5%B7%B4%E8%83%BA.html', area: ' 《鼠鼠戰團》/《國內外》', category: ' 《專案整理》/進出口', title: ' 萊克多巴胺', rarity: ' 重度', prefix: ' 動動鼠', suffix: ' 社會與民生/食安/豬肉/牛肉' },
     { date: '日期', path: '章節/輿圖', pathUrl: 'https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84', area: '系列勢力', category: '主題 ', title: '標題 ', rarity: '稀有度 ', prefix: '前綴 ', suffix: '後綴 ' }
 ];
 const workData2 = [...workData].sort((a, b) => {
