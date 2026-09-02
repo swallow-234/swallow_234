@@ -28,7 +28,9 @@ const sidebarContent = `
 
 <h3 style="text-align: center;">《POE3.29》</h3><hr class="a001">
         <p>ID：呆呆咆哮<BR>
-        技能：靈體撕裂</p>
+        技能：靈體撕裂/秘術家</p>
+        <p>ID：就是鼠鼠<BR>
+        技能：電弧釋放/遺守使徒</p>
 
 <h3 style="text-align: center;">《POE3.28》</h3><hr class="a001">
         <p>ID：遠古披薩<BR>
