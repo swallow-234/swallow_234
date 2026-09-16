@@ -40,6 +40,11 @@ const sidebarContent = `
         <li><a href=""></a></li>
         <li><a href=""></a></li>
         </details>
+    <hr class="a001">
+    <details><summary>資源再利用</summary>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
+        </details>
 </ul><hr class="a001">
 `;
 

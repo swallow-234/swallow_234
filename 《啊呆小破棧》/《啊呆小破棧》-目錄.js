@@ -20,6 +20,10 @@ const sidebarContent = `
         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E9%BC%A0%E9%BC%A0%E6%88%B0%E5%9C%98%E3%80%8B.html">就是鼠鼠</a>正在動動鼠．．．</li>
         <li><a onclick="changeIframe('《鼠鼠戰團》-鼠鼠號令.html')">鼠鼠號令</a></li>
         <li><a href="https://discord.gg/Tg4AVDjc7f">鼠鼠公會</a></li>
+    <hr class="a001"><h3 style="text-align: center;">《圓桌會議》</h3>
+        <li><a href="https://swallow-234.github.io/swallow_234/《啊呆小破棧》/《公眾人物》.html">《公眾人物》</a>記分板</li>
+        <li><a href="https://swallow-234.github.io/swallow_234/《啊呆小破棧》/《選舉公報》.html">《選舉公報》</a>2026｜115年</li>
+        <li><a href="https://swallow-234.github.io/swallow_234/《啊呆小破棧》/《吟遊詩章》.html">《吟遊詩章》</a>黃金律法</li>
     <hr class="a001"><h3 style="text-align: center;">《書籍》</h3>
         <li><a>電子書</a></li><hr class="a001">
         <li><a href="https://swallow-234.github.io/swallow_234/%E3%80%8A%E5%95%8A%E5%91%86%E5%B0%8F%E7%A0%B4%E6%A3%A7%E3%80%8B/%E3%80%8A%E9%9D%92%E4%B8%98%E5%AD%B8%E9%99%A2%E3%80%8B.pdf">《青丘書館》</a></li>

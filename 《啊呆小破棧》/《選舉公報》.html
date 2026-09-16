@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《選舉公報》</title>
+    <link href="../A0001.css" rel="stylesheet" />
+    <script src="《選舉公報》-搜尋.js"></script>
+    <script src="《選舉公報》-搜尋 -資料庫.js"></script>
+    <style>
+        /* 暗黑高質感風格 */
+        body {
+            padding: 20px; /* 留 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="professor-box">
+        <p id="professor-status">《選舉公報》2026｜115年度</p>
+    </div>
+
+    <div class="filter-bar1">
+        <input type="text" id="searchInput" placeholder="搜尋" onkeyup="filterData()">
+        
+        <select id="areaFilter" onchange="updateCategories()">
+            <option value=" ">系列勢力</option>
+            <option value=" ">全部</option>
+            <option value=" ">---☯---</option>
+            <option value="總統">總統</option>
+            <option value="立法委員">立法委員</option>
+            <option value="">---☯---</option>
+            <option value="直轄市長">直轄市長</option>
+            <option value="直轄市議員">直轄市議員</option>
+            <option value="縣市長">縣市長</option>
+            <option value="縣市議員">縣市議員</option>
+            <option value="直轄市山地原住民區長">直轄市山地原住民區長</option>
+            <option value="直轄市山地原住民區民代表">直轄市山地原住民區民代表</option>
+            <option value="鄉鎮市長">鄉鎮市長</option>
+            <option value="鄉鎮市民代表">鄉鎮市民代表</option>
+            <option value="村里長">村里長</option>
+        </select>
+        
+        <select id="catFilter" onchange="filterData()">
+            <option value=" ">主題</option>
+            <option value=" ">全部</option>
+            <option value="中央政府">中央政府</option>
+            <option value="">---☯---</option>
+            <option value="臺北市">臺北市</option>
+            <option value="新北市">新北市</option>
+            <option value="桃園市">桃園市</option>
+            <option value="臺中市">臺中市</option>
+            <option value="臺南市">臺南市</option>
+            <option value="高雄市">高雄市</option>
+            <option value="基隆市">基隆市</option>
+            <option value="新竹市">新竹市</option>
+            <option value="嘉義市">嘉義市</option>
+            <option value="新竹縣">新竹縣</option>
+            <option value="苗栗縣">苗栗縣</option>
+            <option value="彰化縣">彰化縣</option>
+            <option value="南投縣">南投縣</option>
+            <option value="雲林縣">雲林縣</option>
+            <option value="嘉義縣">嘉義縣</option>
+            <option value="屏東縣">屏東縣</option>
+            <option value="宜蘭縣">宜蘭縣</option>
+            <option value="花蓮縣">花蓮縣</option>
+            <option value="臺東縣">臺東縣</option>
+            <option value="澎湖縣">澎湖縣</option>
+            <option value="金門縣">金門縣</option>
+            <option value="連江縣">連江縣</option>
+        </select>
+        
+        <select id="rarityFilter" onchange="filterData()">
+            <option value=" ">稀有度</option>
+            <option value=" ">全部</option>
+            <option value="傳奇">傳奇</option>
+            <option value="稀有">稀有</option>
+            <option value="魔法">魔法</option>
+            <option value="一般">一般</option>
+        </select>
+        
+        <select id="prefixFilter" onchange="filterData()">
+            <option value=" ">政黨</option>
+            <option value=" ">全部</option>
+            <option value="">---☯---</option>
+            <option value="台灣民眾黨">台灣民眾黨</option>
+            <option value="民主進步黨">民主進步黨</option>
+            <option value="中國國民黨">中國國民黨</option>
+            <option value="無">無</option>
+            <option value="">---☯---</option>
+            <option value="三勢團結促進聯盟">三勢團結促進聯盟</option>
+            <option value="中國和平統一黨">中國和平統一黨</option>
+            <option value="中國國家社會主義勞工黨">中國國家社會主義勞工黨</option>
+            <option value="中國民眾黨">中國民眾黨</option>
+            <option value="中國青年黨">中國青年黨</option>
+            <option value="中小企業團結聯盟">中小企業團結聯盟</option>
+            <option value="中華保台反共復國黨">中華保台反共復國黨</option>
+            <option value="中華愛國同心黨">中華愛國同心黨</option>
+            <option value="中華政黨聯盟">中華政黨聯盟</option>
+            <option value="中華文化共和黨">中華文化共和黨</option>
+            <option value="中華文化復興在理黨">中華文化復興在理黨</option>
+            <option value="中華民族致公黨">中華民族致公黨</option>
+            <option value="中華統一促進黨">中華統一促進黨</option>
+            <option value="人民民主黨">人民民主黨</option>
+            <option value="全國人民黨">全國人民黨</option>
+            <option value="公民黨">公民黨</option>
+            <option value="勞動黨">勞動黨</option>
+            <option value="台澎黨">台澎黨</option>
+            <option value="台灣基進">台灣基進</option>
+            <option value="台灣學習黨">台灣學習黨</option>
+            <option value="台灣工黨">台灣工黨</option>
+            <option value="台灣整復師聯盟工黨">台灣整復師聯盟工黨</option>
+            <option value="台灣新住民黨">台灣新住民黨</option>
+            <option value="台灣民主黨">台灣民主黨</option>
+            <option value="台灣經濟發展黨">台灣經濟發展黨</option>
+            <option value="台灣綠黨">台灣綠黨</option>
+            <option value="台灣進步黨">台灣進步黨</option>
+            <option value="台灣麻將最大黨">台灣麻將最大黨</option>
+            <option value="台聯黨">台聯黨</option>
+            <option value="司法改革黨">司法改革黨</option>
+            <option value="司法正義黨">司法正義黨</option>
+            <option value="嘉意公益黨">嘉意公益黨</option>
+            <option value="夏潮聯合會">夏潮聯合會</option>
+            <option value="天一黨">天一黨</option>
+            <option value="天宙和平統一家庭黨">天宙和平統一家庭黨</option>
+            <option value="家庭基本收入">家庭基本收入</option>
+            <option value="小民參政歐巴桑聯盟">小民參政歐巴桑聯盟</option>
+            <option value="左翼聯盟">左翼聯盟</option>
+            <option value="愛民黨">愛民黨</option>
+            <option value="新生黨">新生黨</option>
+            <option value="新黨">新黨</option>
+            <option value="時代力量">時代力量</option>
+            <option value="更生黨">更生黨</option>
+            <option value="正神名黨">正神名黨</option>
+            <option value="正黨">正黨</option>
+            <option value="永久和平自然法">永久和平自然法</option>
+            <option value="永續和平黨">永續和平黨</option>
+            <option value="社會民主黨">社會民主黨</option>
+            <option value="統一聯盟黨">統一聯盟黨</option>
+            <option value="經濟黨">經濟黨</option>
+            <option value="美麗無限黨">美麗無限黨</option>
+            <option value="臺灣SoR無法黨">臺灣SoR無法黨</option>
+            <option value="臺灣人民共產黨">臺灣人民共產黨</option>
+            <option value="藝術黨">藝術黨</option>
+            <option value="親民黨">親民黨</option>
+            <option value="青年陽光黨">青年陽光黨</option>
+            <option value="龍黨">龍黨</option>
+        </select>
+        
+        <select id="suffixFilter" onchange="filterData()">
+            <option value=" ">備註</option>
+            <option value=" ">全部</option>
+            <option value="錯誤回報">錯誤回報</option>
+        </select>
+    </div>
+
+    <div id="section-table2" class="table-section">
+        <h3><a href="https://swallow-234.github.io/swallow_234/《啊呆小破棧》/《選舉公報》.html">☯</a>《選舉編年史》：動態更新調整．．．</h3>
+        <table class="tt">
+            <thead>
+                <tr>
+                    <th>登記日期</th>
+                    <th>網址</th>
+                    <th>系列勢力</th>
+                    <th>主題</th>
+                    <th>標題</th>
+                    <th>稀有度</th>
+                    <th>政黨</th>
+                    <th>備註</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://web.cec.gov.tw/central">網址</a></td>
+                    <td>中央選舉委員會</td>
+                    <td>登記</td>
+                    <td>姓名</td>
+                    <td class="rare-傳奇">傳奇</td>
+                    <td>關聯性的</td>
+                    <td>選舉區/標記</td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://info.cec.gov.tw/vote2026/news/?id=NEWS">網址</a></td>
+                    <td>最新消息</td>
+                    <td>登記</td>
+                    <td>姓名</td>
+                    <td class="rare-魔法">魔法</td>
+                    <td>關聯性的</td>
+                    <td>選舉區/標記</td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://web.cec.gov.tw/central/article/64709">網址</a></td>
+                    <td>115年地方公職人員選舉候選人登記名冊</td>
+                    <td>登記</td>
+                    <td>姓名</td>
+                    <td class="rare-稀有">稀有</td>
+                    <td>關聯性的</td>
+                    <td>選舉區/標記</td>
+                </tr>
+                <tr>
+                    <td>版本更新</td>
+                    <td><a href="https://web.cec.gov.tw/central/article/64711">網址</a></td>
+                    <td>115年度新聞稿</td>
+                    <td>登記</td>
+                    <td>姓名</td>
+                    <td class="rare-一般">一般</td>
+                    <td>關聯性的</td>
+                    <td>選舉區/標記</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>※本網站屬於「個人整理」使用，完整資料請前往「政府官方網站」查閱。<BR><BR>✦資料來源：『公職人員選舉候選人登記名冊』下載檔案，PDF檔案有些資料會無法讀取辨別。<BR>之後如有再次整理，會順手在［備註］區標記原檔案有誤之類別（無法辨別搜尋、文件輸入明顯錯誤、．．．），方便『政府官方人員』進行原始資料的修正。<BR><BR>✦姓名：許多人的姓名有特別的符號，如：空格’＂‵等．．．會讓程式碼辨別錯誤，因此使用　_　當作替代使用。</p>
+    </div>
+
+    <div id="section-search-results" class="table-section hidden">
+        <h3>搜尋結果符合的《選舉資訊》</h3>
+        <table class="tt">
+            <thead>
+                <tr>
+                    <th>登記日期</th>
+                    <th>☯</th>
+                    <th>系列勢力</th>
+                    <th>主題</th>
+                    <th>姓名</th>
+                    <th>稀有度</th>
+                    <th>政黨</th>
+                    <th>備註</th>
+                </tr>
+            </thead>
+            <tbody id="results-body">
+                </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
