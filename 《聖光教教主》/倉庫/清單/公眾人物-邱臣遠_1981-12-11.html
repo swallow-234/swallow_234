@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>《公眾人物》</title>
-  <link href="../A0001.css" rel="stylesheet" />
+    <link href="../../../A0001.css" rel="stylesheet" />
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>        
+</head>
 
-    </head>
-    <body>
+<body>
 <!--標題-->
 <h1>《公眾人物》</h1>
-<div class="column middleh">
-<ul><li>出生日期：</li>
-<li>姓名：</li>
-<li><a href="">維基百科</a></li><HR>
-<li>良百分比</li>
-<li>☆☆☆☆☆：00~20%</li>
-<li>★☆☆☆☆：21~40%</li>
-<li>★★☆☆☆：41~60%</li>
-<li>★★★☆☆：61~80%</li>
-<li>★★★★☆：81~90%</li>
-<li>★★★★★：91~100%</li><HR>
-<li>［評價］永夜暗夜：</li>
-<HR><li>［記分板(總數)］良：值(%)｜普：值(%)｜劣：值(%)</li>
-<li>Ⅰ社會貢獻：</li>
-<li>Ⅰ建議方法：</li>
-<li>Ⅰ發現問題：</li>
-<li>Ⅱ未能處理：</li>
-<li>Ⅱ詢問回應：</li>
-<li>Ⅱ宣揚口號：</li>
-<li>Ⅱ政見發表：</li>
-<li>Ⅲ負面方法：</li>
-<li>Ⅲ負面行為：</li>
+<div>
+<ul><li>出生日期：1981年12月11日</li>
+  <li>姓名：邱臣遠</li>
+  <li><a href="https://zh.wikipedia.org/zh-tw/%E9%82%B1%E8%87%A3%E9%81%A0">維基百科</a></li><hr class="a002">
+  <li>良百分比</li>
+  <li>☆☆☆☆☆：00~20%</li>
+  <li>★☆☆☆☆：21~40%</li>
+  <li>★★☆☆☆：41~60%</li>
+  <li>★★★☆☆：61~80%</li>
+  <li>★★★★☆：81~90%</li>
+  <li>★★★★★：91~100%</li></ul><hr class="b003">
+  <ul>［評價］永夜暗夜：☆☆☆☆☆</ul>
+  <li>1.空洞沒有內涵的綜藝咖，不是吃就是唱，喊口號。</li>
+  <li>2.連重點都搞不清楚，只能依靠幕僚。</li>
+  <hr class="b001"><ul>［記分板(總數13)］良：1(8%)｜普：12(92%)｜劣：N(N%)</ul><ul>
+  <li>Ⅰ社會貢獻：</li>
+  <li>Ⅰ建議方法：</li>
+  <li>Ⅰ發現問題：1</li>
+  <li>Ⅱ未能處理：</li>
+  <li>Ⅱ詢問回應：2</li>
+  <li>Ⅱ宣揚口號：7</li>
+  <li>Ⅱ政見發表：3</li>
+  <li>Ⅲ負面方法：</li>
+  <li>Ⅲ負面行為：</li>
 <li>Ⅳ破壞民主：</li></ul>
 </div>
 <!--內文-->
@@ -41,19 +43,19 @@
 </div>
     <script>
   const PAGE_ORDER = [
-    "",
-    "Ⅰ社會貢獻",
-    "Ⅰ建議方法",
-    "Ⅰ發現問題",
-    "Ⅱ未能處理",
-    "Ⅱ詢問回應",
-    "Ⅱ宣揚口號",
-    "Ⅱ政見發表",
-    "Ⅲ負面方法",
-    "Ⅲ負面行為",
-    "Ⅳ破壞民主",
-    "承諾",
-    "敷衍",
+    "1981年12月11日邱臣遠-",
+    "1981年12月11日邱臣遠-Ⅰ社會貢獻",
+    "1981年12月11日邱臣遠-Ⅰ建議方法",
+    "1981年12月11日邱臣遠-Ⅰ發現問題",
+    "1981年12月11日邱臣遠-Ⅱ未能處理",
+    "1981年12月11日邱臣遠-Ⅱ詢問回應",
+    "1981年12月11日邱臣遠-Ⅱ宣揚口號",
+    "1981年12月11日邱臣遠-Ⅱ政見發表",
+    "1981年12月11日邱臣遠-Ⅲ負面方法",
+    "1981年12月11日邱臣遠-Ⅲ負面行為",
+    "1981年12月11日邱臣遠-Ⅳ破壞民主",
+    "1981年12月11日邱臣遠-承諾",
+    "1981年12月11日邱臣遠-敷衍",
   ];
 
   const 資料庫 = {
@@ -108,8 +110,9 @@
       filteredRows() {
         if (!this.tabs.length) return [];
         const tab = this.tabs[this.activeTab];
+        // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
         return this.rows.filter(
-          row => (row[this.filterHeader] || '').includes('公眾人物A')
+          row => (row[this.filterHeader] || '').includes('1981年12月11日邱臣遠')
              && (row[this.subpageHeader] || '').includes(tab));
       }
     },
@@ -145,7 +148,7 @@
           // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
           this.tabs = PAGE_ORDER.filter(key =>
             rows.some(row => 
-              (row[this.filterHeader] || '').includes('公眾人物A') &&
+              (row[this.filterHeader] || '').includes('1981年12月11日邱臣遠') &&
               (row[this.subpageHeader] || '').includes(key)
             )
           );

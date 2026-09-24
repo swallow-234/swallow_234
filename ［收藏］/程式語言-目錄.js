@@ -63,6 +63,7 @@ const sidebarContent = `
 <h3 style="text-align: center;">《命令提示字元》</h3><hr class="a001">
     <li><a onclick="changeIframe('倉庫/程式語言-命令提示字元-影片下載.html')">影片下載</a></li>
     <li><a onclick="changeIframe('倉庫/程式語言-命令提示字元-youtube影片下載.html')">youtube影片下載</a></li>
+    <li><a onclick="changeIframe('倉庫/程式語言-命令提示字元-快速重新命名技巧.html')">快速重新命名技巧</a></li>
 <h3 style="text-align: center;">《網頁程式》</h3><hr class="a001">
     <li><a onclick="changeIframe('倉庫/程式語言-靜態頁面搜尋.html')">靜態頁面搜尋</a></li>
     <li><a onclick="changeIframe('倉庫/程式語言-靜態分頁.html')">靜態分頁</a></li>

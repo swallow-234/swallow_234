@@ -328,8 +328,11 @@ const sidebarContent = `
       <h3 style="text-align: center;">《公眾人物》</h3><hr class="a001">
           <details><summary>人物清單</summary>
           <li><a onclick="changeIframe('網址')">[生日]人名...</a></li>
-          <li><a onclick="changeIframe('倉庫/清單/公眾人物-吳怡農1980-12-31.html')">[1980/12/31]吳怡農</a></li>
-          <li><a onclick="changeIframe('')">.</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-林瑞祥_0000-12-25.html')">林瑞祥_0000-12-25</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-邱臣遠_1981-12-11.html')">邱臣遠_1981-12-11</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-戴于文_0000-00-00.html')">戴于文_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-張啓楷_1962-12-21.html')">張啓楷_1962-12-21</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-吳怡農_1980-12-31.html')">吳怡農_1980-12-31</a></li>
           </details>
       <h3 style="text-align: center;">《主管機關》</h3><hr class="a001">
           <details><summary>部門清單</summary>

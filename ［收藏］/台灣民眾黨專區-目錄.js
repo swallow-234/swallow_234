@@ -2,7 +2,9 @@
 const sidebarContent = `
 <a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84">首頁</a>
 <h1 style="text-align: center;">《導師塔》</h1>
-<ul><li><a onclick="changeIframe('台灣民眾黨專區-範本.html')">收藏清單</a></li>
+<ul>
+    <li><a onclick="changeIframe('台灣民眾黨專區-範本.html')">收藏清單</a></li>
+    <li><a onclick="changeIframe('台灣民眾黨專區-碎碎念.html')">當前紀錄</a></li>
     <!--
     <hr class="a001">
     <details><summary>《範本》</summary>
