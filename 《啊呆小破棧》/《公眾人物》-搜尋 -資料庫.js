@@ -23,6 +23,10 @@ const allCategories = [
 //經過專案整理，則為「動動鼠」。
 //可以複選。
 const workData = [
+    { date: '2026-10-01', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-蕭文乾_1974-09-27.html', area: ' 優良', category: ' Ⅰ社會貢獻<br>Ⅰ建議方法<br>Ⅰ發現問題', title: ' 蕭文乾_1974-09-27', rarity: ' ★★★☆☆', prefix: ' 問題<br>建設性', suffix: ' 清流人才+3<br>商業行銷' },
+    { date: '2026-09-30', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-沈伯洋_1982-06-07.html', area: ' 平庸', category: ' Ⅱ詢問回應', title: ' 沈伯洋_1982-06-07', rarity: ' ☆☆☆☆☆', prefix: ' 廢話<br>毫無邏輯', suffix: ' 無良商人' },
+    { date: '2026-09-29', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-唐新民_1950-12-25.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 唐新民_1950-12-25', rarity: ' ☆☆☆☆☆', prefix: ' 毫無邏輯', suffix: ' 奇文共賞' },
+    { date: '2026-09-29', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-蔣萬安_1978-12-26.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 蔣萬安_1978-12-26', rarity: ' ☆☆☆☆☆', prefix: ' 輕浮', suffix: ' 才疏學淺' },
     { date: '2026-09-23', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-林瑞祥_0000-12-25.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 林瑞祥_0000-12-25', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 靜觀其變' },
     { date: '2026-09-23', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-邱臣遠_1981-12-11.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 邱臣遠_1981-12-11', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 腐敗政客' },
     { date: '2026-09-23', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-戴于文_0000-00-00.html', area: ' 平庸', category: ' Ⅱ詢問回應', title: ' 戴于文_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 輕浮', suffix: ' 魁儡小人' },

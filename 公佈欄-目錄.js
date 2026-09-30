@@ -34,6 +34,7 @@ const sidebarContent = `
     <li>黃國昌-通識課</li>
     <li>陳之漢-義士</li>
     <li>陳椒華-循道者</li>
+    <li>蕭文乾-羽翼者</li>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E5%8F%B0%E7%81%A3%E6%B0%91%E7%9C%BE%E9%BB%A8%E5%B0%88%E5%8D%80.html">台灣民眾黨專區</a></li>
     </ul>
 <ul><h3>工具收藏</h3></ul><hr class="a001">

@@ -42,6 +42,12 @@ const sidebarContent = `
         <li><a href="https://www.facebook.com/ironprofessorchan/">Facebook</a></li>
         <li><a href="https://www.facebook.com/GovWatchA">Facebook</a>監督施政聯盟</li>
         </details>
+
+    <hr class="a001">
+    <details><summary>《蕭文乾-羽翼者》</summary>
+        <li><a href="https://www.youtube.com/@MiParty/featured">YouTube</a>蕭博士 SoR 美語</li>
+        <li><a href="https://www.facebook.com/MilingualPalace/">Facebook</a>蕭博士 SoR 美語</li>
+        </details>
 </ul><hr class="a001">
 `;
 

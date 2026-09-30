@@ -22,6 +22,7 @@ const allCategories = [
 //不屬於上述內容，則為「呆呆叫」。
 //可以複選。
 const workData = [
+    { date: '2026-10-01', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E7%99%BC%E9%9F%B3%E7%AF%87', area: ' 《永夜暗夜》', category: ' 《語言研究院》', title: ' 發音篇', rarity: ' 傳奇', prefix: ' 文學篇<br>軸向透視<br>基礎概念', suffix: ' 教育<br>語言<br>認知' },
     { date: '2026-09-02', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E7%B2%BE%E7%A5%9E%E7%97%85', area: ' 《永夜暗夜》', category: ' 《醫學院》<br>《青丘書館》', title: ' 精神病', rarity: ' 傳奇', prefix: ' 行為模式<br>動力篇<br>同溫層篇<br>教導篇<br>責任心', suffix: ' 醫療<br>教育<br>邏輯<br>盲從<br>感覺<br>溝通<br>認知誤導' },
     { date: '0000-00-00', path: '⛩︎', pathUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vQoLUTX_g9kt-0HDHtQxZUQbsfKCLXkoXCKh9i1gQjLOGcDf5Gg0PvqS53nMhL7LncBdJewW3fBWxf5/pub?start=false&loop=false&delayms=3000&slide=id.p', area: ' 《永夜暗夜》', category: ' 《繪圖-講解》', title: ' 進階-線稿篇[實戰演練]', rarity: ' 一般', prefix: ' ', suffix: ' ' },
     { date: '0000-00-00', path: '⛩︎', pathUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vRou_-kYc-rvr4FNsxnxyj8FyB3B_mgDzUJOXi7w-JoC3daNqFmtm0R91qazsayQk05PLEi5YWGpyaL/pub?start=false&loop=false&delayms=3000&slide=id.g11951f6c325_0_45', area: ' 《永夜暗夜》', category: ' 《繪圖-講解》', title: ' [實戰演練]散文-2021_11_19', rarity: ' 一般', prefix: ' ', suffix: ' ' },
