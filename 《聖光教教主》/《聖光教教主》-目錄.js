@@ -328,6 +328,19 @@ const sidebarContent = `
       <h3 style="text-align: center;">《公眾人物》</h3><hr class="a001">
           <details><summary>人物清單</summary>
           <li><a onclick="changeIframe('網址')">[生日]人名...</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-蕭燐洪_0000-00-00.html')">蕭燐洪_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-謝龍介_1961-10-03.html')">謝龍介_1961-10-03</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳亭妃_1974-07-19.html')">陳亭妃_1974-07-19</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-葉人文_1988-07-07.html')">葉人文_1988-07-07</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-何欣純_1973-12-18.html')">何欣純_1973-12-18</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-洪麗華_1961-11-23.html')">洪麗華_1961-11-23</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-江啟臣_1972-03-02.html')">江啟臣_1972-03-02</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-張善政_1954-06-24.html')">張善政_1954-06-24</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-黃世杰_1979-01-05.html')">黃世杰_1979-01-05</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-蘇巧慧_1976-04-05.html')">蘇巧慧_1976-04-05</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-蘇輝湟_0000-00-00.html')">蘇輝湟_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-李四川_1958-02-01.html')">李四川_1958-02-01</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-郭璽_1958-08-31.html')">郭璽_1958-08-31</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-蕭文乾_1974-09-27.html')">蕭文乾_1974-09-27</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-沈伯洋_1982-06-07.html')">沈伯洋_1982-06-07</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-唐新民_1950-12-25.html')">唐新民_1950-12-25</a></li>
