@@ -19025,11 +19025,11 @@ const workData = [
     { date: '115/09/04', path: ' ', pathUrl: '＃', area: ' 縣市議員', category: ' 嘉義市', title: ' 魏志軒', rarity: ' 一般', prefix: ' 無', suffix: ' 第2選舉區' },
     { date: '115/09/04', path: ' ', pathUrl: '＃', area: ' 縣市議員', category: ' 嘉義市', title: ' 孫貫志', rarity: ' 一般', prefix: ' 無', suffix: ' 第2選舉區' },
 
-    { date: '115/09/02', path: ' ', pathUrl: '＃', area: ' 縣市長', category: ' 新竹縣', title: ' 鄭朝方', rarity: ' 一般', prefix: ' 民主進步黨', suffix: ' ' },
-    { date: '115/09/02', path: ' ', pathUrl: '＃', area: ' 縣市長', category: ' 新竹縣', title: ' 朱定瑀', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
-    { date: '115/09/03', path: ' ', pathUrl: '＃', area: ' 縣市長', category: ' 新竹縣', title: ' 徐欣瑩', rarity: ' 一般', prefix: ' 中國國民黨', suffix: ' ' },
-    { date: '115/09/02', path: ' ', pathUrl: '＃', area: ' 縣市長', category: ' 苗栗縣', title: ' 陳品安', rarity: ' 一般', prefix: ' 民主進步黨', suffix: ' ' },
-    { date: '115/09/03', path: ' ', pathUrl: '＃', area: ' 縣市長', category: ' 苗栗縣', title: ' 鍾東錦', rarity: ' 一般', prefix: ' 中國國民黨', suffix: ' ' },
+    { date: '115/09/02', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-鄭朝方_1980-02-19.html', area: ' 縣市長', category: ' 新竹縣', title: ' 鄭朝方', rarity: ' 一般', prefix: ' 民主進步黨', suffix: ' ' },
+    { date: '115/09/02', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-朱定瑀_0000-00-00.html', area: ' 縣市長', category: ' 新竹縣', title: ' 朱定瑀', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
+    { date: '115/09/03', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-徐欣瑩_1972-04-23.html', area: ' 縣市長', category: ' 新竹縣', title: ' 徐欣瑩', rarity: ' 一般', prefix: ' 中國國民黨', suffix: ' ' },
+    { date: '115/09/02', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-陳品安_1984-09-20.html', area: ' 縣市長', category: ' 苗栗縣', title: ' 陳品安', rarity: ' 一般', prefix: ' 民主進步黨', suffix: ' ' },
+    { date: '115/09/03', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-鍾東錦_1963-01-02.html', area: ' 縣市長', category: ' 苗栗縣', title: ' 鍾東錦', rarity: ' 一般', prefix: ' 中國國民黨', suffix: ' ' },
     { date: '115/08/31', path: ' ', pathUrl: '＃', area: ' 縣市長', category: ' 彰化縣', title: ' 陳重嘉', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
     { date: '115/09/02', path: ' ', pathUrl: '＃', area: ' 縣市長', category: ' 彰化縣', title: ' 陳素月', rarity: ' 一般', prefix: ' 民主進步黨', suffix: ' ' },
     { date: '115/09/03', path: ' ', pathUrl: '＃', area: ' 縣市長', category: ' 彰化縣', title: ' 邱建富', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
@@ -19711,11 +19711,11 @@ const workData = [
     { date: '115/09/01', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-蕭燐洪_0000-00-00.html', area: ' 直轄市長', category: ' 臺南市', title: ' 蕭燐洪', rarity: ' 一般', prefix: ' 臺灣SoR無法黨', suffix: ' ' },
     { date: '115/09/02', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-葉人文_1988-07-07.html', area: ' 直轄市長', category: ' 臺南市', title: ' 葉人文', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
     { date: '115/09/02', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-陳亭妃_1974-07-19.html', area: ' 直轄市長', category: ' 臺南市', title: ' 陳亭妃', rarity: ' 一般', prefix: ' 民主進步黨', suffix: ' ' },
-    { date: '115/08/31', path: ' ', pathUrl: '＃', area: ' 直轄市長', category: ' 高雄市', title: ' 張靜', rarity: ' 一般', prefix: ' 司法改革黨', suffix: ' ' },
-    { date: '115/09/02', path: ' ', pathUrl: '＃', area: ' 直轄市長', category: ' 高雄市', title: ' 賴瑞隆', rarity: ' 一般', prefix: ' 民主進步黨', suffix: ' ' },
-    { date: '115/09/02', path: ' ', pathUrl: '＃', area: ' 直轄市長', category: ' 高雄市', title: ' 王肇民', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
-    { date: '115/09/03', path: ' ', pathUrl: '＃', area: ' 直轄市長', category: ' 高雄市', title: ' 柯志恩', rarity: ' 一般', prefix: ' 中國國民黨', suffix: ' ' },
-    { date: '115/09/04', path: ' ', pathUrl: '＃', area: ' 直轄市長', category: ' 高雄市', title: ' 洪方隆', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
+    { date: '115/08/31', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-張靜_0000-00-00.html', area: ' 直轄市長', category: ' 高雄市', title: ' 張靜', rarity: ' 一般', prefix: ' 司法改革黨', suffix: ' ' },
+    { date: '115/09/02', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-賴瑞隆_1973-11-15.html', area: ' 直轄市長', category: ' 高雄市', title: ' 賴瑞隆', rarity: ' 一般', prefix: ' 民主進步黨', suffix: ' ' },
+    { date: '115/09/02', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-王肇民_0000-00-00.html', area: ' 直轄市長', category: ' 高雄市', title: ' 王肇民', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
+    { date: '115/09/03', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-柯志恩_1962-04-29.html', area: ' 直轄市長', category: ' 高雄市', title: ' 柯志恩', rarity: ' 一般', prefix: ' 中國國民黨', suffix: ' ' },
+    { date: '115/09/04', path: ' ⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-洪方隆_0000-00-00.html', area: ' 直轄市長', category: ' 高雄市', title: ' 洪方隆', rarity: ' 一般', prefix: ' 無', suffix: ' ' },
     { date: '日期', path: '章節/輿圖', pathUrl: 'https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84', area: '系列勢力', category: '主題 ', title: '標題 ', rarity: '稀有度 ', prefix: '前綴 ', suffix: '後綴 ' }
 ];
 const workData2 = [...workData].sort((a, b) => {

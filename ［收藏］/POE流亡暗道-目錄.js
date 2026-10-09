@@ -33,6 +33,8 @@ const sidebarContent = `
         技能：電弧釋放/遺守使徒</p>
         <p>ID：圓桌起司<BR>
         技能：閃現打擊/處刑者</p>
+        <p>ID：血染之翼<BR>
+        技能：冰霜射擊/銳眼</p>
 
 <h3 style="text-align: center;">《POE3.28》</h3><hr class="a001">
         <p>ID：遠古披薩<BR>

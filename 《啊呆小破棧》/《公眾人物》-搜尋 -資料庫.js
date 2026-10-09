@@ -23,6 +23,16 @@ const allCategories = [
 //經過專案整理，則為「動動鼠」。
 //可以複選。
 const workData = [
+    { date: '2026-10-09', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-陳品安_1984-09-20.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 陳品安_1984-09-20', rarity: ' ☆☆☆☆☆', prefix: ' 廢話<br>毫無邏輯', suffix: ' 腐敗政客' },
+    { date: '2026-10-09', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-鍾東錦_1963-01-02.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 鍾東錦_1963-01-02', rarity: ' ☆☆☆☆☆', prefix: ' 沉穩', suffix: ' 靜觀其變' },
+    { date: '2026-10-09', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-朱定瑀_0000-00-00.html', area: ' 平庸', category: ' Ⅱ政見發表', title: ' 朱定瑀_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 毫無邏輯', suffix: ' 無良商人' },
+    { date: '2026-10-09', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-鄭朝方_1980-02-19.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 鄭朝方_1980-02-19', rarity: ' ★☆☆☆☆', prefix: ' 沉穩<br>建設性', suffix: ' 靜觀其變' },
+    { date: '2026-10-08', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-徐欣瑩_1972-04-23.html', area: ' 平庸', category: ' Ⅱ詢問回應', title: ' 徐欣瑩_1972-04-23', rarity: ' ☆☆☆☆☆', prefix: ' 廢話<br>毫無邏輯', suffix: ' 腐敗政客' },
+    { date: '2026-10-08', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-張靜_0000-00-00.html', area: ' 平庸', category: ' Ⅱ詢問回應', title: ' 張靜_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 問題', suffix: ' 靜觀其變' },
+    { date: '2026-10-08', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-王肇民_0000-00-00.html', area: ' 平庸', category: ' Ⅱ未能處理', title: ' 王肇民_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 毫無邏輯', suffix: ' 魁儡商人' },
+    { date: '2026-10-08', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-賴瑞隆_1973-11-15.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 賴瑞隆_1973-11-15', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 腐敗政客' },
+    { date: '2026-10-07', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-柯志恩_1962-04-29.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 柯志恩_1962-04-29', rarity: ' ★☆☆☆☆', prefix: ' 建設性', suffix: ' 靜觀其變' },
+    { date: '2026-10-07', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-洪方隆_0000-00-00.html', area: ' 平庸', category: ' Ⅱ政見發表', title: ' 洪方隆_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 毫無邏輯', suffix: ' 才疏學淺' },
     { date: '2026-10-06', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-蕭燐洪_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 蕭燐洪_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 輕浮', suffix: ' 奇文共賞<br>商業行銷' },
     { date: '2026-10-06', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-謝龍介_1961-10-03.html', area: ' 平庸', category: ' Ⅱ詢問回應', title: ' 謝龍介_1961-10-03', rarity: ' ☆☆☆☆☆', prefix: ' 毫無邏輯', suffix: ' 才疏學淺' },
     { date: '2026-10-06', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-陳亭妃_1974-07-19.html', area: ' 平庸', category: ' Ⅱ詢問回應', title: ' 陳亭妃_1974-07-19', rarity: ' ☆☆☆☆☆', prefix: ' 毫無邏輯', suffix: ' 腐敗政客' },
@@ -44,7 +54,7 @@ const workData = [
     { date: '2026-09-23', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-邱臣遠_1981-12-11.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 邱臣遠_1981-12-11', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 腐敗政客' },
     { date: '2026-09-23', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-戴于文_0000-00-00.html', area: ' 平庸', category: ' Ⅱ詢問回應', title: ' 戴于文_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 輕浮', suffix: ' 魁儡小人' },
     { date: '2026-09-22', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-張啓楷_1962-12-21.html', area: ' 優良', category: ' Ⅰ發現問題', title: ' 張啓楷_1962-12-21', rarity: ' ★★★☆☆', prefix: ' 問題', suffix: ' 清流人才+1' },
-    { date: '1997-08-24', path: '⛨', pathUrl: '#', area: ' 《圓桌騎士》', category: ' 《天啟降臨》', title: ' 迷途的羔羊...', rarity: ' 根源', prefix: ' 真小人', suffix: ' 此間最邪惡之存在' },
+    { date: '1997-08-24', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-永夜暗夜_1997-08-24.html', area: ' 《圓桌騎士》', category: ' 《天啟降臨》', title: ' 迷途的羔羊...', rarity: ' 根源', prefix: ' 真小人', suffix: ' 此間最邪惡之存在' },
     { date: '日期', path: '章節/輿圖', pathUrl: 'https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84', area: '系列勢力', category: '主題 ', title: '標題 ', rarity: '稀有度 ', prefix: '前綴 ', suffix: '後綴 ' }
 ];
 const workData2 = [...workData].sort((a, b) => {
