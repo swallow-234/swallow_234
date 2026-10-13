@@ -23,6 +23,7 @@ const allCategories = [
 //經過專案整理，則為「動動鼠」。
 //可以複選。
 const workData = [
+    { date: '2026-10-13', path: '', pathUrl: '', area: ' 《鼠鼠戰團》', category: ' ', title: '藉由《政策》，把「林地、農地．．．」變成「建地」，變成「建地」之後就可以用各種方式炒房、炒地皮；甚至還可以賤賣，國有土地。', rarity: ' ', prefix: ' 鼠鼠模組', suffix: ' ' },
     { date: '2026-04-24', path: '⛩︎', pathUrl: 'https://www.mofa.gov.tw/CountryInfo.aspx?CASN=2&n=163&sms=33&s=90', area: ' 《國內外》', category: ' 盟邦', title: '王權式民主 (monarchical democracy君主立憲制)', rarity: ' 輕度', prefix: ' 自訂義［A0001］<br>寬以待己', suffix: ' 外交與國防' },
     { date: '2026-06-06', path: '', pathUrl: '', area: ' 《國內》', category: ' 中央政府/地方政府', title: '不是淹水，是積水！', rarity: ' 一般', prefix: ' 自訂義［A0002］<br>寬以待己', suffix: ' 環境與基礎建設' },
     { date: '2026-06-19', path: '', pathUrl: '', area: ' 《國內》', category: ' 地方政府/臺北市/臺南市', title: '暴雨炸雙北！台南挺過大雨考驗 黃偉哲：願分享治水經驗', rarity: ' ', prefix: ' 預算/補助<br>寬以待己', suffix: ' 環境與基礎建設' },
