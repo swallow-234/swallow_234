@@ -327,8 +327,26 @@ const sidebarContent = `
           </details>
       <h3 style="text-align: center;">《公眾人物》</h3><hr class="a001">
           <details><summary>人物清單</summary>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-總瀏覽.html')">總瀏覽</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-永夜暗夜_1997-08-24.html')">永夜暗夜_1997-08-24</a></li>
           <li>---------☯---------</li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-吳淑瑾_1957-00-00.html')">吳淑瑾_1957-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳盡川_0000-00-00.html')">陳盡川_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-許智富_0000-00-00.html')">許智富_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-周倪安_1972-10-07.html')">周倪安_1972-10-07</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳振中_1963-01-11.html')">陳振中_1963-01-11</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-葉竹林_1962-01-06.html')">葉竹林_1962-01-06</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-吳秀華_1973-05-01.html')">吳秀華_1973-05-01</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳瑩_1972-11-15.html')">陳瑩_1972-11-15</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-王志偉_0000-00-00.html')">王志偉_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-李吳穎智_0000-00-00.html')">李吳穎智_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-羅佩秦_0000-00-00.html')">羅佩秦_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-魏嘉賢_1978-07-13.html')">魏嘉賢_1978-07-13</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-張峻_1974-03-03.html')">張峻_1974-03-03</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-游淑貞_0000-00-00.html')">游淑貞_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳宏毅_0000-00-00.html')">陳宏毅_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-吳宗憲_1971-09-27.html')">吳宗憲_1971-09-27</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-林國漳_1968-12-10.html')">林國漳_1968-12-10</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-蘇清泉_1957-08-05.html')">蘇清泉_1957-08-05</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-周春米_1966-11-01.html')">周春米_1966-11-01</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-蔡易餘_1981-03-14.html')">蔡易餘_1981-03-14</a></li>
