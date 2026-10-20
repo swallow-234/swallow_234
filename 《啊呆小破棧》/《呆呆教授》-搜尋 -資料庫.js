@@ -22,6 +22,8 @@ const allCategories = [
 //不屬於上述內容，則為「呆呆叫」。
 //可以複選。
 const workData = [
+    { date: '2026-10-20', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E6%B0%B8%E5%A4%9C%E8%81%96%E5%9F%9F%E6%B4%AA%E6%B0%B4%E7%96%8F%E5%B0%8E', area: ' 《永夜暗夜》', category: ' 《建築學》', title: ' 永夜聖域：洪水疏導', rarity: ' 稀有', prefix: ' 都市設計：永夜聖域<br>永夜聖域：環境維護', suffix: ' 法律<br>經濟<br>環境<br>交通<br>建築<br>教育<br>建築<br>規劃佈局<br>投資成本' },
+    { date: '2026-10-20', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E6%B0%B8%E5%A4%9C%E8%81%96%E5%9F%9F%E8%8E%8A%E5%9C%92%E5%8C%96', area: ' 《永夜暗夜》', category: ' 《建築學》', title: ' 永夜聖域：莊園化', rarity: ' 傳奇', prefix: ' 都市設計：永夜聖域<br>永夜聖域：環境維護', suffix: ' 法律<br>經濟<br>環境<br>交通<br>建築<br>教育<br>規劃佈局<br>投資成本' },
     { date: '2026-10-14', path: '⛩︎', pathUrl: 'https://sites.google.com/view/formosa-taiwan/%E5%9C%93%E6%A1%8C%E6%9C%83%E8%AD%B0/%E8%AD%B0%E9%A1%8C%E8%B3%AD%E5%8D%9A%E5%90%88%E6%B3%95%E5%95%8F%E9%A1%8C', area: ' 《永夜暗夜》', category: ' 吟遊詩章-圓桌會議', title: ' [議題]賭博合法相關議題', rarity: ' 傳奇', prefix: ' 債務管理<br>都市設計：永夜聖域', suffix: ' 法律<br>醫療<br>經濟<br>環境<br>規劃佈局<br>投資成本' },
     { date: '2026-10-01', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E7%99%BC%E9%9F%B3%E7%AF%87', area: ' 《永夜暗夜》', category: ' 《語言研究院》', title: ' 發音篇', rarity: ' 傳奇', prefix: ' 文學篇<br>軸向透視<br>基礎概念', suffix: ' 教育<br>語言<br>認知' },
     { date: '2026-09-02', path: '⛩︎', pathUrl: 'https://sites.google.com/view/swallow2359/%E5%80%89%E5%BA%AB/%E7%B2%BE%E7%A5%9E%E7%97%85', area: ' 《永夜暗夜》', category: ' 《醫學院》<br>《青丘書館》', title: ' 精神病', rarity: ' 傳奇', prefix: ' 行為模式<br>動力篇<br>同溫層篇<br>教導篇<br>責任心', suffix: ' 醫療<br>教育<br>邏輯<br>盲從<br>感覺<br>溝通<br>認知誤導' },
