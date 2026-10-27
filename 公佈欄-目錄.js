@@ -14,6 +14,7 @@ const sidebarContent = `
     <ul>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/RWBY">RWBY</a></li>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/POE%E6%B5%81%E4%BA%A1%E6%9A%97%E9%81%93">POE流亡暗道</a></li>
+    <li><a href="https://swallow-234.github.io/swallow_234/［收藏］/英雄聯盟.html">英雄聯盟</a></li>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/FGO.html">Fate/Grand Order</a></li>
     <li><a href="https://swallow-234.github.io/swallow_234/［收藏］/寶可夢.html">寶可夢</a></li>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E2%98%AF%E6%9D%B1%E6%96%B9Project.html">☯東方Project</a></li>
@@ -40,6 +41,7 @@ const sidebarContent = `
 <ul><h3>工具收藏</h3></ul><hr class="a001">
     <ul>
     <li><a href="https://swallow-234.github.io/swallow_234/%EF%BC%BB%E6%94%B6%E8%97%8F%EF%BC%BD/%E5%B7%A5%E5%85%B7-%E6%99%82%E9%96%93%E8%A8%88%E7%AE%97%E6%A9%9F.html">時間計算機</a></li>
+    <li><a href="https://chromewebstore.google.com/detail/selection-colors/fmmdobdphciajmkcmomkofkhpmhhajbg">Selection Colors</a>文字反白顏色</li>
     <hr class="a000">
     <li><a href="https://www.blender.org/">blender</a></li>
     <li><a href="https://krita.org/zh-tw/download_zh-tw/krita-desktop_zh-tw/">Krita</a></li>

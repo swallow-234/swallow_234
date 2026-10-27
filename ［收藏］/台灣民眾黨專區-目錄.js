@@ -44,7 +44,7 @@ const sidebarContent = `
     <hr class="a001">
     <details><summary>《小草專區》</summary>
         <li><a href="https://www.youtube.com/@DearNaNa1313/streams">DearNaNa</a></li>
-        <li><a href="https://www.youtube.com/@%E6%B4%9B%E7%8B%97/streams">洛狗</a></li>
+        <li><a href="https://www.youtube.com/@%E6%B4%9B%E7%8B%97">洛狗</a></li>
         <li><a href="https://www.youtube.com/@%E8%B2%93%E8%8D%89KP/featured">貓草</a></li>
         <li><a href="https://www.youtube.com/@Super_TW_People/videos">超級普通老百姓</a></li>
         <li><a href="https://www.youtube.com/@%E7%8B%90%E5%B0%BE%E8%8D%89KP/featured">狐尾草</a></li>
@@ -63,7 +63,7 @@ const sidebarContent = `
         <li><a href="https://www.youtube.com/@%E6%8C%BA%E9%98%BF%E5%8C%97/featured">挺阿北</a></li>
         <li><a href="https://www.youtube.com/@%E7%99%BD%E7%88%B8and%E8%8A%AF%E7%BE%BD_%E7%B1%B3%E9%A4%85%E5%93%A5/featured">白爸and芯羽_米餅哥</a></li>
         <li><a href="https://www.youtube.com/@2Chillytr/streams">2Chill直播Live</a></li>
-        <li><a href=""></a></li>
+        <li><a href="https://www.youtube.com/@impolite_tw/videos">不禮貌鄉民團</a></li>
         <li><a href=""></a></li>
         <li><a href=""></a></li>
         <li><a href=""></a></li>
