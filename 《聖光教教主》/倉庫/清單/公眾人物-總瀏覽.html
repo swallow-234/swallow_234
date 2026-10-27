@@ -90,7 +90,7 @@
         const tab = this.tabs[this.activeTab];
         // 只取 D欄包含《冥亡伊甸》且E欄包含當前分頁關鍵字的資料
         return this.rows.filter(
-          row => (row[this.filterHeader] || '').includes('-')
+          row => (row[this.filterHeader] || '').includes('年')
              && (row[this.subpageHeader] || '').includes(tab));
       }
     },
@@ -126,7 +126,7 @@
           // 只取D欄包含《冥亡伊甸》的資料，並檢查E欄包含哪些關鍵字
           this.tabs = PAGE_ORDER.filter(key =>
             rows.some(row => 
-              (row[this.filterHeader] || '').includes('-') &&
+              (row[this.filterHeader] || '').includes('年') &&
               (row[this.subpageHeader] || '').includes(key)
             )
           );
