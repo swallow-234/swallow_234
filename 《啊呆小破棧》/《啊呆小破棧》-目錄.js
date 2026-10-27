@@ -9,6 +9,7 @@ const sidebarContent = `
         <li>備註：《阿呆小破棧》</li>
     <hr class="b005">
     <ul>
+        <li><a onclick="changeIframe('《啊呆小破棧》-文宣.html')">文宣</a></li>
         <li><a href="《啊呆小破棧》.html">公佈欄</a></li>
         <li><a onclick="changeIframe('《啊呆小破棧》-範本.html')">近期上架</a></li>
         <li><a href="https://discord.gg/zVK75Uc2EF">《冥亡伊甸》</a></li>
