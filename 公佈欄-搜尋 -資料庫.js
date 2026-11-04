@@ -20,7 +20,7 @@ const categoryMap = {
 
 // 2. 【大全清單】當使用者選回「系列勢力（全部）」時，要秀出的所有主題
 const allCategories = [
- " ",
+
 ];
 
 const workData = [
