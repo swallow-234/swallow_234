@@ -59,6 +59,7 @@ const sidebarContent = `
 
 <hr class="a001">
 <details><summary>《台灣[Taiwan]》</summary> <!--社會貢獻+建議方法-->
+    <li><a href="https://www.youtube.com/@ourislandTAIWAN/videos">公共電視-我們的島</a></li>
     <li><a href="https://www.youtube.com/@followxiaofei/videos">Xiaofei小飛</a></li>
     <li><a href="https://www.youtube.com/@hipstermyass/videos">賈文青德仔旅遊頻道</a></li>
     <li><a href=""></a></li>

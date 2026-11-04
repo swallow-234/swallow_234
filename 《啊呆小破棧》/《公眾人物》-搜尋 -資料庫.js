@@ -1,6 +1,7 @@
 // 1. 【核心對照表】定義哪個勢力擁有哪幾個主題
 const categoryMap = {
     " ": ["Ⅰ社會貢獻", "Ⅰ建議方法", "Ⅰ發現問題", "Ⅱ宣揚口號", "Ⅱ未能處理", "Ⅱ詢問回應", "Ⅱ政見發表", "Ⅲ負面方法", "Ⅲ負面行為", "Ⅳ破壞民主", ],
+    "《公眾人物》": ["Ⅰ社會貢獻", "Ⅰ建議方法", "Ⅰ發現問題", "Ⅱ宣揚口號", "Ⅱ未能處理", "Ⅱ詢問回應", "Ⅱ政見發表", "Ⅲ負面方法", "Ⅲ負面行為", "Ⅳ破壞民主", ],
     "優良": ["Ⅰ社會貢獻", "Ⅰ建議方法", "Ⅰ發現問題", ],
     "平庸": ["Ⅱ宣揚口號", "Ⅱ未能處理", "Ⅱ詢問回應", "Ⅱ政見發表", ],
     "劣質": ["Ⅲ負面方法", "Ⅲ負面行為", ],
@@ -23,6 +24,17 @@ const allCategories = [
 //經過專案整理，則為「動動鼠」。
 //可以複選。
 const workData = [
+    { date: '2026-10-31', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-陳儀君_1973-07-02.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 陳儀君_1973-07-02', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 才疏學淺' },
+    { date: '2026-10-30', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-劉哲彰_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 劉哲彰_0000-00-00', rarity: ' ★☆☆☆☆', prefix: ' 問題<br>建設性', suffix: ' 靜觀其變' },
+    { date: '2026-10-30', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-陳乃瑜_1982-02-26.html', area: ' 劣質', category: ' Ⅲ負面行為', title: ' 陳乃瑜_1982-02-26', rarity: ' ☆', prefix: ' 垃圾', suffix: ' 趁火打劫<br>魁儡小人' },
+    { date: '2026-10-29', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-黃心華_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 黃心華_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 才疏學淺' },
+    { date: '2026-10-29', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-陳韋任_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 陳韋任_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 腐敗政客' },
+    { date: '2026-10-29', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-游皓麟_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 游皓麟_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 腐敗政客' },
+    { date: '2026-10-29', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-張柏詠_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 張柏詠_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 沉穩<br>問題', suffix: ' 靜觀其變' },
+    { date: '2026-10-29', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-邸聖德_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 邸聖德_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 腐敗政客' },
+    { date: '2026-10-29', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-張佑輔_1977-09-03.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 張佑輔_1977-09-03', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 才疏學淺' },
+    { date: '2026-10-28', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-游貫中_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 游貫中_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 靜觀其變' },
+    { date: '2026-10-28', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-林玉婷_0000-00-00.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 林玉婷_0000-00-00', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 靜觀其變' },
     { date: '2026-10-27', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-黃宏成台灣阿成世界偉人財神總統_1968-03-20.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 黃宏成台灣阿成世界偉人財神總統_1968-03-20', rarity: ' ☆☆☆☆☆', prefix: ' 毫無邏輯', suffix: ' 奇文共賞' },
     { date: '2026-10-27', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-陳愷璜_1960-01-30.html', area: ' 平庸', category: ' Ⅱ政見發表', title: ' 陳愷璜_1960-01-30', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 才疏學淺' },
     { date: '2026-10-27', path: '⛨', pathUrl: 'https://swallow-234.github.io/swallow_234/《聖光教教主》/倉庫/清單/公眾人物-王美惠_1965-04-15.html', area: ' 平庸', category: ' Ⅱ宣揚口號', title: ' 王美惠_1965-04-15', rarity: ' ☆☆☆☆☆', prefix: ' 廢話', suffix: ' 腐敗政客' },

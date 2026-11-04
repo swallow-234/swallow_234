@@ -104,7 +104,7 @@ const sidebarContent = `
     </details>
 
     </h3><hr class="a001">
-    <details><summary>《3D》</summary>
+    <details><summary>《3D美術》</summary>
     <li><a href="https://www.youtube.com/@marcobucci/playlists">Marco Bucci</a></li>
     <li><a href="https://www.youtube.com/@TutsByKai/playlists">TutsByKai</a></li>
     <li><a href="https://www.youtube.com/@WintermuteDigital/playlists">Wintermute Digital</a></li>

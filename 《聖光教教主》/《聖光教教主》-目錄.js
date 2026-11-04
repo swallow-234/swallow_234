@@ -330,6 +330,17 @@ const sidebarContent = `
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-總瀏覽.html')">總瀏覽</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-永夜暗夜_1997-08-24.html')">永夜暗夜_1997-08-24</a></li>
           <li>---------☯---------</li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳儀君_1973-07-02.html')">陳儀君_1973-07-02</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-劉哲彰_0000-00-00.html')">劉哲彰_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳乃瑜_1982-02-26.html')">陳乃瑜_1982-02-26</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-黃心華_0000-00-00.html')">黃心華_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳韋任_0000-00-00.html')">陳韋任_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-游皓麟_0000-00-00.html')">游皓麟_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-張柏詠_0000-00-00.html')">張柏詠_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-邸聖德_0000-00-00.html')">邸聖德_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-張佑輔_1977-09-03.html')">張佑輔_1977-09-03</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-游貫中_0000-00-00.html')">游貫中_0000-00-00</a></li>
+          <li><a onclick="changeIframe('倉庫/清單/公眾人物-林玉婷_0000-00-00.html')">林玉婷_0000-00-00</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-黃宏成台灣阿成世界偉人財神總統_1968-03-20.html')">黃宏成台灣阿成世界偉人財神總統_1968-03-20</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-陳愷璜_1960-01-30.html')">陳愷璜_1960-01-30</a></li>
           <li><a onclick="changeIframe('倉庫/清單/公眾人物-王美惠_1965-04-15.html')">王美惠_1965-04-15</a></li>

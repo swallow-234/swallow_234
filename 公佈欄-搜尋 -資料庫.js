@@ -1,5 +1,6 @@
 // 1. 【核心對照表】定義哪個勢力擁有哪幾個主題
 const categoryMap = {
+    " ": ["教學攻略", "流派收藏", "故事劇情", "二次創作", "藏身處", "休閒日常", "博麗神主ZUN", "原作", "二次創作", "東方Project音樂", "劇本", "繪圖", "動畫", "3D", "攝影|影片|剪輯", "舞蹈|動作|武術", "樂理|配樂|音效", "休閒牧場", "ACG同好會", "Vtuber", "這是什麼酷酷的東西", "健身|養身", "體育運動", "棋類技藝", "風水|玄學|靈異|怪異", "社會學", "吹哨者", "台灣[Taiwan]", "人生哲學", "戀愛研究院", "商學院", "生活日常", "裝扮造型風格", "飲食", "清潔打掃", "淺層", "中層", "深層", "臨界層", "凝界層", "音樂探討", "樂理八卦", "音樂資源", "東方Project音樂", "HTML", "CSS", "JavaScript", "python", "命令提示字元", "AutoHotkey", "醫學", "科學", "科技", "軍武", "工匠技藝", "建築學", "生物學", "軟體硬體應用", "泛科普教育", "中文", "英文", "日文", "Godot", "Unity", "柯文哲-先行者", "黃國昌-通識課", "陳之漢-義士", "陳椒華-循道者", "台灣民眾黨專區", "街頭活動", "小草專區",],
     "POE流亡暗道": ["教學攻略", "流派收藏", "故事劇情", "二次創作", "藏身處", "休閒日常",],
     "☯東方Project": ["博麗神主ZUN", "原作", "二次創作", "東方Project音樂",],
     "藝術學院": ["劇本", "繪圖", "動畫", "3D", "攝影|影片|剪輯", "舞蹈|動作|武術", "樂理|配樂|音效",],
@@ -60,6 +61,27 @@ const workData = [
     { date: '2011-05-19', path: '⛩︎', pathUrl: 'https://youtu.be/Uah__n1MAYw?si=WhZQk_MXQyltCsIy', area: ' 音樂收藏', category: ' 淺層', title: 'GIRL NEXT DOOR/Freedom "NEW DANCE EDITION"（高画質）', rarity: ' 稀有', prefix: ' ', suffix: " channelgnd" },
     { date: '2014-04-22', path: '⛩︎', pathUrl: 'https://youtu.be/tNUEMYV8kyM?si=OnTGvQD31t3aUivh', area: ' 音樂收藏', category: ' 淺層', title: '[Chinese / Oriental Drum & Bass] TaiGekTou - The Adorned Cage (Iruka Remix)', rarity: ' 魔法', prefix: ' 純音樂', suffix: " IRUKA IruGuitar" },
     { date: '2021-12-29', path: '⛩︎', pathUrl: 'https://youtu.be/T0SynvN7ZkM?si=cHtz1bViZQOdXYqt', area: ' 音樂收藏/☯東方Project', category: ' 中層/東方Project音樂', title: "[東方自作アレンジ] 明日もまた照らされる [原曲:春色小径 ～ Colorful Path(Spring Lane ~ Colorful Path)]", rarity: ' 魔法', prefix: ' 純音樂', suffix: " maritumix/まりつみ" },
+    { date: '2017-09-17', path: '⛩︎', pathUrl: 'https://youtu.be/SvMk3nCufig?si=DhP9yyx8pJjy041F', area: ' 音樂收藏/☯東方Project', category: ' 中層/東方Project音樂', title: "【自作】【雙鋼琴】東方Project - Smoke on the Moon / Kaguya × Mokou (竹取飛翔 & 月まで届け、不死の煙)", rarity: ' 魔法', prefix: ' 純音樂', suffix: " Piano Room No.1 一號琴房 (Candy Tsai)" },
+    { date: '2021-01-03', path: '⛩︎', pathUrl: 'https://youtu.be/sToRddIV7kU?si=dVnRTcRaPPM-2uxv', area: ' 音樂收藏/☯東方Project', category: ' 中層/東方Project音樂', title: "【東方ヴォーカルPV】三妖精SAY YA!!!（Vo:あやぽんず＊,あよ）【森羅万象公式】", rarity: ' 傳奇', prefix: ' ', suffix: " 森羅万象/Shinra-Bansho" },
+    { date: '2008-04-02', path: '⛩︎', pathUrl: 'https://youtu.be/SREZ-ggSDjM?si=xVJYGPwixzG13-IQ', area: ' 音樂收藏', category: ' 中層', title: 'Looking Glass - The Birthday Massacre', rarity: ' 稀有', prefix: ' ', suffix: " The Birthday Massacre" },
+    { date: '2014-05-14', path: '⛩︎', pathUrl: 'https://youtu.be/SOkeRsSx1o0?si=uOHQcyrCO-A2lwR2', area: ' 音樂收藏/☯東方Project', category: ' 中層/東方Project音樂', title: "[東方 Vocal] [DiGiTAL WiNG] 約束の場所", rarity: ' 稀有', prefix: ' ', suffix: " The Little Pagoda" },
+    { date: '2017-05-20', path: '⛩︎', pathUrl: 'https://youtu.be/SfnbdZR2KOo?si=PxASIyOlEqwnNw81', area: ' 音樂收藏/☯東方Project', category: ' 淺層/東方Project音樂', title: "【東方Vocal】 Bad Apple!! feat.nomico (Nhato Remix) 「Alstroemeria Records」 【Subbed】", rarity: ' 稀有', prefix: ' ', suffix: " Kappashiro" },
+    { date: '2018-09-30', path: '⛩︎', pathUrl: 'https://youtu.be/SEURi22zDMU?si=eu5f8T-snQ-O717u', area: ' 音樂收藏', category: ' 淺層', title: 'DG812 - Warzone | Diversity Release', rarity: ' 傳奇', prefix: ' ', suffix: " DG812" },
+    { date: '2008-08-09', path: '⛩︎', pathUrl: 'https://youtu.be/RZPZ9qR1uMU?si=3V48ENeHH4e-OmNf', area: ' 音樂收藏/☯東方Project', category: ' 淺層/東方Project音樂', title: "東方vocalBGM-星色夜空-", rarity: ' 魔法', prefix: ' ', suffix: " 璃紅" },
+    { date: '2012-11-24', path: '⛩︎', pathUrl: 'https://youtu.be/rwMolQ8BM2c?si=BL7VQi3Rm1zWtojA', area: ' 音樂收藏/☯東方Project', category: ' 凝界層/東方Project音樂', title: "風神少女（東方花映塚）fuujin shoujo / TOUHOU Quartet4 / Piano+Violin:TAM(TAMUSIC)", rarity: ' 稀有', prefix: ' 純音樂', suffix: " TAM [タム] ViolinPiano 放浪のバイオリニスト" },
+    { date: '2015-08-06', path: '⛩︎', pathUrl: 'https://youtu.be/REAAp688XDc?si=t1Ff5tyC6xhaJLfu', area: ' 音樂收藏', category: ' 淺層/中層', title: '[Love Live!] Shocking Party (Haruka Tamasaki Remix)', rarity: ' 稀有', prefix: ' ', suffix: " Galaxy" },
+    { date: '2020-12-20', path: '⛩︎', pathUrl: 'https://youtu.be/0WHPeP4-SXM?si=Cf52WPB7CgYQqIpq', area: ' 音樂收藏', category: ' 中層', title: 'Fall in the Dark', rarity: ' 傳奇', prefix: ' ', suffix: " ShibayanRecords - 主題" },
+    { date: '2021-04-02', path: '⛩︎', pathUrl: 'https://youtu.be/0B_weCUvAx4?si=V1m9BiFfsnBroI77', area: ' 音樂收藏/☯東方Project', category: ' 中層/東方Project音樂', title: "[東方自作アレンジ] Cliff in the Green [原曲:深緑に隠された断崖(The Cliff Hidden in Deep Green)]", rarity: ' 魔法', prefix: ' 純音樂', suffix: " maritumix/まりつみ" },
+    { date: '2010-03-26', path: '⛩︎', pathUrl: 'https://youtu.be/-WyYGJ0O7V4?si=ORRbYWiHChdD2FrN', area: ' 音樂收藏', category: ' 中層', title: '【初音ミク】モノクロ∞ブルースカイ【with 中文字幕】', rarity: ' 傳奇', prefix: ' ', suffix: " swallow327" },
+    { date: '2015-12-25', path: '⛩︎', pathUrl: 'https://youtu.be/-iPmCEsRdA4?si=4QN8csso-ccXSg0u', area: ' 音樂收藏', category: ' 中層', title: '▶[glitch hop] ★ RiraN - Canon', rarity: ' 稀有', prefix: ' 純音樂', suffix: " Amazing Gaming Music" },
+    { date: '2018-07-12', path: '⛩︎', pathUrl: 'https://youtu.be/ZOa-VO2_SLg?si=ieBaYuAEgV0lB0ii', area: ' 音樂收藏', category: ' 中層', title: 'KOKIA - フクロウ ～フクロウが知らせる客が来たと～ [中文CC字幕]', rarity: ' 魔法', prefix: ' ', suffix: " DuendeMadrefoca" },
+    { date: '2021-04-27', path: '⛩︎', pathUrl: 'https://youtu.be/zHkiHdl5OEU?si=zFVXWLBwLLHbYjom', area: ' 音樂收藏', category: ' 淺層/中層', title: 'Nicky Romero & Teamworx ft. Joseph Feinstein - World Through Your Eyes', rarity: ' 魔法', prefix: ' ', suffix: " xKito Music" },
+    { date: '2017-07-10', path: '⛩︎', pathUrl: 'https://youtu.be/zAxfjkBpIq8?si=6ApyWcPcs6bMDiCy', area: ' 音樂收藏/☯東方Project', category: ' 中層/東方Project音樂', title: "【東方Traditional／Folk】 桜花繚乱 「Hachimitsu-Lemon」", rarity: ' 魔法', prefix: ' 純音樂', suffix: " Kappashiro" },
+    { date: '2017-05-26', path: '⛩︎', pathUrl: 'https://youtu.be/YrWxy3yzGe8?si=MMV77Zv2LOEu_xrj', area: ' 音樂收藏/☯東方Project', category: ' 凝界層/東方Project音樂', title: "【東方 Vietsub】 Takeyabu no naka 【凋叶棕】", rarity: ' 稀有', prefix: ' ', suffix: " saigyouji yuyuko" },
+    { date: '2006-06-30', path: '⛩︎', pathUrl: 'https://youtu.be/-aQQJAh1xcE?si=Fx6pwrC1yC6fUvrg', area: ' 音樂收藏', category: ' 淺層/中層', title: '傳說MV', rarity: ' 稀有', prefix: ' ', suffix: " sinlam888" },
+    { date: '2020-04-14', path: '⛩︎', pathUrl: 'https://youtu.be/-3jQ2J3xD3k?si=eUBByQk6osrIeC7X', area: ' 音樂收藏', category: ' 淺層/中層', title: '【千本桜】鈴華ゆう子×東京音楽大学オーケストラ【senbonzakura】', rarity: ' 稀有', prefix: ' ', suffix: " 鈴華ゆう子" },
+    { date: '2018-01-30', path: '⛩︎', pathUrl: 'https://youtu.be/ZrcERYe_obQ?si=CdAzMqQcZSaDp7mq', area: ' 音樂收藏/☯東方Project', category: ' 中層/東方Project音樂', title: "MuseScore ★ 【ピアノ琴譜】東方風神録 - 神々が恋した幻想郷(組曲) / The Gensokyo the Gods Loved Piano Sheet Music", rarity: ' 魔法', prefix: ' 純音樂', suffix: " Piano Room No.1 一號琴房 (Candy Tsai)" },
+    { date: '2023-06-01', path: '⛩︎', pathUrl: 'https://youtu.be/syp3lPEWrpw?si=qUoKZ7iqk1qDFhNI', area: ' 音樂收藏', category: ' 淺層', title: 'Neuro-sama V2 Sings "Pompeii" by Bastille', rarity: ' 中層', prefix: ' ', suffix: " Innsomenya" },
     { date: '2016-11-08', path: '⛩︎', pathUrl: 'https://youtu.be/tIrwQnFeQBM?si=aElw2yj-pcnfkh6k', area: ' 音樂收藏', category: ' 淺層', title: "Most Beautiful Music Ever: Aapo's Theme — Tales Of The Forgotten", rarity: ' 魔法', prefix: ' 純音樂', suffix: " HDSounDI" },
     { date: '2017-03-26', path: '⛩︎', pathUrl: 'https://youtu.be/URp1p993-18?si=RDUgejbiz_V0wyP5', area: ' 音樂收藏/☯東方Project', category: ' 中層/深層/東方Project音樂', title: "unnyland is closing for the day (Ovlivio) - Touhou Genso Wanderer OST", rarity: ' 魔法', prefix: ' 純音樂', suffix: " denpa_apple" },
     { date: '2021-10-10', path: '⛩︎', pathUrl: 'https://youtu.be/WHphfTnJj90?si=WAy3LaJzBKig6fRf', area: ' 音樂收藏', category: ' 中層/凝界層', title: "BABYMETAL 【THE ONE - STAIRWAY TO LIVING LEGEND】", rarity: ' 稀有', prefix: ' ', suffix: " BABYMETAL" },
@@ -188,6 +210,12 @@ const workData = [
     { date: '2026-07-15', path: '⛩︎', pathUrl: 'https://gemini.google.com/share/9712e94b6021', area: ' 《青丘茶館》', category: ' 《2026》', title: ' 呆呆教授', rarity: ' 稀有', prefix: ' 編年史', suffix: ' 呆呆叫/' },
     { date: '日期', path: '章節/輿圖', pathUrl: 'https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84', area: '系列勢力', category: '主題 ', title: '標題 ', rarity: '稀有度 ', prefix: '前綴 ', suffix: '後綴 ' }
 ];
-const workData2 = [...workData].sort((a, b) => {
-        return b.date.localeCompare(a.date);
-    });
+// 【預設2.0】檢查該網頁是否有自訂排序函式，若沒有則使用預設的「日期新到舊」
+const defaultSort = (a, b) => b.date.localeCompare(a.date);
+const pageSortFunction = window.customSortHandler || defaultSort;
+const workData2 = [...workData].sort(pageSortFunction);
+
+//預設1.0
+// const workData2 = [...workData].sort((a, b) => {
+//         return b.date.localeCompare(a.date);
+//     });

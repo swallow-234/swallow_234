@@ -5,8 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>《公佈欄》</title>
     <link href="A0001.css" rel="stylesheet" />
-    <script src="公佈欄-搜尋.js"></script>
-    <script src="公佈欄-搜尋 -資料庫.js"></script>
+    <!-- 設定回傳 0，讓陣列維持原本資料庫的順序 -->
+    <script>
+        window.customSortHandler = () => 0;
+    </script>
+    <!-- 自定義順序 
+    <script>
+        window.customSortHandler = (a, b) => {
+            return a.date.localeCompare(b.date); // 這裡自定義順序
+        };
+    </script>-->
+    <!-- <script src="公佈欄-搜尋.js"></script> -->
+    <script src="公佈欄-搜尋 -彙總資料庫.js"></script>
     <style>
         /* 暗黑高質感風格 */
         body {
@@ -28,7 +38,15 @@
         <select id="areaFilter" onchange="updateCategories()">
             <option value=" ">系列勢力</option>
             <option value=" ">全部</option>
+            <option value=" ">------《青丘之燕》------</option>
+            <option value="《聖光教教主》">《聖光教教主》</option>
+            <option value="《燕侍》">《燕侍》</option>
+            <option value="《永夜暗夜》">《永夜暗夜》</option>
+            <option value="《青丘茶館》">《青丘茶館》</option>
+            <option value=" ">-------〈收藏〉-------</option>
             <option value="POE流亡暗道">POE流亡暗道</option>
+            <option value="英雄聯盟">英雄聯盟</option>
+            <option value="寶可夢">寶可夢</option>
             <option value="☯東方Project">☯東方Project</option>
             <option value="藝術學院">藝術學院</option>
             <option value="休閒牧場">休閒牧場</option>
@@ -42,6 +60,10 @@
             <option value="遊戲製作">遊戲製作</option>
             <option value="系列主題">系列主題</option>
             <option value="台灣民眾黨專區">台灣民眾黨專區</option>
+            <option value=" ">------《啊呆小破棧》------</option>
+            <option value="《公眾人物》">《公眾人物》</option>
+            <option value="《吟遊詩章》">《吟遊詩章》</option>
+            <option value="《鼠鼠戰團》">《鼠鼠戰團》</option>
         </select>
         
         <select id="catFilter" onchange="filterData()">
@@ -70,7 +92,7 @@
     </div>
 
     <div id="section-table2" class="table-section">
-        <h3><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84-%E7%AF%84%E6%9C%AC.html">☯</a>《收藏清單》：動態更新調整．．．</h3>
+        <h3><a href="https://swallow-234.github.io/swallow_234/%E5%85%AC%E4%BD%88%E6%AC%84-%E7%AF%84%E6%9C%AC.html">☯</a>《收藏清單》：近期更新．．．</h3>
         <table class="tt">
             <thead>
                 <tr>
@@ -150,6 +172,24 @@
 <!-- 更新公告 -->
     <h1 style="text-align: center;">《近期更新...》</h1><hr class="b003">
     <ul>
+      <li>2026-11-04_公佈欄</li>
+      <li>2026-11-04_《聖光教教主》</li>
+      <li>2026-11-04_《青丘茶館》_《青丘茶館》</li>
+      <li>2026-11-04_《啊呆小破棧》_《呆呆教授》</li>
+      <li>2026-11-04_《啊呆小破棧》_《選舉公報》</li>
+      <li>2026-11-04_《啊呆小破棧》_《吟遊詩章》</li>
+      <li>2026-11-04_《啊呆小破棧》_《公眾人物》</li>
+      <li>2026-11-04_［收藏］_藝術學院</li>
+      <li>2026-11-04_［收藏］_英雄聯盟</li>
+      <li>2026-11-04_［收藏］_社會學院</li>
+      <li>2026-11-04_［收藏］_生活日常</li>
+      <li>2026-11-04_［收藏］_寶可夢</li>
+      <li>2026-11-04_［收藏］_學術領域</li>
+      <li>2026-11-04_［收藏］_倉庫_程式語言-命令提示字元-快速重新命名技巧</li>
+      <li>2026-11-04_［收藏］_休閒牧場</li>
+      <li>2026-11-04_［收藏］_☯東方Project</li>
+      <li>2026-11-04_［收藏］_FGO</li>
+<hr class="a000">
       <li>2026-10-27_公佈欄-目錄</li>
       <li>2026-10-27_《永夜暗夜》</li>
       <li>2026-10-27_《聖光教教主》</li>
@@ -164,7 +204,6 @@
       <li>2026-10-27_［收藏］_社會學院-目錄</li>
       <li>2026-10-27_［收藏］_台灣民眾黨專區-目錄</li>
       <li>2026-10-27_［收藏］_程式語言-命令提示字元-快速重新命名技巧</li>
-<hr class="a000">
       <li>2026-10-20_［收藏］_社會學院</li>
       <li>2026-10-20_《青丘茶館》</li>
       <li>2026-10-20_《永夜暗夜》</li>

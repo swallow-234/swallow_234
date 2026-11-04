@@ -113,7 +113,7 @@ const sidebarContent = `
     </details>
 
     <hr class="a001">
-    <details><summary>《生物學》</summary>
+    <details><summary>生態生物學</summary>
     <li><a href="https://www.youtube.com/channel/UClEzBxwGGFrbwTVeawscqjQ/videos">許伯&簡芝—倉鼠人</a></li>
     <li><a href="https://www.youtube.com/@AC%E8%8D%89%E5%BD%B1%E6%B0%B4%E6%97%8F/videos">AC草影水族</a></li>
     <li><a href="https://www.youtube.com/@jump_spi_film/videos">ハエトリフィルム / Jumping Spider Film</a></li>
